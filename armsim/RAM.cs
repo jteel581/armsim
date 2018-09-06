@@ -19,6 +19,15 @@ namespace armsim
         }
 
 
+        public bool TestFlag(int address, int bit)
+        {
+            uint word = (uint)ReadWord(address);
+            word <<= (31 - bit);
+            word >>= 31;
+            return word == 1 ? true : false;
+            
+        }
+
 
 
         // Read/Write Word/HalfWord/Byte methods

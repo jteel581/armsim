@@ -53,7 +53,7 @@ namespace armsim
 
     public partial class Form1 : Form
     {
-
+        
         // Converts a byte array to a struct
         static T ByteArrayToStructure<T>(byte[] bytes) where T : struct
         {
@@ -76,6 +76,20 @@ namespace armsim
             string[] args = Environment.GetCommandLineArgs();
             Options ops = new Options(args);
 
+            if (ops.getTestStatus() == true)
+            {
+                bool b = TestRAM.runTests();
+                if (b == true)
+                {
+                    Console.WriteLine("PASSED");
+                    System.Windows.Forms.Application.Exit();
+                }  
+                else
+                {
+                    Console.WriteLine("FAILED");
+                }          
+            }
+
             fileNameLabel.Text = ops.getFileName();
             memSizeLabel.Text = ops.getMemSize().ToString();
             testStatusLabel.Text = ops.getTestStatus().ToString();
@@ -83,7 +97,7 @@ namespace armsim
 
             //Options ops = new armsim.Options(args);
             RAM memory = new RAM(ops.getMemSize() == 0 ? 32768 : ops.getMemSize());
-
+            
             // Dr. Schaub code for reading elf files with some modifications for my program
             string elfFilename = ops.getFileName();
             using (FileStream strm = new FileStream(elfFilename, FileMode.Open))
@@ -127,18 +141,9 @@ namespace armsim
                         address++;
                     }
 
-
-
-                    // Now, do something with it ... see cppreadelf for a hint
                 }
                 int checkSum = memory.calculateChecksum(memory.memory);
                 Console.WriteLine("checksum is: " + checkSum.ToString());
-
-
-
-
-
-
 
             }
         }
