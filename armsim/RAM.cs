@@ -12,12 +12,18 @@ namespace armsim
         public byte[] memory;
 
         int size = 0;
+        public int getSize() { return size; }
+        public void setSize(int newSize)
+        {
+            size = newSize;
+        }
         public RAM(int ramSize)
         {
             memory = new byte[ramSize];
             size = ramSize;
         }
 
+        // TestFlag method
 
         public bool TestFlag(int address, int bit)
         {
@@ -28,7 +34,21 @@ namespace armsim
             
         }
 
+        // SetFlag Method
 
+        public void SetFlag(int address, int bit, bool flag)
+        {
+            bool flagEqual = TestFlag(address, bit) == flag ? true : false;
+            if(!flagEqual)
+            {
+                uint mask = 1;
+                uint word = (uint)ReadWord(address);
+                mask <<= bit;
+                word = word ^ mask;
+                WriteWord(address, (int)word);
+            }
+
+        }
 
         // Read/Write Word/HalfWord/Byte methods
         public int ReadWord(int address)
@@ -41,7 +61,16 @@ namespace armsim
         }
         public void WriteWord(int address, int value)
         {
-            memory[address] = Convert.ToByte(value);
+            if (address <= getSize() - 4)
+            {
+                short[] word = Converter.wordToShortArray(value);
+                foreach (short hw in word)
+                {
+                    WriteHalfWord(address, hw);
+                    address += 2;
+                }
+
+            }
         }
         public short ReadHalfWord(int address)
         {
@@ -53,7 +82,16 @@ namespace armsim
         }
         public void WriteHalfWord(int address, short value)
         {
+            if (address <= getSize() - 2)
+            {
+                byte[] halfWord = Converter.halfToByteArray(value);
+                foreach (byte b in halfWord)
+                {
+                    WriteByte(address, b);
+                    address++;
+                }
 
+            }
         }
         public byte ReadByte(int address)
         {
