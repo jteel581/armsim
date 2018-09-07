@@ -50,6 +50,21 @@ namespace armsim
 
         }
 
+
+        // Extract bits method
+
+        public static uint ExtractBits(uint word, int startBit, int endBit)
+        {
+            int numOfBits = (endBit - startBit);
+            uint mask = 0xFFFFFFFF;
+            uint result;
+            mask >>= 31 - numOfBits;
+            mask <<= startBit;
+            result = word & mask;
+            return result;
+
+        }
+
         // Read/Write Word/HalfWord/Byte methods
         public int ReadWord(int address)
         {

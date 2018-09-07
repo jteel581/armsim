@@ -52,6 +52,10 @@ namespace armsim
             // Test for WriteHalfWord
             memory.WriteHalfWord(2, 258);
             Debug.Assert(memory.ReadByte(2) == 0x01);
+
+
+            // Test for Extract bits
+            Debug.Assert(RAM.ExtractBits(0x00B5, 1, 3) == 0x04);
             return true;
         }
         
