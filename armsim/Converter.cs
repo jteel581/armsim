@@ -15,14 +15,14 @@ namespace armsim
             halfWord = new byte[2]; */
         }
 
-        public static short[] wordToShortArray(int word)
+        public static short[] wordToShortArray(uint word)
         {
             short[] wordArray = new short[2];
             short firstShort = (short)(word >> 16);
-            short secondShort = (short)(word << 16);
-            secondShort >>= 16;
-            wordArray[0] = firstShort;
-            wordArray[1] = secondShort;
+            short secondShort = (short)(word);
+            //secondShort >>= 16;
+            wordArray[1] = firstShort;
+            wordArray[0] = secondShort;
             return wordArray;
 
         }
@@ -31,10 +31,9 @@ namespace armsim
         {
             byte[] halfWordArray = new byte[2];
             byte firstByte = (byte)(halfWord >> 8);
-            byte secondByte = (byte)(halfWord << 8);
-            secondByte >>= 8;
-            halfWordArray[0] = firstByte;
-            halfWordArray[1] = secondByte;
+            byte secondByte = (byte)(halfWord);
+            halfWordArray[1] = firstByte;
+            halfWordArray[0] = secondByte;
             return halfWordArray;
 
         }

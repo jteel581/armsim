@@ -45,7 +45,7 @@ namespace armsim
                 uint word = (uint)ReadWord(address);
                 mask <<= bit;
                 word = word ^ mask;
-                WriteWord(address, (int)word);
+                WriteWord(address, word);
             }
 
         }
@@ -82,7 +82,7 @@ namespace armsim
             }
             
         }
-        public void WriteWord(int address, int value)
+        public void WriteWord(int address, uint value)
         {
             if (address % 4 != 0)
             {
