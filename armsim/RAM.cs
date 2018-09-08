@@ -68,15 +68,27 @@ namespace armsim
         // Read/Write Word/HalfWord/Byte methods
         public int ReadWord(int address)
         {
-            int halfWordA = ReadHalfWord(address);
-            int halfWordB = ReadHalfWord(address + 2);
-            halfWordA <<= 16;
-            halfWordA |= halfWordB;
-            return halfWordA;
+            if (address % 4 != 0)
+            {
+                return -1;
+            }
+            else
+            {
+                int halfWordA = ReadHalfWord(address);
+                int halfWordB = ReadHalfWord(address + 2);
+                halfWordB <<= 16;
+                halfWordB |= halfWordA;
+                return halfWordB;
+            }
+            
         }
         public void WriteWord(int address, int value)
         {
-            if (address <= getSize() - 4)
+            if (address % 4 != 0)
+            {
+                return;
+            }
+            else if (address <= getSize() - 4)
             {
                 short[] word = Converter.wordToShortArray(value);
                 foreach (short hw in word)
@@ -89,15 +101,27 @@ namespace armsim
         }
         public short ReadHalfWord(int address)
         {
-            short byteA = memory[address];
-            short byteB = memory[address + 1];
-            byteA <<= 8;
-            byteA |= byteB;
-            return byteA;
+            if (address % 2 != 0)
+            {
+                return -1;
+            }
+            else
+            {
+                short byteA = memory[address];
+                short byteB = memory[address + 1];
+                byteB <<= 8;
+                byteB |= byteA;
+                return byteB;
+            }
+            
         }
         public void WriteHalfWord(int address, short value)
         {
-            if (address <= getSize() - 2)
+            if (address % 2 != 0)
+            {
+                return;
+            }
+            else if (address <= getSize() - 2)
             {
                 byte[] halfWord = Converter.halfToByteArray(value);
                 foreach (byte b in halfWord)

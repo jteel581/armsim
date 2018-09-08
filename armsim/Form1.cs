@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Diagnostics;
 
 namespace armsim
 {
@@ -75,19 +76,21 @@ namespace armsim
             // this is used to get the command line arguments onto the form
             string[] args = Environment.GetCommandLineArgs();
             Options ops = new Options(args);
-
             if (ops.getTestStatus() == true)
             {
+                Trace.WriteLine("Loader: Performing Unit Tests...");
                 bool b = TestRAM.runTests();
                 if (b == true)
                 {
-                    Console.WriteLine("PASSED");
-                    System.Windows.Forms.Application.Exit();
+                    Trace.WriteLine("Loader: All Tests Passed!");
+                    System.Environment.Exit(-1);
                 }  
                 else
                 {
-                    Console.WriteLine("FAILED");
-                }          
+                    Trace.WriteLine("Loader: Test Failed");
+                    System.Environment.Exit(-1);
+
+                }
             }
 
             fileNameLabel.Text = ops.getFileName();
@@ -95,11 +98,11 @@ namespace armsim
             testStatusLabel.Text = ops.getTestStatus().ToString();
 
 
-            //Options ops = new armsim.Options(args);
             RAM memory = new RAM(ops.getMemSize() == 0 ? 32768 : ops.getMemSize());
             
             // Dr. Schaub code for reading elf files with some modifications for my program
             string elfFilename = ops.getFileName();
+            Trace.WriteLine("Loader: Opening " + elfFilename + "...");
             using (FileStream strm = new FileStream(elfFilename, FileMode.Open))
             {
                 ELF elfHeader = new ELF();
@@ -107,11 +110,30 @@ namespace armsim
 
                 // Read ELF header data
                 strm.Read(data, 0, data.Length);
+
+
+
+
+
                 // Convert to struct
                 elfHeader = ByteArrayToStructure<ELF>(data);
+                Trace.WriteLine("Loader: Checking for ELF signature...");
+                if (!(elfHeader.EI_MAG0 == '\x7f' &&
+                    elfHeader.EI_MAG1 == 'E' &&
+                    elfHeader.EI_MAG2 == 'L' &&
+                    elfHeader.EI_MAG3 == 'F'))
+                {
+                    String message = "File entered for loading is not an ELF file.";
+                    Trace.WriteLine("Loader: " + message);
+                    String caption = "Invalid File Type Error";
+                    MessageBox.Show(message, caption);
+                    Trace.WriteLine("Loader: Exiting...");
 
-                Console.WriteLine("Entry point: " + elfHeader.e_entry.ToString("X4"));
-                Console.WriteLine("Number of program header entries: " + elfHeader.e_phnum);
+                    System.Environment.Exit(-1);
+                }
+                Trace.WriteLine("Loader: Confirmed ELF signature");
+                Trace.WriteLine("Loader: Number of segments: " + elfHeader.e_phnum);
+                Trace.WriteLine("Loader: Program header offset: " + elfHeader.e_phoff);
 
                 // read each program header 
                 strm.Seek(elfHeader.e_phoff, SeekOrigin.Begin);
@@ -124,12 +146,8 @@ namespace armsim
                     ELFheaderEntry progHeaderEntry = new ELFheaderEntry();
 
                     progHeaderEntry = ByteArrayToStructure<ELFheaderEntry>(data);
-                    Console.WriteLine("Type of Segment: " + progHeaderEntry.p_type);
-                    Console.WriteLine("Location in file: " + progHeaderEntry.p_offset);
-                    Console.WriteLine("Location in RAM to load: " + progHeaderEntry.p_vaddr);
-                    Console.WriteLine("Number of bytes in segment: " + progHeaderEntry.p_filesz);
-
-
+                    Trace.WriteLine("Loader: Segment " + i + " - Address = " + progHeaderEntry.p_vaddr + ", Offset = "
+                        + progHeaderEntry.p_offset + ", Size = " + progHeaderEntry.p_filesz);
                     data = new byte[progHeaderEntry.p_filesz];
                     strm.Seek(progHeaderEntry.p_offset, SeekOrigin.Begin);
                     strm.Read(data, 0, (int)progHeaderEntry.p_filesz);
@@ -139,11 +157,23 @@ namespace armsim
                     {
                         memory.WriteByte(address, b);
                         address++;
+                        if (address == ops.getMemSize())
+                        {
+                            String message = "Could not load entire program into memory.";
+                            Trace.WriteLine("Loader: " + message);
+                            String caption = "Not Enough Memory Error";
+                            MessageBox.Show(message, caption);
+                            Trace.WriteLine("Loader: Exiting...");
+                            System.Environment.Exit(-1);
+                        }
                     }
 
                 }
+                Trace.WriteLine("Loader: Computing Checksum...");
                 int checkSum = memory.calculateChecksum(memory.memory);
-                Console.WriteLine("checksum is: " + checkSum.ToString());
+                Trace.WriteLine("Loader: Checksum = " + checkSum);
+                checkSumLabel.Text = checkSum.ToString();
+                checkSumLabel.Update();
 
             }
         }
