@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Options.cs
+// This file contains the Options class which is used to perform command line argument processing.
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,14 +11,19 @@ using System.Windows.Forms;
 
 namespace armsim
 {
+    // This class is use to perform command line argument processing. It contains instance variables to hold
+    // the options from the command line and getter and setter methods to access and change their values.
     class Options
     {
-        // option variables
+        // This variable is used to store the name of the file given at runtime.
         private string fileName = "";
+        // This variable is used to store the size of memory that is given at runtime.
         private int memsize = 0;
+        // This variable is used to tell whether or not the user specified to run tests.
         private Boolean testStatus = false;
-
-        // option getter and setter methods
+        // This variable is used to tell whether or not to log output
+        public bool log = false;
+        // Getter and setter methods
         public string getFileName()
         {
             return fileName;
@@ -41,7 +49,9 @@ namespace armsim
             testStatus = newTestStatus;
         }
 
-        // Options class constructor
+        // This is the Options class constructor. Not only does it construct an instance of the Options
+        // class, but it also parses the command line arguments. It takes one parameter: 'Arguments' 
+        // which is a string array obtained from the command line.
         public Options(String[] Arguments)
         {
             if(!Arguments.Contains("--load"))
@@ -49,7 +59,11 @@ namespace armsim
                 String message = "You must enter a --load option followed by an executable file.\nusage: armsim[--load elf - file][--mem memory - size][--test]";
                 String caption = "No Load Option";
                 MessageBox.Show(message, caption);
-                Trace.WriteLine("Loader: Exiting...");
+                if (log)
+                {
+                    Trace.WriteLine("Loader: Exiting...");
+
+                }
 
                 System.Environment.Exit(-1);
             }
@@ -76,7 +90,11 @@ namespace armsim
                             String message = "Memory size must be any positive number between 0 and 1,048,576";
                             String caption = "Invalid Size Type Error";
                             MessageBox.Show(message, caption);
-                            Trace.WriteLine("Loader: Exiting...");
+                            if (log)
+                            {
+                                Trace.WriteLine("Loader: Exiting...");
+
+                            }
 
                             System.Environment.Exit(-1);
                         }
@@ -85,7 +103,11 @@ namespace armsim
                             String message = "Memory size must be any positive number between 0 and 1,048,576";
                             String caption = "Invalid Size Error";
                             MessageBox.Show(message, caption);
-                            Trace.WriteLine("Loader: Exiting...");
+                            if (log)
+                            {
+                                Trace.WriteLine("Loader: Exiting...");
+
+                            }
 
                             System.Environment.Exit(-1);
                         }
@@ -96,12 +118,20 @@ namespace armsim
                     {
                         setTestStatus(true);
                     }
+                    else if (arg == "--log")
+                    {
+                        log = true;
+                    }
                     else
                     {
                         String message = "'" + arg + "' is not a valid option.\nusage: armsim [ --load elf-file ] [ --mem memory-size ] [ --test ]";
                         String caption = "Invalid Option Error";
                         MessageBox.Show(message, caption);
-                        Trace.WriteLine("Loader: Exiting...");
+                        if (log)
+                        {
+                            Trace.WriteLine("Loader: Exiting...");
+
+                        }
 
                         System.Environment.Exit(-1);
                     }

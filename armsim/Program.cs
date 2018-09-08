@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Program.cs
+// This file contains Visual studio generated code to start the gui application.
+
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +11,7 @@ using System.Windows.Forms;
 
 namespace armsim
 {
-    
+    // This class holds the main entry point of the application.
     static class Program
     {
         /// <summary>
