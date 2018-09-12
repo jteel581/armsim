@@ -25,7 +25,7 @@ namespace armsim
                 Trace.WriteLine("Loader: TestRAM is setting up RAM to test methods...");
 
             }
-            RAM memory = new RAM(4);
+            Memory memory = new Memory(4);
             memory.WriteByte(0, 0x00);
             memory.WriteByte(1, 0x00);
             memory.WriteByte(2, 0x00);
@@ -131,7 +131,7 @@ namespace armsim
             
 
             // Test for Extract bits
-            Debug.Assert(RAM.ExtractBits(0x00B5, 1, 3) == 0x04);
+            Debug.Assert(Memory.ExtractBits(0x00B5, 1, 3) == 0x04);
             if (ops.log)
             {
                 Trace.WriteLine("Loader: ExtractBits test passed!");

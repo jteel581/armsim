@@ -90,6 +90,7 @@ namespace armsim
                 }
                 bool b = TestRAM.runTests();
                 b = TestConverter.runTests();
+                b = TestComputer.runTests();
                 if (b == true)
                 {
                     if (ops.log)
@@ -116,7 +117,7 @@ namespace armsim
             testStatusLabel.Text = ops.getTestStatus().ToString();
 
 
-            RAM memory = new RAM(ops.getMemSize() == 0 ? 32768 : ops.getMemSize());
+            Memory memory = new Memory(ops.getMemSize() == 0 ? 32768 : ops.getMemSize());
             
             // Dr. Schaub code for reading elf files with some modifications for my program
             string elfFilename = ops.getFileName();
