@@ -58,21 +58,25 @@ namespace armsim
     // process the command line arguments, run tests if applicable, read the elf file and load the program into RAM.
     public partial class Form1 : Form
     {
-        
-        // Converts a byte array to a struct
-        static T ByteArrayToStructure<T>(byte[] bytes) where T : struct
-        {
-            GCHandle handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
-            T stuff = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(),
-                typeof(T));
-            handle.Free();
-            return stuff;
-        }
-
-
+        Computer comp;
+        Options ops;
         public Form1()
         {
             InitializeComponent();
+        }
+
+        public void setCheckSum(int newSum)
+        {
+            checkSumLabel.Text = newSum.ToString() ;
+        }
+
+        public void setFileNameLabel(string newName)
+        {
+            fileNameLabel.Text = newName;
+        }
+        public void setRegPanelText(string newText)
+        {
+            registerBox.Text = newText;
         }
 
         // This method holds logic to process the command line arguments, run tests if applicable, read the 
@@ -80,7 +84,7 @@ namespace armsim
         private void Form1_Load(object sender, EventArgs e)
         {
             string[] args = Environment.GetCommandLineArgs();
-            Options ops = new Options(args);
+            ops = new Options(args);
             if (ops.getTestStatus() == true)
             {
                 if (ops.log)
@@ -114,139 +118,29 @@ namespace armsim
 
             fileNameLabel.Text = ops.getFileName();
             memSizeLabel.Text = ops.getMemSize().ToString();
-            testStatusLabel.Text = ops.getTestStatus().ToString();
 
-
-            Memory memory = new Memory(ops.getMemSize() == 0 ? 32768 : ops.getMemSize());
-            
-            // Dr. Schaub code for reading elf files with some modifications for my program
-            string elfFilename = ops.getFileName();
-            if (ops.log)
+            comp = new Computer(ops.getMemSize() == 0 ? 32768 : ops.getMemSize());
+            if (ops.getFileName() != "")
             {
-                Trace.WriteLine("Loader: Opening " + elfFilename + "...");
-
+                comp.load(this, ops);
             }
-            try
-            {
-                using (FileStream strm = new FileStream(elfFilename, FileMode.Open))
-                {
-                    ELF elfHeader = new ELF();
-                    byte[] data = new byte[Marshal.SizeOf(elfHeader)];
-
-                    // Read ELF header data
-                    strm.Read(data, 0, data.Length);
-
-
-
-
-
-                    // Convert to struct
-                    elfHeader = ByteArrayToStructure<ELF>(data);
-                    if (ops.log)
-                    {
-                        Trace.WriteLine("Loader: Checking for ELF signature...");
-
-                    }
-                    if (!(elfHeader.EI_MAG0 == '\x7f' &&
-                        elfHeader.EI_MAG1 == 'E' &&
-                        elfHeader.EI_MAG2 == 'L' &&
-                        elfHeader.EI_MAG3 == 'F'))
-                    {
-                        String message = "File entered for loading is not an ELF file.";
-                        if (ops.log)
-                        {
-                            Trace.WriteLine("Loader: " + message);
-
-                        }
-                        String caption = "Invalid File Type Error";
-                        MessageBox.Show(message, caption);
-                        if (ops.log)
-                        {
-                            Trace.WriteLine("Loader: Exiting...");
-
-                        }
-
-                        System.Environment.Exit(-1);
-                    }
-                    if (ops.log)
-                    {
-                        Trace.WriteLine("Loader: Confirmed ELF signature");
-                        Trace.WriteLine("Loader: Number of segments: " + elfHeader.e_phnum);
-                        Trace.WriteLine("Loader: Program header offset: " + elfHeader.e_phoff);
-                    }
-
-
-                    // read each program header 
-                    strm.Seek(elfHeader.e_phoff, SeekOrigin.Begin);
-
-                    for (int i = 0; i < elfHeader.e_phnum; i++)
-                    {
-                        data = new byte[elfHeader.e_phentsize];
-                        strm.Read(data, 0, (int)elfHeader.e_phentsize);
-                        long curLocation = strm.Position;
-                        ELFheaderEntry progHeaderEntry = new ELFheaderEntry();
-
-                        progHeaderEntry = ByteArrayToStructure<ELFheaderEntry>(data);
-                        if (ops.log)
-                        {
-                            Trace.WriteLine("Loader: Segment " + i + " - Address = " + progHeaderEntry.p_vaddr + ", Offset = "
-                            + progHeaderEntry.p_offset + ", Size = " + progHeaderEntry.p_filesz);
-                        }
-
-                        data = new byte[progHeaderEntry.p_filesz];
-                        strm.Seek(progHeaderEntry.p_offset, SeekOrigin.Begin);
-                        strm.Read(data, 0, (int)progHeaderEntry.p_filesz);
-                        strm.Position = curLocation;
-                        int address = (int)progHeaderEntry.p_vaddr;
-                        foreach (byte b in data)
-                        {
-                            memory.WriteByte(address, b);
-                            address++;
-                            if (address == ops.getMemSize())
-                            {
-                                String message = "Could not load entire program into memory.";
-                                if (ops.log)
-                                {
-                                    Trace.WriteLine("Loader: " + message);
-
-                                }
-                                String caption = "Not Enough Memory Error";
-                                MessageBox.Show(message, caption);
-                                if (ops.log)
-                                {
-                                    Trace.WriteLine("Loader: Exiting...");
-
-                                }
-                                System.Environment.Exit(-1);
-                            }
-                        }
-
-                    }
-                    if (ops.log)
-                    {
-                        Trace.WriteLine("Loader: Computing Checksum...");
-
-                    }
-                    int checkSum = memory.calculateChecksum(memory.memory);
-                    if (ops.log)
-                    {
-                        Trace.WriteLine("Loader: Checksum = " + checkSum);
-
-                    }
-                    checkSumLabel.Text = checkSum.ToString();
-                    checkSumLabel.Update();
-                }
-                
             
 
-            } catch (FileNotFoundException)
+
+
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Environment.CurrentDirectory;
+            openFileDialog.Filter = "Executable files (*.exe) | *.exe| All Files | *.*";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                string message = "That file was not found.";
-                string caption = "File not found";
-                MessageBox.Show(message, caption);
-                System.Environment.Exit(-1);
-
-
+                comp.reset(ops.getMemSize());
+                string newFileName = openFileDialog.FileName;   
+                ops.setFileName(newFileName);
+                comp.load(this, ops);
             }
         }
     }

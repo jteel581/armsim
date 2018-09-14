@@ -54,19 +54,7 @@ namespace armsim
         // which is a string array obtained from the command line.
         public Options(String[] Arguments)
         {
-            if(!Arguments.Contains("--load"))
-            {
-                String message = "You must enter a --load option followed by an executable file.\nusage: armsim[--load elf - file][--mem memory - size][--test]";
-                String caption = "No Load Option";
-                MessageBox.Show(message, caption);
-                if (log)
-                {
-                    Trace.WriteLine("Loader: Exiting...");
-
-                }
-
-                System.Environment.Exit(-1);
-            }
+            
             if (Arguments.Length > 1)
             {
                 for (int i= 1; i < Arguments.Length; i++)
