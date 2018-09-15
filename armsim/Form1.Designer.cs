@@ -36,7 +36,6 @@
             this.checkSumLabel = new System.Windows.Forms.Label();
             this.memoryLabel = new System.Windows.Forms.Label();
             this.disassemblyLabel = new System.Windows.Forms.Label();
-            this.disassemblyBox = new System.Windows.Forms.TextBox();
             this.terminalBox = new System.Windows.Forms.Label();
             this.terminalTextBox = new System.Windows.Forms.TextBox();
             this.stackLabel = new System.Windows.Forms.Label();
@@ -54,13 +53,17 @@
             this.hexRepCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.asciiRepCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.addressBox = new System.Windows.Forms.TextBox();
+            this.disassemblyListView = new System.Windows.Forms.ListView();
+            this.disassembAddrCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.instructionCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.disassembledRepCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 30);
+            this.label1.Location = new System.Drawing.Point(12, 57);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(48, 13);
             this.label1.TabIndex = 0;
@@ -69,7 +72,7 @@
             // fileNameLabel
             // 
             this.fileNameLabel.AutoSize = true;
-            this.fileNameLabel.Location = new System.Drawing.Point(66, 30);
+            this.fileNameLabel.Location = new System.Drawing.Point(66, 57);
             this.fileNameLabel.Name = "fileNameLabel";
             this.fileNameLabel.Size = new System.Drawing.Size(35, 13);
             this.fileNameLabel.TabIndex = 1;
@@ -78,7 +81,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(147, 30);
+            this.label2.Location = new System.Drawing.Point(147, 57);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 13);
             this.label2.TabIndex = 2;
@@ -87,7 +90,7 @@
             // memSizeLabel
             // 
             this.memSizeLabel.AutoSize = true;
-            this.memSizeLabel.Location = new System.Drawing.Point(223, 30);
+            this.memSizeLabel.Location = new System.Drawing.Point(223, 57);
             this.memSizeLabel.Name = "memSizeLabel";
             this.memSizeLabel.Size = new System.Drawing.Size(35, 13);
             this.memSizeLabel.TabIndex = 3;
@@ -96,7 +99,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(335, 30);
+            this.label5.Location = new System.Drawing.Point(335, 57);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(60, 13);
             this.label5.TabIndex = 7;
@@ -105,7 +108,7 @@
             // checkSumLabel
             // 
             this.checkSumLabel.AutoSize = true;
-            this.checkSumLabel.Location = new System.Drawing.Point(402, 30);
+            this.checkSumLabel.Location = new System.Drawing.Point(402, 57);
             this.checkSumLabel.Name = "checkSumLabel";
             this.checkSumLabel.Size = new System.Drawing.Size(35, 13);
             this.checkSumLabel.TabIndex = 8;
@@ -115,7 +118,7 @@
             // 
             this.memoryLabel.AutoSize = true;
             this.memoryLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.memoryLabel.Location = new System.Drawing.Point(15, 44);
+            this.memoryLabel.Location = new System.Drawing.Point(15, 75);
             this.memoryLabel.Name = "memoryLabel";
             this.memoryLabel.Size = new System.Drawing.Size(58, 17);
             this.memoryLabel.TabIndex = 10;
@@ -125,25 +128,17 @@
             // 
             this.disassemblyLabel.AutoSize = true;
             this.disassemblyLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.disassemblyLabel.Location = new System.Drawing.Point(15, 223);
+            this.disassemblyLabel.Location = new System.Drawing.Point(15, 245);
             this.disassemblyLabel.Name = "disassemblyLabel";
             this.disassemblyLabel.Size = new System.Drawing.Size(87, 17);
             this.disassemblyLabel.TabIndex = 11;
             this.disassemblyLabel.Text = "Disassembly";
             // 
-            // disassemblyBox
-            // 
-            this.disassemblyBox.Location = new System.Drawing.Point(15, 243);
-            this.disassemblyBox.Multiline = true;
-            this.disassemblyBox.Name = "disassemblyBox";
-            this.disassemblyBox.Size = new System.Drawing.Size(598, 133);
-            this.disassemblyBox.TabIndex = 12;
-            // 
             // terminalBox
             // 
             this.terminalBox.AutoSize = true;
             this.terminalBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.terminalBox.Location = new System.Drawing.Point(15, 517);
+            this.terminalBox.Location = new System.Drawing.Point(15, 539);
             this.terminalBox.Name = "terminalBox";
             this.terminalBox.Size = new System.Drawing.Size(63, 17);
             this.terminalBox.TabIndex = 13;
@@ -151,17 +146,17 @@
             // 
             // terminalTextBox
             // 
-            this.terminalTextBox.Location = new System.Drawing.Point(15, 537);
+            this.terminalTextBox.Location = new System.Drawing.Point(15, 559);
             this.terminalTextBox.Multiline = true;
             this.terminalTextBox.Name = "terminalTextBox";
-            this.terminalTextBox.Size = new System.Drawing.Size(699, 148);
+            this.terminalTextBox.Size = new System.Drawing.Size(741, 126);
             this.terminalTextBox.TabIndex = 14;
             // 
             // stackLabel
             // 
             this.stackLabel.AutoSize = true;
             this.stackLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stackLabel.Location = new System.Drawing.Point(18, 383);
+            this.stackLabel.Location = new System.Drawing.Point(15, 403);
             this.stackLabel.Name = "stackLabel";
             this.stackLabel.Size = new System.Drawing.Size(43, 17);
             this.stackLabel.TabIndex = 15;
@@ -169,17 +164,17 @@
             // 
             // stackBox
             // 
-            this.stackBox.Location = new System.Drawing.Point(15, 401);
+            this.stackBox.Location = new System.Drawing.Point(15, 423);
             this.stackBox.Multiline = true;
             this.stackBox.Name = "stackBox";
-            this.stackBox.Size = new System.Drawing.Size(598, 113);
+            this.stackBox.Size = new System.Drawing.Size(740, 113);
             this.stackBox.TabIndex = 16;
             // 
             // registerLabel
             // 
             this.registerLabel.AutoSize = true;
             this.registerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.registerLabel.Location = new System.Drawing.Point(616, 53);
+            this.registerLabel.Location = new System.Drawing.Point(616, 75);
             this.registerLabel.Name = "registerLabel";
             this.registerLabel.Size = new System.Drawing.Size(68, 17);
             this.registerLabel.TabIndex = 17;
@@ -187,7 +182,7 @@
             // 
             // registerBox
             // 
-            this.registerBox.Location = new System.Drawing.Point(619, 73);
+            this.registerBox.Location = new System.Drawing.Point(619, 95);
             this.registerBox.Multiline = true;
             this.registerBox.Name = "registerBox";
             this.registerBox.Size = new System.Drawing.Size(137, 228);
@@ -197,7 +192,7 @@
             // 
             this.flagLabel.AutoSize = true;
             this.flagLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.flagLabel.Location = new System.Drawing.Point(616, 311);
+            this.flagLabel.Location = new System.Drawing.Point(616, 333);
             this.flagLabel.Name = "flagLabel";
             this.flagLabel.Size = new System.Drawing.Size(42, 17);
             this.flagLabel.TabIndex = 19;
@@ -205,10 +200,10 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(619, 331);
+            this.textBox1.Location = new System.Drawing.Point(619, 353);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(137, 183);
+            this.textBox1.Size = new System.Drawing.Size(137, 49);
             this.textBox1.TabIndex = 20;
             // 
             // menuStrip1
@@ -247,7 +242,7 @@
             this.hexRepCH,
             this.asciiRepCH});
             this.memoryListView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.memoryListView.Location = new System.Drawing.Point(15, 73);
+            this.memoryListView.Location = new System.Drawing.Point(15, 95);
             this.memoryListView.Name = "memoryListView";
             this.memoryListView.Size = new System.Drawing.Size(598, 147);
             this.memoryListView.TabIndex = 22;
@@ -270,19 +265,48 @@
             // 
             // addressBox
             // 
-            this.addressBox.Location = new System.Drawing.Point(80, 47);
+            this.addressBox.Location = new System.Drawing.Point(79, 74);
             this.addressBox.Name = "addressBox";
             this.addressBox.Size = new System.Drawing.Size(100, 20);
-            this.addressBox.TabIndex = 23;
+            this.addressBox.TabIndex = 1;
             this.addressBox.Text = "Enter address";
             this.addressBox.Click += new System.EventHandler(this.addressBox_Click);
             this.addressBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.addressBox_KeyPress);
+            // 
+            // disassemblyListView
+            // 
+            this.disassemblyListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.disassembAddrCH,
+            this.instructionCH,
+            this.disassembledRepCH});
+            this.disassemblyListView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.disassemblyListView.Location = new System.Drawing.Point(15, 266);
+            this.disassemblyListView.Name = "disassemblyListView";
+            this.disassemblyListView.Size = new System.Drawing.Size(595, 136);
+            this.disassemblyListView.TabIndex = 0;
+            this.disassemblyListView.UseCompatibleStateImageBehavior = false;
+            this.disassemblyListView.View = System.Windows.Forms.View.Details;
+            // 
+            // disassembAddrCH
+            // 
+            this.disassembAddrCH.Text = "Address";
+            // 
+            // instructionCH
+            // 
+            this.instructionCH.Text = "Instruction";
+            this.instructionCH.Width = 80;
+            // 
+            // disassembledRepCH
+            // 
+            this.disassembledRepCH.Text = "Disassembled Representation";
+            this.disassembledRepCH.Width = 160;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(767, 697);
+            this.Controls.Add(this.disassemblyListView);
             this.Controls.Add(this.addressBox);
             this.Controls.Add(this.memoryListView);
             this.Controls.Add(this.textBox1);
@@ -293,7 +317,6 @@
             this.Controls.Add(this.stackLabel);
             this.Controls.Add(this.terminalTextBox);
             this.Controls.Add(this.terminalBox);
-            this.Controls.Add(this.disassemblyBox);
             this.Controls.Add(this.disassemblyLabel);
             this.Controls.Add(this.memoryLabel);
             this.Controls.Add(this.checkSumLabel);
@@ -324,7 +347,6 @@
         private System.Windows.Forms.Label checkSumLabel;
         private System.Windows.Forms.Label memoryLabel;
         private System.Windows.Forms.Label disassemblyLabel;
-        private System.Windows.Forms.TextBox disassemblyBox;
         private System.Windows.Forms.Label terminalBox;
         private System.Windows.Forms.TextBox terminalTextBox;
         private System.Windows.Forms.Label stackLabel;
@@ -342,6 +364,10 @@
         private System.Windows.Forms.ColumnHeader hexRepCH;
         private System.Windows.Forms.ColumnHeader asciiRepCH;
         private System.Windows.Forms.TextBox addressBox;
+        private System.Windows.Forms.ListView disassemblyListView;
+        private System.Windows.Forms.ColumnHeader disassembAddrCH;
+        private System.Windows.Forms.ColumnHeader instructionCH;
+        private System.Windows.Forms.ColumnHeader disassembledRepCH;
     }
 }
 
