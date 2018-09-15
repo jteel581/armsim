@@ -79,20 +79,76 @@ namespace armsim
             registerBox.Text = newText;
         }
 
-        public void addMemLine()
+        public void addMemLine(string addressStr, string hexStr, string asciiStr )
+        {
+            ListViewItem memLine = new ListViewItem(new string[] { addressStr, hexStr, asciiStr });
+            memoryListView.Items.Add(memLine);
+        }
+
+
+        public void fillMemPanel()
+        {
+            string addressStr = "";
+            string hexStr = "";
+            string asciiStr = "";
+            int tempNum = 0;
+            for (int i = 0; i < comp.getRAM().getSize(); i += 16)
+            {
+                addressStr = "";
+                hexStr = "";
+                asciiStr = "";
+                addressStr = i.ToString("x8");
+                for (int j = 0; j < 16; j++)
+                {
+                    if ((i + j) == 4096)
+                    {
+                        tempNum = 0;
+                    }
+                    tempNum = comp.getRAM().ReadByte(i + j);
+
+                    hexStr += tempNum.ToString("x2");
+                    hexStr += " ";
+                    if ((tempNum >= 0 && tempNum <= 32) || tempNum == 127)
+                    {
+                        asciiStr += ".";
+                        //asciiStr += Encoding.ASCII.GetString(comp.getRAM().memory, i + j, 1) + " ";
+                        //asciiStr += Convert.ToChar(tempNum) + " ";
+                    }
+                    else if (tempNum > 32 && tempNum < 127)
+                    {
+                        asciiStr +=  Convert.ToChar(tempNum);
+                    }
+                    else
+                    {
+                        asciiStr += ".";
+
+                    }
+
+                }
+                addMemLine(addressStr, hexStr, asciiStr);
+                
+            }
+            memoryListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+
+        }
+
+        public void configureMemPanel()
         {
             ListView.ColumnHeaderCollection columns = memoryListView.Columns;
-            columns[0].Width = 60;
-            columns[1].Width = 225;
-            columns[2].Width = 115;
+            //columns[0].AutoResize();
+            //columns[0].Width = 60;
+            //columns[1].Width = 225;
+            //columns[2].Width = 115;
             memoryListView.FullRowSelect = true;
+            // for debuging only
+            /*
             for (int i = 0; i < 100; i++)
             {
 
                 ListViewItem memLine = new ListViewItem(new string[] { i.ToString("x4"), "haha", "beep" });
                 memoryListView.Items.Add(memLine);
 
-            }
+            }*/
         }
 
         // This method holds logic to process the command line arguments, run tests if applicable, read the 
@@ -168,10 +224,19 @@ namespace armsim
                 numStr = numStr.Replace("0x", "");
                 numStr = numStr.Replace("0X", "");
                 int num = Convert.ToInt32(numStr, 16);
-                memoryListView.TopItem = memoryListView.Items[num];
-                memoryListView.Items[num].Selected = true;
+                if ( num % 16 != 0)
+                {
+                    num -= (num % 16);
+                }
+                memoryListView.TopItem = memoryListView.Items[num / 16];
+                memoryListView.Items[num / 16].Selected = true;
                 memoryListView.Focus();
             }
+        }
+
+        private void addressBox_Click(object sender, EventArgs e)
+        {
+            addressBox.Text = "";
         }
     }
 }

@@ -136,7 +136,7 @@
             this.disassemblyBox.Location = new System.Drawing.Point(15, 243);
             this.disassemblyBox.Multiline = true;
             this.disassemblyBox.Name = "disassemblyBox";
-            this.disassemblyBox.Size = new System.Drawing.Size(422, 133);
+            this.disassemblyBox.Size = new System.Drawing.Size(598, 133);
             this.disassemblyBox.TabIndex = 12;
             // 
             // terminalBox
@@ -172,14 +172,14 @@
             this.stackBox.Location = new System.Drawing.Point(15, 401);
             this.stackBox.Multiline = true;
             this.stackBox.Name = "stackBox";
-            this.stackBox.Size = new System.Drawing.Size(422, 113);
+            this.stackBox.Size = new System.Drawing.Size(598, 113);
             this.stackBox.TabIndex = 16;
             // 
             // registerLabel
             // 
             this.registerLabel.AutoSize = true;
             this.registerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.registerLabel.Location = new System.Drawing.Point(481, 44);
+            this.registerLabel.Location = new System.Drawing.Point(616, 53);
             this.registerLabel.Name = "registerLabel";
             this.registerLabel.Size = new System.Drawing.Size(68, 17);
             this.registerLabel.TabIndex = 17;
@@ -187,17 +187,17 @@
             // 
             // registerBox
             // 
-            this.registerBox.Location = new System.Drawing.Point(484, 65);
+            this.registerBox.Location = new System.Drawing.Point(619, 73);
             this.registerBox.Multiline = true;
             this.registerBox.Name = "registerBox";
-            this.registerBox.Size = new System.Drawing.Size(230, 228);
+            this.registerBox.Size = new System.Drawing.Size(137, 228);
             this.registerBox.TabIndex = 18;
             // 
             // flagLabel
             // 
             this.flagLabel.AutoSize = true;
             this.flagLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.flagLabel.Location = new System.Drawing.Point(481, 307);
+            this.flagLabel.Location = new System.Drawing.Point(616, 311);
             this.flagLabel.Name = "flagLabel";
             this.flagLabel.Size = new System.Drawing.Size(42, 17);
             this.flagLabel.TabIndex = 19;
@@ -205,10 +205,10 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(484, 331);
+            this.textBox1.Location = new System.Drawing.Point(619, 331);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(230, 183);
+            this.textBox1.Size = new System.Drawing.Size(137, 183);
             this.textBox1.TabIndex = 20;
             // 
             // menuStrip1
@@ -217,7 +217,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(730, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(767, 24);
             this.menuStrip1.TabIndex = 21;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -246,9 +246,10 @@
             this.addressCH,
             this.hexRepCH,
             this.asciiRepCH});
+            this.memoryListView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.memoryListView.Location = new System.Drawing.Point(15, 73);
             this.memoryListView.Name = "memoryListView";
-            this.memoryListView.Size = new System.Drawing.Size(422, 147);
+            this.memoryListView.Size = new System.Drawing.Size(598, 147);
             this.memoryListView.TabIndex = 22;
             this.memoryListView.UseCompatibleStateImageBehavior = false;
             this.memoryListView.View = System.Windows.Forms.View.Details;
@@ -274,13 +275,14 @@
             this.addressBox.Size = new System.Drawing.Size(100, 20);
             this.addressBox.TabIndex = 23;
             this.addressBox.Text = "Enter address";
+            this.addressBox.Click += new System.EventHandler(this.addressBox_Click);
             this.addressBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.addressBox_KeyPress);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(730, 697);
+            this.ClientSize = new System.Drawing.Size(767, 697);
             this.Controls.Add(this.addressBox);
             this.Controls.Add(this.memoryListView);
             this.Controls.Add(this.textBox1);

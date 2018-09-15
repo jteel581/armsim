@@ -189,7 +189,8 @@ namespace armsim
 
                     }
                     f.setCheckSum(checkSum);
-                    f.addMemLine();
+                    f.configureMemPanel();
+                    f.fillMemPanel();
                     
                 }
 
