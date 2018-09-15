@@ -57,13 +57,19 @@
             this.disassembAddrCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.instructionCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.disassembledRepCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.controlsLabel = new System.Windows.Forms.Label();
+            this.runButton = new System.Windows.Forms.Button();
+            this.stepButton = new System.Windows.Forms.Button();
+            this.stopButton = new System.Windows.Forms.Button();
+            this.breakPointButton = new System.Windows.Forms.Button();
+            this.resetButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 57);
+            this.label1.Location = new System.Drawing.Point(300, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(48, 13);
             this.label1.TabIndex = 0;
@@ -72,7 +78,7 @@
             // fileNameLabel
             // 
             this.fileNameLabel.AutoSize = true;
-            this.fileNameLabel.Location = new System.Drawing.Point(66, 57);
+            this.fileNameLabel.Location = new System.Drawing.Point(354, 9);
             this.fileNameLabel.Name = "fileNameLabel";
             this.fileNameLabel.Size = new System.Drawing.Size(35, 13);
             this.fileNameLabel.TabIndex = 1;
@@ -81,7 +87,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(147, 57);
+            this.label2.Location = new System.Drawing.Point(439, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 13);
             this.label2.TabIndex = 2;
@@ -90,7 +96,7 @@
             // memSizeLabel
             // 
             this.memSizeLabel.AutoSize = true;
-            this.memSizeLabel.Location = new System.Drawing.Point(223, 57);
+            this.memSizeLabel.Location = new System.Drawing.Point(515, 9);
             this.memSizeLabel.Name = "memSizeLabel";
             this.memSizeLabel.Size = new System.Drawing.Size(35, 13);
             this.memSizeLabel.TabIndex = 3;
@@ -99,7 +105,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(335, 57);
+            this.label5.Location = new System.Drawing.Point(598, 9);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(60, 13);
             this.label5.TabIndex = 7;
@@ -108,7 +114,7 @@
             // checkSumLabel
             // 
             this.checkSumLabel.AutoSize = true;
-            this.checkSumLabel.Location = new System.Drawing.Point(402, 57);
+            this.checkSumLabel.Location = new System.Drawing.Point(664, 9);
             this.checkSumLabel.Name = "checkSumLabel";
             this.checkSumLabel.Size = new System.Drawing.Size(35, 13);
             this.checkSumLabel.TabIndex = 8;
@@ -301,11 +307,73 @@
             this.disassembledRepCH.Text = "Disassembled Representation";
             this.disassembledRepCH.Width = 160;
             // 
+            // controlsLabel
+            // 
+            this.controlsLabel.AutoSize = true;
+            this.controlsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.controlsLabel.Location = new System.Drawing.Point(13, 24);
+            this.controlsLabel.Name = "controlsLabel";
+            this.controlsLabel.Size = new System.Drawing.Size(68, 20);
+            this.controlsLabel.TabIndex = 23;
+            this.controlsLabel.Text = "Controls";
+            // 
+            // runButton
+            // 
+            this.runButton.Location = new System.Drawing.Point(17, 47);
+            this.runButton.Name = "runButton";
+            this.runButton.Size = new System.Drawing.Size(50, 23);
+            this.runButton.TabIndex = 24;
+            this.runButton.Text = "Run -->";
+            this.runButton.UseVisualStyleBackColor = true;
+            // 
+            // stepButton
+            // 
+            this.stepButton.Location = new System.Drawing.Point(73, 47);
+            this.stepButton.Name = "stepButton";
+            this.stepButton.Size = new System.Drawing.Size(49, 23);
+            this.stepButton.TabIndex = 25;
+            this.stepButton.Text = "Step ↓";
+            this.stepButton.UseVisualStyleBackColor = true;
+            // 
+            // stopButton
+            // 
+            this.stopButton.Location = new System.Drawing.Point(128, 47);
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(46, 23);
+            this.stopButton.TabIndex = 26;
+            this.stopButton.Text = "Stop";
+            this.stopButton.UseVisualStyleBackColor = true;
+            // 
+            // breakPointButton
+            // 
+            this.breakPointButton.Location = new System.Drawing.Point(180, 47);
+            this.breakPointButton.Name = "breakPointButton";
+            this.breakPointButton.Size = new System.Drawing.Size(89, 23);
+            this.breakPointButton.TabIndex = 27;
+            this.breakPointButton.Text = "Add Breakpoint";
+            this.breakPointButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.breakPointButton.UseVisualStyleBackColor = true;
+            // 
+            // resetButton
+            // 
+            this.resetButton.Location = new System.Drawing.Point(275, 47);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(45, 23);
+            this.resetButton.TabIndex = 28;
+            this.resetButton.Text = "Reset";
+            this.resetButton.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(767, 697);
+            this.Controls.Add(this.resetButton);
+            this.Controls.Add(this.breakPointButton);
+            this.Controls.Add(this.stopButton);
+            this.Controls.Add(this.stepButton);
+            this.Controls.Add(this.runButton);
+            this.Controls.Add(this.controlsLabel);
             this.Controls.Add(this.disassemblyListView);
             this.Controls.Add(this.addressBox);
             this.Controls.Add(this.memoryListView);
@@ -368,6 +436,12 @@
         private System.Windows.Forms.ColumnHeader disassembAddrCH;
         private System.Windows.Forms.ColumnHeader instructionCH;
         private System.Windows.Forms.ColumnHeader disassembledRepCH;
+        private System.Windows.Forms.Label controlsLabel;
+        private System.Windows.Forms.Button runButton;
+        private System.Windows.Forms.Button stepButton;
+        private System.Windows.Forms.Button stopButton;
+        private System.Windows.Forms.Button breakPointButton;
+        private System.Windows.Forms.Button resetButton;
     }
 }
 
