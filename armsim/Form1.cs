@@ -79,6 +79,22 @@ namespace armsim
             registerBox.Text = newText;
         }
 
+        public void addMemLine()
+        {
+            ListView.ColumnHeaderCollection columns = memoryListView.Columns;
+            columns[0].Width = 60;
+            columns[1].Width = 225;
+            columns[2].Width = 115;
+            memoryListView.FullRowSelect = true;
+            for (int i = 0; i < 100; i++)
+            {
+
+                ListViewItem memLine = new ListViewItem(new string[] { i.ToString("x4"), "haha", "beep" });
+                memoryListView.Items.Add(memLine);
+
+            }
+        }
+
         // This method holds logic to process the command line arguments, run tests if applicable, read the 
         // elf file and load the program into RAM.
         private void Form1_Load(object sender, EventArgs e)
@@ -141,6 +157,20 @@ namespace armsim
                 string newFileName = openFileDialog.FileName;   
                 ops.setFileName(newFileName);
                 comp.load(this, ops);
+            }
+        }
+
+        private void addressBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == Convert.ToInt32(Keys.Enter))
+            {
+                string numStr = addressBox.Text;
+                numStr = numStr.Replace("0x", "");
+                numStr = numStr.Replace("0X", "");
+                int num = Convert.ToInt32(numStr, 16);
+                memoryListView.TopItem = memoryListView.Items[num];
+                memoryListView.Items[num].Selected = true;
+                memoryListView.Focus();
             }
         }
     }

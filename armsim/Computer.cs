@@ -42,28 +42,26 @@ namespace armsim
         public Computer(int ramSize)
         {
             RAM = new Memory(ramSize);
-            Registers = new Memory(225);
+            Registers = new Memory(64);
             Processor = new CPU(RAM, Registers);
         }
 
         public string printRegs()
         {
             string regString = "";
-            regString += "Program Counter \t= " + Processor.getProgramCounter().ToString("x8") + "\r\n";
-            int regNum = 0;
-            foreach (byte b in Registers.memory)
-            { 
-                regString += "\t       r" + regNum + " \t= " + b.ToString("x8");
-                regString += "\r\n";
-                regNum++;
+            for (int i = 0;  i < 16; i++)
+            {
+                regString += "r" + i + " \t= " + Registers.getReg(i).ToString("x8") + "\r\n";
             }
+
+            
             return regString;
         }
 
         public void reset(int ramSize)
         {
             RAM = new Memory(ramSize);
-            Registers = new Memory(225);
+            Registers = new Memory(64);
             Processor = new CPU(RAM, Registers);
         }
 
@@ -191,6 +189,7 @@ namespace armsim
 
                     }
                     f.setCheckSum(checkSum);
+                    f.addMemLine();
                     
                 }
 

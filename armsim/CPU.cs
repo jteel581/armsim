@@ -29,6 +29,7 @@ namespace armsim
         public void setProgramCounter(int newVal)
         {
             ProgramCounter = newVal;
+            Registers.WriteWord(60, (uint)newVal);
         }
         public CPU(Memory ram, Memory regs)
         {

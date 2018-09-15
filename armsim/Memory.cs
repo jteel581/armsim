@@ -32,6 +32,13 @@ namespace armsim
             memory = new byte[ramSize];
             size = ramSize;
         }
+        public int getReg(int regNum)
+        {
+            int address = regNum * 4;
+            int regVal = 0;
+            regVal = ReadWord(address);
+            return regVal;
+        }
 
         // This method is used to check whether a bit is 0 or 1 in a word at a given address.
         // The method takes two parameters: 'address', which it uses to find the word the bit is in,

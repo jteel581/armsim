@@ -34,7 +34,6 @@
             this.memSizeLabel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.checkSumLabel = new System.Windows.Forms.Label();
-            this.memoryBox = new System.Windows.Forms.TextBox();
             this.memoryLabel = new System.Windows.Forms.Label();
             this.disassemblyLabel = new System.Windows.Forms.Label();
             this.disassemblyBox = new System.Windows.Forms.TextBox();
@@ -50,6 +49,11 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.memoryListView = new System.Windows.Forms.ListView();
+            this.addressCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.hexRepCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.asciiRepCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.addressBox = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -107,14 +111,6 @@
             this.checkSumLabel.TabIndex = 8;
             this.checkSumLabel.Text = "NULL";
             // 
-            // memoryBox
-            // 
-            this.memoryBox.Location = new System.Drawing.Point(15, 63);
-            this.memoryBox.Multiline = true;
-            this.memoryBox.Name = "memoryBox";
-            this.memoryBox.Size = new System.Drawing.Size(422, 133);
-            this.memoryBox.TabIndex = 9;
-            // 
             // memoryLabel
             // 
             this.memoryLabel.AutoSize = true;
@@ -129,7 +125,7 @@
             // 
             this.disassemblyLabel.AutoSize = true;
             this.disassemblyLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.disassemblyLabel.Location = new System.Drawing.Point(15, 203);
+            this.disassemblyLabel.Location = new System.Drawing.Point(15, 223);
             this.disassemblyLabel.Name = "disassemblyLabel";
             this.disassemblyLabel.Size = new System.Drawing.Size(87, 17);
             this.disassemblyLabel.TabIndex = 11;
@@ -137,7 +133,7 @@
             // 
             // disassemblyBox
             // 
-            this.disassemblyBox.Location = new System.Drawing.Point(15, 223);
+            this.disassemblyBox.Location = new System.Drawing.Point(15, 243);
             this.disassemblyBox.Multiline = true;
             this.disassemblyBox.Name = "disassemblyBox";
             this.disassemblyBox.Size = new System.Drawing.Size(422, 133);
@@ -165,7 +161,7 @@
             // 
             this.stackLabel.AutoSize = true;
             this.stackLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stackLabel.Location = new System.Drawing.Point(18, 363);
+            this.stackLabel.Location = new System.Drawing.Point(18, 383);
             this.stackLabel.Name = "stackLabel";
             this.stackLabel.Size = new System.Drawing.Size(43, 17);
             this.stackLabel.TabIndex = 15;
@@ -173,10 +169,10 @@
             // 
             // stackBox
             // 
-            this.stackBox.Location = new System.Drawing.Point(15, 381);
+            this.stackBox.Location = new System.Drawing.Point(15, 401);
             this.stackBox.Multiline = true;
             this.stackBox.Name = "stackBox";
-            this.stackBox.Size = new System.Drawing.Size(422, 133);
+            this.stackBox.Size = new System.Drawing.Size(422, 113);
             this.stackBox.TabIndex = 16;
             // 
             // registerLabel
@@ -194,14 +190,14 @@
             this.registerBox.Location = new System.Drawing.Point(484, 65);
             this.registerBox.Multiline = true;
             this.registerBox.Name = "registerBox";
-            this.registerBox.Size = new System.Drawing.Size(230, 198);
+            this.registerBox.Size = new System.Drawing.Size(230, 228);
             this.registerBox.TabIndex = 18;
             // 
             // flagLabel
             // 
             this.flagLabel.AutoSize = true;
             this.flagLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.flagLabel.Location = new System.Drawing.Point(484, 270);
+            this.flagLabel.Location = new System.Drawing.Point(481, 307);
             this.flagLabel.Name = "flagLabel";
             this.flagLabel.Size = new System.Drawing.Size(42, 17);
             this.flagLabel.TabIndex = 19;
@@ -209,10 +205,10 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(484, 290);
+            this.textBox1.Location = new System.Drawing.Point(484, 331);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(230, 224);
+            this.textBox1.Size = new System.Drawing.Size(230, 183);
             this.textBox1.TabIndex = 20;
             // 
             // menuStrip1
@@ -236,7 +232,7 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -244,11 +240,49 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // memoryListView
+            // 
+            this.memoryListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.addressCH,
+            this.hexRepCH,
+            this.asciiRepCH});
+            this.memoryListView.Location = new System.Drawing.Point(15, 73);
+            this.memoryListView.Name = "memoryListView";
+            this.memoryListView.Size = new System.Drawing.Size(422, 147);
+            this.memoryListView.TabIndex = 22;
+            this.memoryListView.UseCompatibleStateImageBehavior = false;
+            this.memoryListView.View = System.Windows.Forms.View.Details;
+            // 
+            // addressCH
+            // 
+            this.addressCH.Text = "Address";
+            // 
+            // hexRepCH
+            // 
+            this.hexRepCH.Text = "Hexidecimal Representation";
+            this.hexRepCH.Width = 234;
+            // 
+            // asciiRepCH
+            // 
+            this.asciiRepCH.Text = "ASCII Representation";
+            this.asciiRepCH.Width = 124;
+            // 
+            // addressBox
+            // 
+            this.addressBox.Location = new System.Drawing.Point(80, 47);
+            this.addressBox.Name = "addressBox";
+            this.addressBox.Size = new System.Drawing.Size(100, 20);
+            this.addressBox.TabIndex = 23;
+            this.addressBox.Text = "Enter address";
+            this.addressBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.addressBox_KeyPress);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(730, 697);
+            this.Controls.Add(this.addressBox);
+            this.Controls.Add(this.memoryListView);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.flagLabel);
             this.Controls.Add(this.registerBox);
@@ -260,7 +294,6 @@
             this.Controls.Add(this.disassemblyBox);
             this.Controls.Add(this.disassemblyLabel);
             this.Controls.Add(this.memoryLabel);
-            this.Controls.Add(this.memoryBox);
             this.Controls.Add(this.checkSumLabel);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.memSizeLabel);
@@ -287,7 +320,6 @@
         private System.Windows.Forms.Label memSizeLabel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label checkSumLabel;
-        private System.Windows.Forms.TextBox memoryBox;
         private System.Windows.Forms.Label memoryLabel;
         private System.Windows.Forms.Label disassemblyLabel;
         private System.Windows.Forms.TextBox disassemblyBox;
@@ -303,6 +335,11 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ListView memoryListView;
+        private System.Windows.Forms.ColumnHeader addressCH;
+        private System.Windows.Forms.ColumnHeader hexRepCH;
+        private System.Windows.Forms.ColumnHeader asciiRepCH;
+        private System.Windows.Forms.TextBox addressBox;
     }
 }
 
