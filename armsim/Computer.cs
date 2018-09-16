@@ -32,6 +32,9 @@ namespace armsim
         CPU Processor;
         Form1 f;
 
+
+
+
         public Memory getRAM() { return RAM; }
         public Memory getRegisters() { return Registers; }
         public CPU getProcessor() { return Processor; }
@@ -217,26 +220,25 @@ namespace armsim
         public void run()
         {
             f.setStopButtonClicked(false);
-            while(Processor.fetch() != 0 && !f.getStopButtonClicked() )
+            int programCounter = Registers.getReg(15);
+            while ((Processor.fetch() != 0 && !f.getStopButtonClicked()) && !f.breakPoints.Contains(programCounter))
             {
                 Processor.decode();
                 Processor.execute();
                 Registers.setReg(15, Registers.getReg(15) + 4);
+                programCounter = Registers.getReg(15);
 
             }
             f.setRegPanelText(printRegs());
+
+            
 
             ListView lv = f.getDisasseblyListView();
             int i = 0; 
 
             if (lv.InvokeRequired)
             {
-                lv.Invoke(new MethodInvoker(delegate { lv.TopItem = lv.Items[lv.Items.Count - 1]; }));
-                lv.Invoke(new MethodInvoker(delegate { i = lv.SelectedIndices[0]; }));
-                
-
-                lv.Invoke(new MethodInvoker(delegate { lv.Items[i].Selected = false; }));
-                lv.Invoke(new MethodInvoker(delegate { lv.Items[lv.Items.Count - 1].Selected = true; }));
+                lv.Invoke(new MethodInvoker(delegate { f.hilightApropriateRow(); }));
                 lv.Invoke(new MethodInvoker(delegate { f.getDisasseblyListView().Focus(); }));
             }
             else
@@ -247,8 +249,14 @@ namespace armsim
                 lv.Items[lv.Items.Count - 1].Selected = true;
                 f.getDisasseblyListView().Focus();
             }
-            
-            
+
+            if (f.breakPoints.Contains(programCounter))
+            {
+                Registers.setReg(15, Registers.getReg(15) + 4);
+
+            }
+
+
 
         }
         /// <summary>

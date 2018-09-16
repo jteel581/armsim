@@ -62,6 +62,9 @@ namespace armsim
         Computer comp;
         Options ops;
         Thread runThread;
+
+        public List<int> breakPoints = new List<int>();
+
         bool stopButtonClicked = false;
         public Form1()
         {
@@ -89,6 +92,41 @@ namespace armsim
 
             }
         }
+        public void hilightApropriateRow()
+        {
+            if (disassemblyListView.SelectedIndices.Count > 0)
+            {
+                int i = disassemblyListView.SelectedIndices[0];
+                disassemblyListView.Items[i].Selected = false;
+            }
+
+            int address = comp.getRegisters().getReg(15);
+            if (address % 4 != 0)
+            {
+                address -= (address % 4);
+            }
+            string addrStr = address.ToString("x8");
+
+
+            
+            var items = disassemblyListView.Items;
+            foreach (ListViewItem lvi in items)
+            {
+               
+                if (lvi.Text == addrStr)
+                {
+                    lvi.Selected = true;
+                    disassemblyListView.TopItem = items[lvi.Index - 2];
+                    return;
+                }
+            }
+            items[items.Count - 1].Selected = true;
+            disassemblyListView.TopItem = items[items.Count - 1];
+
+
+        }
+
+
         public ListView getDisasseblyListView() { return disassemblyListView; }
         public bool getStopButtonClicked()
         {
@@ -214,6 +252,7 @@ namespace armsim
             memSizeLabel.Text = ops.getMemSize().ToString();
 
             comp = new Computer(ops.getMemSize() == 0 ? 32768 : ops.getMemSize(), this);
+
             if (ops.getFileName() != "")
             {
                 comp.load(this, ops);
@@ -349,6 +388,7 @@ namespace armsim
 
         }
 
+
         private void stopButton_Click(object sender, EventArgs e)
         {
             stopButtonClicked = true;
@@ -357,6 +397,12 @@ namespace armsim
         private void stepButton_Click(object sender, EventArgs e)
         {
             comp.step();
+        }
+
+        private void breakPointButton_Click(object sender, EventArgs e)
+        {
+            breakPointDialogBox dialogBox = new breakPointDialogBox(this);
+            dialogBox.Show();
         }
     }
 }

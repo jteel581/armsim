@@ -356,6 +356,7 @@
             this.breakPointButton.Text = "Add Breakpoint";
             this.breakPointButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.breakPointButton.UseVisualStyleBackColor = true;
+            this.breakPointButton.Click += new System.EventHandler(this.breakPointButton_Click);
             // 
             // resetButton
             // 

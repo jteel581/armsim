@@ -47,6 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="breakPointDialogBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="breakPointDialogBox.Designer.cs">
+      <DependentUpon>breakPointDialogBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Computer.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="CPU.cs" />
@@ -63,6 +69,9 @@
     <Compile Include="TestComputer.cs" />
     <Compile Include="TestConverter.cs" />
     <Compile Include="TestRAM.cs" />
+    <EmbeddedResource Include="breakPointDialogBox.resx">
+      <DependentUpon>breakPointDialogBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
