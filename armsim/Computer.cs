@@ -30,6 +30,7 @@ namespace armsim
         Memory RAM;
         Memory Registers;
         CPU Processor;
+        Form1 f;
 
         public Memory getRAM() { return RAM; }
         public Memory getRegisters() { return Registers; }
@@ -39,11 +40,12 @@ namespace armsim
         /// </summary>
         /// <param name="ramSize"> is used to define the size of the byte array that our simulator
         /// will use as memory.</param>
-        public Computer(int ramSize)
+        public Computer(int ramSize, Form1 form)
         {
             RAM = new Memory(ramSize);
             Registers = new Memory(64);
             Processor = new CPU(RAM, Registers);
+            f = form;
         }
 
         public string printRegs()
@@ -214,11 +216,40 @@ namespace armsim
         /// </summary>
         public void run()
         {
-            while(Processor.fetch() != 0)
+            f.setStopButtonClicked(false);
+            while(Processor.fetch() != 0 && !f.getStopButtonClicked() )
             {
                 Processor.decode();
                 Processor.execute();
+                Registers.setReg(15, Registers.getReg(15) + 4);
+
             }
+            f.setRegPanelText(printRegs());
+
+            ListView lv = f.getDisasseblyListView();
+            int i = 0; 
+
+            if (lv.InvokeRequired)
+            {
+                lv.Invoke(new MethodInvoker(delegate { lv.TopItem = lv.Items[lv.Items.Count - 1]; }));
+                lv.Invoke(new MethodInvoker(delegate { i = lv.SelectedIndices[0]; }));
+                
+
+                lv.Invoke(new MethodInvoker(delegate { lv.Items[i].Selected = false; }));
+                lv.Invoke(new MethodInvoker(delegate { lv.Items[lv.Items.Count - 1].Selected = true; }));
+                lv.Invoke(new MethodInvoker(delegate { f.getDisasseblyListView().Focus(); }));
+            }
+            else
+            {
+                i = lv.SelectedIndices[0];
+                lv.TopItem = lv.Items[lv.Items.Count - 1];
+                lv.Items[i].Selected = false;
+                lv.Items[lv.Items.Count - 1].Selected = true;
+                f.getDisasseblyListView().Focus();
+            }
+            
+            
+
         }
         /// <summary>
         /// This method is used to perform a single iteration of the fetch, decode, execute cycle.
@@ -228,6 +259,23 @@ namespace armsim
             Processor.fetch();
             Processor.decode();
             Processor.execute();
+            Registers.setReg(15, Registers.getReg(15) + 4);
+            ListView lv = f.getDisasseblyListView();
+            int i = lv.SelectedIndices[0];
+            if (i <= lv.Items.Count)
+            {
+                lv.TopItem = lv.Items[lv.TopItem.Index + 1];
+                lv.Items[i].Selected = false;
+                lv.Items[i + 1].Selected = true;
+                f.setRegPanelText(printRegs());
+                f.getDisasseblyListView().Focus();
+            }
+            else
+            {
+                return;
+            }
+            
+            
         }
     }
 }

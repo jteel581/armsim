@@ -325,6 +325,7 @@
             this.runButton.TabIndex = 24;
             this.runButton.Text = "Run -->";
             this.runButton.UseVisualStyleBackColor = true;
+            this.runButton.Click += new System.EventHandler(this.runButton_Click);
             // 
             // stepButton
             // 
@@ -334,6 +335,7 @@
             this.stepButton.TabIndex = 25;
             this.stepButton.Text = "Step ↓";
             this.stepButton.UseVisualStyleBackColor = true;
+            this.stepButton.Click += new System.EventHandler(this.stepButton_Click);
             // 
             // stopButton
             // 
@@ -343,6 +345,7 @@
             this.stopButton.TabIndex = 26;
             this.stopButton.Text = "Stop";
             this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
             // breakPointButton
             // 

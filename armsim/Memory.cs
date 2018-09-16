@@ -40,6 +40,13 @@ namespace armsim
             return regVal;
         }
 
+        public void setReg(int regNum, int newVal)
+        {
+            int address = regNum * 4;
+            WriteWord(address, (uint)newVal);
+
+        }
+
         // This method is used to check whether a bit is 0 or 1 in a word at a given address.
         // The method takes two parameters: 'address', which it uses to find the word the bit is in,
         // and 'bit' which it uses to find the location of the bit within the word. It returns true

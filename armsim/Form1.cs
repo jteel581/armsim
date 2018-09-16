@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 
 namespace armsim
 {
@@ -60,6 +61,8 @@ namespace armsim
     {
         Computer comp;
         Options ops;
+        Thread runThread;
+        bool stopButtonClicked = false;
         public Form1()
         {
             InitializeComponent();
@@ -76,7 +79,24 @@ namespace armsim
         }
         public void setRegPanelText(string newText)
         {
-            registerBox.Text = newText;
+            if (registerBox.InvokeRequired)
+            {
+                registerBox.Invoke(new MethodInvoker(delegate { registerBox.Text = newText; }));
+            }
+            else
+            {
+                registerBox.Text = newText;
+
+            }
+        }
+        public ListView getDisasseblyListView() { return disassemblyListView; }
+        public bool getStopButtonClicked()
+        {
+            return stopButtonClicked;
+        }
+        public void setStopButtonClicked(bool b)
+        {
+            stopButtonClicked = b;
         }
 
         public void addMemLine(string addressStr, string hexStr, string asciiStr )
@@ -88,6 +108,8 @@ namespace armsim
 
         public void fillMemPanel()
         {
+            var items = memoryListView.Items;
+            items.Clear();
             string addressStr = "";
             string hexStr = "";
             string asciiStr = "";
@@ -100,7 +122,7 @@ namespace armsim
                 addressStr = i.ToString("x8");
                 for (int j = 0; j < 16; j++)
                 {
-                    if ((i + j) == 4096)
+                    if ((i + j) == 0x138)
                     {
                         tempNum = 0;
                     }
@@ -191,7 +213,7 @@ namespace armsim
             fileNameLabel.Text = ops.getFileName();
             memSizeLabel.Text = ops.getMemSize().ToString();
 
-            comp = new Computer(ops.getMemSize() == 0 ? 32768 : ops.getMemSize());
+            comp = new Computer(ops.getMemSize() == 0 ? 32768 : ops.getMemSize(), this);
             if (ops.getFileName() != "")
             {
                 comp.load(this, ops);
@@ -317,6 +339,24 @@ namespace armsim
         private void addressBox_Click(object sender, EventArgs e)
         {
             addressBox.Text = "";
+        }
+
+        private void runButton_Click(object sender, EventArgs e)
+        {
+            runThread = new Thread(new ThreadStart(comp.run));
+            runThread.IsBackground = true;
+            runThread.Start();
+
+        }
+
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            stopButtonClicked = true;
+        }
+
+        private void stepButton_Click(object sender, EventArgs e)
+        {
+            comp.step();
         }
     }
 }

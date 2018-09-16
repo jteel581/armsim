@@ -45,7 +45,7 @@ namespace armsim
         /// stored in the program counter register.</returns>
         public int fetch()
         {
-            int value = RAM.ReadWord(ProgramCounter);
+            int value = RAM.ReadWord(Registers.ReadWord(60));
             return value;
         }
         /// <summary>

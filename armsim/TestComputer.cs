@@ -11,7 +11,8 @@ namespace armsim
     {
         public static bool runTests()
         {
-            Computer jteel = new Computer(32768);
+            Form1 f = new Form1();
+            Computer jteel = new Computer(32768, f);
             jteel.getRAM().memory[0] = 1;
             Debug.Assert(jteel.getProcessor().getRAM().memory[0] == 1);
             jteel.getProcessor().getRAM().memory[1] = 1;
