@@ -61,19 +61,22 @@ namespace armsim
     {
         Computer comp;
         Options ops;
-        Thread runThread;
 
+        
+        Thread runThread;
         public List<int> breakPoints = new List<int>();
 
         bool stopButtonClicked = false;
         public Form1()
         {
             InitializeComponent();
+            
         }
 
         public void setCheckSum(int newSum)
         {
             checkSumLabel.Text = newSum.ToString() ;
+            
         }
 
         public void setFileNameLabel(string newName)
@@ -143,6 +146,21 @@ namespace armsim
             memoryListView.Items.Add(memLine);
         }
 
+        public void addStackLine(string addressStr, string value)
+        {
+            ListViewItem stackLine = new ListViewItem(new string[] { addressStr, value });
+            stackListView.Items.Add(stackLine);
+        }
+
+        public void fillStackPanel()
+        {
+
+            int firstWord = comp.getRAM().ReadWord(0);
+            addStackLine("0x00000000", firstWord.ToString("x8"));
+            stackListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+
+
+        }
 
         public void fillMemPanel()
         {
@@ -160,10 +178,7 @@ namespace armsim
                 addressStr = i.ToString("x8");
                 for (int j = 0; j < 16; j++)
                 {
-                    if ((i + j) == 0x138)
-                    {
-                        tempNum = 0;
-                    }
+                    
                     tempNum = comp.getRAM().ReadByte(i + j);
 
                     hexStr += tempNum.ToString("x2");
@@ -257,7 +272,10 @@ namespace armsim
             {
                 comp.load(this, ops);
             }
-            
+            Tracer.setRAM(comp.getRAM());
+            Tracer.setRegs(comp.getRegisters());
+            Tracer.enableTrace();
+
 
 
 
@@ -403,6 +421,11 @@ namespace armsim
         {
             breakPointDialogBox dialogBox = new breakPointDialogBox(this);
             dialogBox.Show();
+        }
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            comp.load(this, ops);
         }
     }
 }

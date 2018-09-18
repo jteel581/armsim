@@ -63,6 +63,8 @@ namespace armsim
             return regString;
         }
 
+        
+
         public void reset(int ramSize)
         {
             RAM = new Memory(ramSize);
@@ -197,6 +199,7 @@ namespace armsim
                     f.configureMemPanel();
                     f.fillMemPanel();
                     f.fillDissAssembPanel();
+                    f.fillStackPanel();
                     
                 }
 
@@ -227,6 +230,7 @@ namespace armsim
                 Processor.execute();
                 Registers.setReg(15, Registers.getReg(15) + 4);
                 programCounter = Registers.getReg(15);
+                Tracer.trace();
 
             }
             f.setRegPanelText(printRegs());
@@ -276,6 +280,7 @@ namespace armsim
                 lv.Items[i].Selected = false;
                 lv.Items[i + 1].Selected = true;
                 f.setRegPanelText(printRegs());
+                Tracer.trace();
                 f.getDisasseblyListView().Focus();
             }
             else

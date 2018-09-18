@@ -39,7 +39,6 @@
             this.terminalBox = new System.Windows.Forms.Label();
             this.terminalTextBox = new System.Windows.Forms.TextBox();
             this.stackLabel = new System.Windows.Forms.Label();
-            this.stackBox = new System.Windows.Forms.TextBox();
             this.registerLabel = new System.Windows.Forms.Label();
             this.registerBox = new System.Windows.Forms.TextBox();
             this.flagLabel = new System.Windows.Forms.Label();
@@ -63,6 +62,9 @@
             this.stopButton = new System.Windows.Forms.Button();
             this.breakPointButton = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
+            this.stackListView = new System.Windows.Forms.ListView();
+            this.stackAddressCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.stackValCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -144,7 +146,7 @@
             // 
             this.terminalBox.AutoSize = true;
             this.terminalBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.terminalBox.Location = new System.Drawing.Point(15, 539);
+            this.terminalBox.Location = new System.Drawing.Point(12, 415);
             this.terminalBox.Name = "terminalBox";
             this.terminalBox.Size = new System.Drawing.Size(63, 17);
             this.terminalBox.TabIndex = 13;
@@ -152,29 +154,21 @@
             // 
             // terminalTextBox
             // 
-            this.terminalTextBox.Location = new System.Drawing.Point(15, 559);
+            this.terminalTextBox.Location = new System.Drawing.Point(15, 435);
             this.terminalTextBox.Multiline = true;
             this.terminalTextBox.Name = "terminalTextBox";
-            this.terminalTextBox.Size = new System.Drawing.Size(741, 126);
+            this.terminalTextBox.Size = new System.Drawing.Size(580, 250);
             this.terminalTextBox.TabIndex = 14;
             // 
             // stackLabel
             // 
             this.stackLabel.AutoSize = true;
             this.stackLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stackLabel.Location = new System.Drawing.Point(15, 403);
+            this.stackLabel.Location = new System.Drawing.Point(598, 415);
             this.stackLabel.Name = "stackLabel";
             this.stackLabel.Size = new System.Drawing.Size(43, 17);
             this.stackLabel.TabIndex = 15;
             this.stackLabel.Text = "Stack";
-            // 
-            // stackBox
-            // 
-            this.stackBox.Location = new System.Drawing.Point(15, 423);
-            this.stackBox.Multiline = true;
-            this.stackBox.Name = "stackBox";
-            this.stackBox.Size = new System.Drawing.Size(740, 113);
-            this.stackBox.TabIndex = 16;
             // 
             // registerLabel
             // 
@@ -206,11 +200,13 @@
             // 
             // textBox1
             // 
+            this.textBox1.Font = new System.Drawing.Font("Courier New", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.Location = new System.Drawing.Point(619, 353);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(137, 49);
             this.textBox1.TabIndex = 20;
+            this.textBox1.Text = "0000";
             // 
             // menuStrip1
             // 
@@ -288,7 +284,7 @@
             this.disassemblyListView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.disassemblyListView.Location = new System.Drawing.Point(15, 266);
             this.disassemblyListView.Name = "disassemblyListView";
-            this.disassemblyListView.Size = new System.Drawing.Size(595, 136);
+            this.disassemblyListView.Size = new System.Drawing.Size(598, 136);
             this.disassemblyListView.TabIndex = 0;
             this.disassemblyListView.UseCompatibleStateImageBehavior = false;
             this.disassemblyListView.View = System.Windows.Forms.View.Details;
@@ -366,12 +362,35 @@
             this.resetButton.TabIndex = 28;
             this.resetButton.Text = "Reset";
             this.resetButton.UseVisualStyleBackColor = true;
+            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
+            // 
+            // stackListView
+            // 
+            this.stackListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.stackAddressCH,
+            this.stackValCH});
+            this.stackListView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stackListView.Location = new System.Drawing.Point(601, 435);
+            this.stackListView.Name = "stackListView";
+            this.stackListView.Size = new System.Drawing.Size(155, 250);
+            this.stackListView.TabIndex = 29;
+            this.stackListView.UseCompatibleStateImageBehavior = false;
+            this.stackListView.View = System.Windows.Forms.View.Details;
+            // 
+            // stackAddressCH
+            // 
+            this.stackAddressCH.Text = "Address";
+            // 
+            // stackValCH
+            // 
+            this.stackValCH.Text = "Value";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(767, 697);
+            this.Controls.Add(this.stackListView);
             this.Controls.Add(this.resetButton);
             this.Controls.Add(this.breakPointButton);
             this.Controls.Add(this.stopButton);
@@ -385,7 +404,6 @@
             this.Controls.Add(this.flagLabel);
             this.Controls.Add(this.registerBox);
             this.Controls.Add(this.registerLabel);
-            this.Controls.Add(this.stackBox);
             this.Controls.Add(this.stackLabel);
             this.Controls.Add(this.terminalTextBox);
             this.Controls.Add(this.terminalBox);
@@ -422,7 +440,6 @@
         private System.Windows.Forms.Label terminalBox;
         private System.Windows.Forms.TextBox terminalTextBox;
         private System.Windows.Forms.Label stackLabel;
-        private System.Windows.Forms.TextBox stackBox;
         private System.Windows.Forms.Label registerLabel;
         private System.Windows.Forms.TextBox registerBox;
         private System.Windows.Forms.Label flagLabel;
@@ -446,6 +463,9 @@
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Button breakPointButton;
         private System.Windows.Forms.Button resetButton;
+        private System.Windows.Forms.ListView stackListView;
+        private System.Windows.Forms.ColumnHeader stackAddressCH;
+        private System.Windows.Forms.ColumnHeader stackValCH;
     }
 }
 

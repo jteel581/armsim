@@ -13,7 +13,7 @@ namespace armsim
 {
     // This class holds the virtual memory for the simulator. It also has several key functions that are 
     // used to manipulate the bits and bytes in memory.
-    class Memory
+    public class Memory
     {
         // This variable is a byte array which is used as our simulated RAM
         public byte[] memory;
@@ -32,6 +32,10 @@ namespace armsim
             memory = new byte[ramSize];
             size = ramSize;
         }
+
+
+
+
         public int getReg(int regNum)
         {
             int address = regNum * 4;
