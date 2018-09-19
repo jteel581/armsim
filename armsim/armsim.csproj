@@ -85,6 +85,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -98,6 +99,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\runIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-play-property-64_20x20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stepIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stopIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\breakpointIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\resetIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\traceIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

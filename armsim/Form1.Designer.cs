@@ -57,19 +57,19 @@
             this.instructionCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.disassembledRepCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.controlsLabel = new System.Windows.Forms.Label();
-            this.runButton = new System.Windows.Forms.Button();
-            this.stepButton = new System.Windows.Forms.Button();
-            this.stopButton = new System.Windows.Forms.Button();
-            this.breakPointButton = new System.Windows.Forms.Button();
-            this.resetButton = new System.Windows.Forms.Button();
             this.stackListView = new System.Windows.Forms.ListView();
             this.stackAddressCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.stackValCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.traceButton = new System.Windows.Forms.Button();
             this.traceLabelLabel = new System.Windows.Forms.Label();
             this.traceStatusLabel = new System.Windows.Forms.Label();
             this.breakPointsLabelLabel = new System.Windows.Forms.Label();
             this.breakPointsStatusLabel = new System.Windows.Forms.Label();
+            this.traceButton = new System.Windows.Forms.Button();
+            this.resetButton = new System.Windows.Forms.Button();
+            this.breakPointButton = new System.Windows.Forms.Button();
+            this.stopButton = new System.Windows.Forms.Button();
+            this.stepButton = new System.Windows.Forms.Button();
+            this.runButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,9 +87,8 @@
             this.fileNameLabel.AutoSize = true;
             this.fileNameLabel.Location = new System.Drawing.Point(114, 9);
             this.fileNameLabel.Name = "fileNameLabel";
-            this.fileNameLabel.Size = new System.Drawing.Size(35, 13);
+            this.fileNameLabel.Size = new System.Drawing.Size(0, 13);
             this.fileNameLabel.TabIndex = 1;
-            this.fileNameLabel.Text = "NULL";
             // 
             // memSizeLabelLabel
             // 
@@ -105,9 +104,8 @@
             this.memSizeLabel.AutoSize = true;
             this.memSizeLabel.Location = new System.Drawing.Point(275, 9);
             this.memSizeLabel.Name = "memSizeLabel";
-            this.memSizeLabel.Size = new System.Drawing.Size(35, 13);
+            this.memSizeLabel.Size = new System.Drawing.Size(0, 13);
             this.memSizeLabel.TabIndex = 3;
-            this.memSizeLabel.Text = "NULL";
             // 
             // checkSumLabelLabel
             // 
@@ -123,9 +121,8 @@
             this.checkSumLabel.AutoSize = true;
             this.checkSumLabel.Location = new System.Drawing.Point(424, 9);
             this.checkSumLabel.Name = "checkSumLabel";
-            this.checkSumLabel.Size = new System.Drawing.Size(35, 13);
+            this.checkSumLabel.Size = new System.Drawing.Size(0, 13);
             this.checkSumLabel.TabIndex = 8;
-            this.checkSumLabel.Text = "NULL";
             // 
             // memoryLabel
             // 
@@ -333,58 +330,6 @@
             this.controlsLabel.TabIndex = 23;
             this.controlsLabel.Text = "Controls";
             // 
-            // runButton
-            // 
-            this.runButton.Location = new System.Drawing.Point(17, 47);
-            this.runButton.Name = "runButton";
-            this.runButton.Size = new System.Drawing.Size(50, 23);
-            this.runButton.TabIndex = 24;
-            this.runButton.Text = "Run -->";
-            this.runButton.UseVisualStyleBackColor = true;
-            this.runButton.Click += new System.EventHandler(this.runButton_Click);
-            // 
-            // stepButton
-            // 
-            this.stepButton.Location = new System.Drawing.Point(73, 47);
-            this.stepButton.Name = "stepButton";
-            this.stepButton.Size = new System.Drawing.Size(49, 23);
-            this.stepButton.TabIndex = 25;
-            this.stepButton.Text = "Step ↓";
-            this.stepButton.UseVisualStyleBackColor = true;
-            this.stepButton.Click += new System.EventHandler(this.stepButton_Click);
-            // 
-            // stopButton
-            // 
-            this.stopButton.Enabled = false;
-            this.stopButton.Location = new System.Drawing.Point(128, 47);
-            this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(46, 23);
-            this.stopButton.TabIndex = 26;
-            this.stopButton.Text = "Stop";
-            this.stopButton.UseVisualStyleBackColor = true;
-            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
-            // 
-            // breakPointButton
-            // 
-            this.breakPointButton.Location = new System.Drawing.Point(180, 47);
-            this.breakPointButton.Name = "breakPointButton";
-            this.breakPointButton.Size = new System.Drawing.Size(89, 23);
-            this.breakPointButton.TabIndex = 27;
-            this.breakPointButton.Text = "Add Breakpoint";
-            this.breakPointButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.breakPointButton.UseVisualStyleBackColor = true;
-            this.breakPointButton.Click += new System.EventHandler(this.breakPointButton_Click);
-            // 
-            // resetButton
-            // 
-            this.resetButton.Location = new System.Drawing.Point(275, 47);
-            this.resetButton.Name = "resetButton";
-            this.resetButton.Size = new System.Drawing.Size(45, 23);
-            this.resetButton.TabIndex = 28;
-            this.resetButton.Text = "Reset";
-            this.resetButton.UseVisualStyleBackColor = true;
-            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
-            // 
             // stackListView
             // 
             this.stackListView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -406,16 +351,6 @@
             // stackValCH
             // 
             this.stackValCH.Text = "Value";
-            // 
-            // traceButton
-            // 
-            this.traceButton.Location = new System.Drawing.Point(326, 47);
-            this.traceButton.Name = "traceButton";
-            this.traceButton.Size = new System.Drawing.Size(83, 23);
-            this.traceButton.TabIndex = 30;
-            this.traceButton.Text = "Toggle Trace";
-            this.traceButton.UseVisualStyleBackColor = true;
-            this.traceButton.Click += new System.EventHandler(this.traceButton_Click);
             // 
             // traceLabelLabel
             // 
@@ -452,6 +387,92 @@
             this.breakPointsStatusLabel.Size = new System.Drawing.Size(46, 13);
             this.breakPointsStatusLabel.TabIndex = 34;
             this.breakPointsStatusLabel.Text = "Enabled";
+            // 
+            // traceButton
+            // 
+            this.traceButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.traceButton.Image = global::armsim.Properties.Resources.traceIcon;
+            this.traceButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.traceButton.Location = new System.Drawing.Point(416, 43);
+            this.traceButton.Name = "traceButton";
+            this.traceButton.Size = new System.Drawing.Size(110, 27);
+            this.traceButton.TabIndex = 30;
+            this.traceButton.Text = "Toggle Trace";
+            this.traceButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.traceButton.UseVisualStyleBackColor = true;
+            this.traceButton.Click += new System.EventHandler(this.traceButton_Click);
+            // 
+            // resetButton
+            // 
+            this.resetButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resetButton.Image = global::armsim.Properties.Resources.resetIcon;
+            this.resetButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.resetButton.Location = new System.Drawing.Point(341, 42);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(69, 28);
+            this.resetButton.TabIndex = 28;
+            this.resetButton.Text = "Reset";
+            this.resetButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.resetButton.UseVisualStyleBackColor = true;
+            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
+            // 
+            // breakPointButton
+            // 
+            this.breakPointButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.breakPointButton.Image = global::armsim.Properties.Resources.breakpointIcon;
+            this.breakPointButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.breakPointButton.Location = new System.Drawing.Point(212, 42);
+            this.breakPointButton.Name = "breakPointButton";
+            this.breakPointButton.Size = new System.Drawing.Size(123, 28);
+            this.breakPointButton.TabIndex = 27;
+            this.breakPointButton.Text = "Add Breakpoint";
+            this.breakPointButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.breakPointButton.UseVisualStyleBackColor = true;
+            this.breakPointButton.Click += new System.EventHandler(this.breakPointButton_Click);
+            // 
+            // stopButton
+            // 
+            this.stopButton.Enabled = false;
+            this.stopButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stopButton.Image = global::armsim.Properties.Resources.stopIcon;
+            this.stopButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.stopButton.Location = new System.Drawing.Point(145, 42);
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(61, 28);
+            this.stopButton.TabIndex = 26;
+            this.stopButton.Text = "Stop";
+            this.stopButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            // 
+            // stepButton
+            // 
+            this.stepButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stepButton.Image = global::armsim.Properties.Resources.stepIcon;
+            this.stepButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.stepButton.Location = new System.Drawing.Point(79, 42);
+            this.stepButton.Name = "stepButton";
+            this.stepButton.Size = new System.Drawing.Size(60, 28);
+            this.stepButton.TabIndex = 25;
+            this.stepButton.Text = "Step";
+            this.stepButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.stepButton.UseVisualStyleBackColor = true;
+            this.stepButton.Click += new System.EventHandler(this.stepButton_Click);
+            // 
+            // runButton
+            // 
+            this.runButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.runButton.Image = global::armsim.Properties.Resources.icons8_play_property_64_20x20;
+            this.runButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.runButton.Location = new System.Drawing.Point(15, 42);
+            this.runButton.Name = "runButton";
+            this.runButton.Size = new System.Drawing.Size(58, 28);
+            this.runButton.TabIndex = 24;
+            this.runButton.Text = "Run";
+            this.runButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.runButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.runButton.UseVisualStyleBackColor = true;
+            this.runButton.Click += new System.EventHandler(this.runButton_Click);
             // 
             // Form1
             // 

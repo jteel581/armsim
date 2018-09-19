@@ -72,7 +72,10 @@ namespace armsim
         {
             InitializeComponent();
             this.KeyPreview = true;
-            
+            disassemblyListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            memoryListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            stackListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+           
         }
 
         public void setCheckSum(int newSum)
