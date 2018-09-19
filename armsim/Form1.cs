@@ -65,11 +65,13 @@ namespace armsim
         
         Thread runThread;
         public List<int> breakPoints = new List<int>();
+        public bool breakPointsEnabled = true;
 
         bool stopButtonClicked = false;
         public Form1()
         {
             InitializeComponent();
+            this.KeyPreview = true;
             
         }
 
@@ -426,6 +428,73 @@ namespace armsim
         private void resetButton_Click(object sender, EventArgs e)
         {
             comp.load(this, ops);
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.O:
+                    if (e.Control)
+                    {
+                        openToolStripMenuItem.PerformClick();
+                    }
+                    break;
+                case Keys.F5:
+                    runButton.PerformClick();
+                    break;
+                case Keys.F10:
+                    stepButton.PerformClick();
+                    break;
+                case Keys.Q:
+                    if (e.Control)
+                    {
+                        stopButton.PerformClick();
+                    }
+                    break;
+                case Keys.T:
+                    if (e.Control)
+                    {
+                        traceButton.PerformClick();
+                    }
+                    break;
+                case Keys.R:
+                    if (e.Control)
+                    {
+                        resetButton.PerformClick();
+                    }
+                    break;
+                case Keys.B:
+                    if (e.Control)
+                    {
+                        if (breakPointsEnabled)
+                        {
+                            breakPointsStatusLabel.Text = "Disabled";
+                        }
+                        else
+                        {
+                            breakPointsStatusLabel.Text = "Enabled";
+                        }
+                        breakPointsEnabled = !breakPointsEnabled;
+
+                    }
+                    break;
+
+            }
+        }
+
+        private void traceButton_Click(object sender, EventArgs e)
+        {
+            if (Tracer.enabled)
+            {
+                traceStatusLabel.Text = "Disabled";
+                Tracer.disableTrace();
+            }
+            else
+            {
+                traceStatusLabel.Text = "Enabled";
+                Tracer.enableTrace();
+            }
         }
     }
 }

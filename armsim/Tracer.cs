@@ -14,7 +14,7 @@ namespace armsim
         static Memory Registers;
         static string flags = "0000";
         static string mode = "SYS";
-        static bool enabled = true;
+        public static bool enabled = true;
         static StreamWriter traceFile; 
 
         public static void setRAM(Memory newRam)

@@ -65,13 +65,18 @@
             this.stackListView = new System.Windows.Forms.ListView();
             this.stackAddressCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.stackValCH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.traceButton = new System.Windows.Forms.Button();
+            this.traceLabelLabel = new System.Windows.Forms.Label();
+            this.traceStatusLabel = new System.Windows.Forms.Label();
+            this.breakPointsLabelLabel = new System.Windows.Forms.Label();
+            this.breakPointsStatusLabel = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(300, 9);
+            this.label1.Location = new System.Drawing.Point(60, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(48, 13);
             this.label1.TabIndex = 0;
@@ -80,7 +85,7 @@
             // fileNameLabel
             // 
             this.fileNameLabel.AutoSize = true;
-            this.fileNameLabel.Location = new System.Drawing.Point(354, 9);
+            this.fileNameLabel.Location = new System.Drawing.Point(114, 9);
             this.fileNameLabel.Name = "fileNameLabel";
             this.fileNameLabel.Size = new System.Drawing.Size(35, 13);
             this.fileNameLabel.TabIndex = 1;
@@ -89,7 +94,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(439, 9);
+            this.label2.Location = new System.Drawing.Point(199, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 13);
             this.label2.TabIndex = 2;
@@ -98,7 +103,7 @@
             // memSizeLabel
             // 
             this.memSizeLabel.AutoSize = true;
-            this.memSizeLabel.Location = new System.Drawing.Point(515, 9);
+            this.memSizeLabel.Location = new System.Drawing.Point(275, 9);
             this.memSizeLabel.Name = "memSizeLabel";
             this.memSizeLabel.Size = new System.Drawing.Size(35, 13);
             this.memSizeLabel.TabIndex = 3;
@@ -107,7 +112,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(598, 9);
+            this.label5.Location = new System.Drawing.Point(358, 9);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(60, 13);
             this.label5.TabIndex = 7;
@@ -116,7 +121,7 @@
             // checkSumLabel
             // 
             this.checkSumLabel.AutoSize = true;
-            this.checkSumLabel.Location = new System.Drawing.Point(664, 9);
+            this.checkSumLabel.Location = new System.Drawing.Point(424, 9);
             this.checkSumLabel.Name = "checkSumLabel";
             this.checkSumLabel.Size = new System.Drawing.Size(35, 13);
             this.checkSumLabel.TabIndex = 8;
@@ -385,11 +390,62 @@
             // 
             this.stackValCH.Text = "Value";
             // 
+            // traceButton
+            // 
+            this.traceButton.Location = new System.Drawing.Point(326, 47);
+            this.traceButton.Name = "traceButton";
+            this.traceButton.Size = new System.Drawing.Size(83, 23);
+            this.traceButton.TabIndex = 30;
+            this.traceButton.Text = "Toggle Trace";
+            this.traceButton.UseVisualStyleBackColor = true;
+            this.traceButton.Click += new System.EventHandler(this.traceButton_Click);
+            // 
+            // traceLabelLabel
+            // 
+            this.traceLabelLabel.AutoSize = true;
+            this.traceLabelLabel.Location = new System.Drawing.Point(532, 9);
+            this.traceLabelLabel.Name = "traceLabelLabel";
+            this.traceLabelLabel.Size = new System.Drawing.Size(38, 13);
+            this.traceLabelLabel.TabIndex = 31;
+            this.traceLabelLabel.Text = "Trace:";
+            // 
+            // traceStatusLabel
+            // 
+            this.traceStatusLabel.AutoSize = true;
+            this.traceStatusLabel.Location = new System.Drawing.Point(577, 9);
+            this.traceStatusLabel.Name = "traceStatusLabel";
+            this.traceStatusLabel.Size = new System.Drawing.Size(46, 13);
+            this.traceStatusLabel.TabIndex = 32;
+            this.traceStatusLabel.Text = "Enabled";
+            // 
+            // breakPointsLabelLabel
+            // 
+            this.breakPointsLabelLabel.AutoSize = true;
+            this.breakPointsLabelLabel.Location = new System.Drawing.Point(630, 9);
+            this.breakPointsLabelLabel.Name = "breakPointsLabelLabel";
+            this.breakPointsLabelLabel.Size = new System.Drawing.Size(66, 13);
+            this.breakPointsLabelLabel.TabIndex = 33;
+            this.breakPointsLabelLabel.Text = "Breakpoints:";
+            // 
+            // breakPointsStatusLabel
+            // 
+            this.breakPointsStatusLabel.AutoSize = true;
+            this.breakPointsStatusLabel.Location = new System.Drawing.Point(703, 9);
+            this.breakPointsStatusLabel.Name = "breakPointsStatusLabel";
+            this.breakPointsStatusLabel.Size = new System.Drawing.Size(46, 13);
+            this.breakPointsStatusLabel.TabIndex = 34;
+            this.breakPointsStatusLabel.Text = "Enabled";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(767, 697);
+            this.Controls.Add(this.breakPointsStatusLabel);
+            this.Controls.Add(this.breakPointsLabelLabel);
+            this.Controls.Add(this.traceStatusLabel);
+            this.Controls.Add(this.traceLabelLabel);
+            this.Controls.Add(this.traceButton);
             this.Controls.Add(this.stackListView);
             this.Controls.Add(this.resetButton);
             this.Controls.Add(this.breakPointButton);
@@ -420,6 +476,7 @@
             this.Name = "Form1";
             this.Text = "armsim";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -466,6 +523,11 @@
         private System.Windows.Forms.ListView stackListView;
         private System.Windows.Forms.ColumnHeader stackAddressCH;
         private System.Windows.Forms.ColumnHeader stackValCH;
+        private System.Windows.Forms.Button traceButton;
+        private System.Windows.Forms.Label traceLabelLabel;
+        private System.Windows.Forms.Label traceStatusLabel;
+        private System.Windows.Forms.Label breakPointsLabelLabel;
+        private System.Windows.Forms.Label breakPointsStatusLabel;
     }
 }
 

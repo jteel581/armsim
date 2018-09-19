@@ -224,7 +224,7 @@ namespace armsim
         {
             f.setStopButtonClicked(false);
             int programCounter = Registers.getReg(15);
-            while ((Processor.fetch() != 0 && !f.getStopButtonClicked()) && !f.breakPoints.Contains(programCounter))
+            while ((Processor.fetch() != 0 && !f.getStopButtonClicked()) && (f.breakPointsEnabled && !f.breakPoints.Contains(programCounter)))
             {
                 Processor.decode();
                 Processor.execute();
