@@ -13,7 +13,7 @@ namespace armsim
 {
     // This class is use to perform command line argument processing. It contains instance variables to hold
     // the options from the command line and getter and setter methods to access and change their values.
-    class Options
+    public class Options
     {
         // This variable is used to store the name of the file given at runtime.
         private string fileName = "";

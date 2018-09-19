@@ -73,8 +73,14 @@ namespace armsim
         }
 
 
-        public void load( Form1 f, Options ops)
+        public bool load( Form1 f, Options ops)
         {
+            Tracer.setStepNum(1);
+            if (Tracer.enabled)
+            {
+                Tracer.enableTrace();
+
+            }
             string newFileName = ops.getFileName();
             int lastSlash = newFileName.LastIndexOf("\\");
             newFileName = newFileName.Remove(0, lastSlash + 1);
@@ -126,8 +132,8 @@ namespace armsim
                             Trace.WriteLine("Loader: Exiting...");
 
                         }
+                        return false;
 
-                        System.Environment.Exit(-1);
                     }
                     if (ops.log)
                     {
@@ -179,7 +185,7 @@ namespace armsim
                                     Trace.WriteLine("Loader: Exiting...");
 
                                 }
-                                System.Environment.Exit(-1);
+                                return false;
                             }
                         }
 
@@ -195,13 +201,19 @@ namespace armsim
                         Trace.WriteLine("Loader: Checksum = " + checkSum);
 
                     }
-                    f.setCheckSum(checkSum);
-                    f.configureMemPanel();
-                    f.fillMemPanel();
-                    f.fillDissAssembPanel();
-                    f.fillStackPanel();
+                    if (!ops.getTestStatus())
+                    {
+                        f.setCheckSum(checkSum);
+
+                        f.configureMemPanel();
+                        f.fillMemPanel();
+                        f.fillDissAssembPanel();
+                        f.fillStackPanel();
+                    }
+                    
                     
                 }
+
 
 
 
@@ -211,10 +223,12 @@ namespace armsim
                 string message = "That file was not found.";
                 string caption = "File not found";
                 MessageBox.Show(message, caption);
-                System.Environment.Exit(-1);
+                return false;
 
 
             }
+            f.setFlagBox();
+            return true;
         }
 
         /// <summary>
@@ -230,7 +244,11 @@ namespace armsim
                 Processor.execute();
                 Registers.setReg(15, Registers.getReg(15) + 4);
                 programCounter = Registers.getReg(15);
-                Tracer.trace();
+                if (f.getOps() != null && !f.getOps().getTestStatus())
+                {
+                    Tracer.trace();
+
+                }
 
             }
             f.setRegPanelText(printRegs());
@@ -247,11 +265,15 @@ namespace armsim
             }
             else
             {
-                i = lv.SelectedIndices[0];
-                lv.TopItem = lv.Items[lv.Items.Count - 1];
-                lv.Items[i].Selected = false;
-                lv.Items[lv.Items.Count - 1].Selected = true;
-                f.getDisasseblyListView().Focus();
+                if (lv.SelectedIndices.Count > 1)
+                {
+                    i = lv.SelectedIndices[0];
+                    lv.TopItem = lv.Items[lv.Items.Count - 1];
+                    lv.Items[i].Selected = false;
+                    lv.Items[lv.Items.Count - 1].Selected = true;
+                    f.getDisasseblyListView().Focus();
+                }
+                
             }
 
             if (f.breakPoints.Contains(programCounter))
@@ -260,8 +282,14 @@ namespace armsim
 
             }
 
+            if (f.InvokeRequired)
+            {
+                f.Invoke(new MethodInvoker(delegate { f.enableRunButton();  }));
+                f.Invoke(new MethodInvoker(delegate { f.disableStopButton(); }));
+                f.Invoke(new MethodInvoker(delegate { f.enableStepButton(); }));
 
 
+            }
         }
         /// <summary>
         /// This method is used to perform a single iteration of the fetch, decode, execute cycle.
@@ -273,20 +301,30 @@ namespace armsim
             Processor.execute();
             Registers.setReg(15, Registers.getReg(15) + 4);
             ListView lv = f.getDisasseblyListView();
-            int i = lv.SelectedIndices[0];
-            if (i <= lv.Items.Count)
+            if (f.getOps() != null && !f.getOps().getTestStatus())
             {
-                lv.TopItem = lv.Items[lv.TopItem.Index + 1];
-                lv.Items[i].Selected = false;
-                lv.Items[i + 1].Selected = true;
-                f.setRegPanelText(printRegs());
-                Tracer.trace();
-                f.getDisasseblyListView().Focus();
+                int i = lv.SelectedIndices[0];
+                if (i < lv.Items.Count - 1)
+                {
+                    lv.TopItem = lv.Items[lv.TopItem.Index + 1];
+                    lv.Items[i].Selected = false;
+                    lv.Items[i + 1].Selected = true;
+                    f.setRegPanelText(printRegs());
+                    if (!f.getOps().getTestStatus())
+                    {
+                        Tracer.trace();
+
+                    }
+                    f.getDisasseblyListView().Focus();
+                }
+                else
+                {
+                    f.setRegPanelText(printRegs());
+
+                    return;
+                }
             }
-            else
-            {
-                return;
-            }
+            
             
             
         }

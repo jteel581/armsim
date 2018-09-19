@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.elfFileLabel = new System.Windows.Forms.Label();
             this.fileNameLabel = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.memSizeLabelLabel = new System.Windows.Forms.Label();
             this.memSizeLabel = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.checkSumLabelLabel = new System.Windows.Forms.Label();
             this.checkSumLabel = new System.Windows.Forms.Label();
             this.memoryLabel = new System.Windows.Forms.Label();
             this.disassemblyLabel = new System.Windows.Forms.Label();
@@ -42,7 +42,7 @@
             this.registerLabel = new System.Windows.Forms.Label();
             this.registerBox = new System.Windows.Forms.TextBox();
             this.flagLabel = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.flagBox = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,14 +73,14 @@
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // elfFileLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(60, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(48, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "ELF File:";
+            this.elfFileLabel.AutoSize = true;
+            this.elfFileLabel.Location = new System.Drawing.Point(60, 9);
+            this.elfFileLabel.Name = "elfFileLabel";
+            this.elfFileLabel.Size = new System.Drawing.Size(48, 13);
+            this.elfFileLabel.TabIndex = 0;
+            this.elfFileLabel.Text = "ELF File:";
             // 
             // fileNameLabel
             // 
@@ -91,14 +91,14 @@
             this.fileNameLabel.TabIndex = 1;
             this.fileNameLabel.Text = "NULL";
             // 
-            // label2
+            // memSizeLabelLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(199, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Memory Size:";
+            this.memSizeLabelLabel.AutoSize = true;
+            this.memSizeLabelLabel.Location = new System.Drawing.Point(199, 9);
+            this.memSizeLabelLabel.Name = "memSizeLabelLabel";
+            this.memSizeLabelLabel.Size = new System.Drawing.Size(70, 13);
+            this.memSizeLabelLabel.TabIndex = 2;
+            this.memSizeLabelLabel.Text = "Memory Size:";
             // 
             // memSizeLabel
             // 
@@ -109,14 +109,14 @@
             this.memSizeLabel.TabIndex = 3;
             this.memSizeLabel.Text = "NULL";
             // 
-            // label5
+            // checkSumLabelLabel
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(358, 9);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(60, 13);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "Checksum:";
+            this.checkSumLabelLabel.AutoSize = true;
+            this.checkSumLabelLabel.Location = new System.Drawing.Point(358, 9);
+            this.checkSumLabelLabel.Name = "checkSumLabelLabel";
+            this.checkSumLabelLabel.Size = new System.Drawing.Size(60, 13);
+            this.checkSumLabelLabel.TabIndex = 7;
+            this.checkSumLabelLabel.Text = "Checksum:";
             // 
             // checkSumLabel
             // 
@@ -129,6 +129,8 @@
             // 
             // memoryLabel
             // 
+            this.memoryLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.memoryLabel.AutoSize = true;
             this.memoryLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.memoryLabel.Location = new System.Drawing.Point(15, 75);
@@ -149,6 +151,8 @@
             // 
             // terminalBox
             // 
+            this.terminalBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.terminalBox.AutoSize = true;
             this.terminalBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.terminalBox.Location = new System.Drawing.Point(12, 415);
@@ -159,6 +163,8 @@
             // 
             // terminalTextBox
             // 
+            this.terminalTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.terminalTextBox.Location = new System.Drawing.Point(15, 435);
             this.terminalTextBox.Multiline = true;
             this.terminalTextBox.Name = "terminalTextBox";
@@ -167,6 +173,7 @@
             // 
             // stackLabel
             // 
+            this.stackLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.stackLabel.AutoSize = true;
             this.stackLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.stackLabel.Location = new System.Drawing.Point(598, 415);
@@ -177,6 +184,7 @@
             // 
             // registerLabel
             // 
+            this.registerLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.registerLabel.AutoSize = true;
             this.registerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.registerLabel.Location = new System.Drawing.Point(616, 75);
@@ -187,6 +195,7 @@
             // 
             // registerBox
             // 
+            this.registerBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.registerBox.Location = new System.Drawing.Point(619, 95);
             this.registerBox.Multiline = true;
             this.registerBox.Name = "registerBox";
@@ -195,6 +204,7 @@
             // 
             // flagLabel
             // 
+            this.flagLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.flagLabel.AutoSize = true;
             this.flagLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.flagLabel.Location = new System.Drawing.Point(616, 333);
@@ -203,15 +213,16 @@
             this.flagLabel.TabIndex = 19;
             this.flagLabel.Text = "Flags";
             // 
-            // textBox1
+            // flagBox
             // 
-            this.textBox1.Font = new System.Drawing.Font("Courier New", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(619, 353);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(137, 49);
-            this.textBox1.TabIndex = 20;
-            this.textBox1.Text = "0000";
+            this.flagBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.flagBox.Font = new System.Drawing.Font("Courier New", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.flagBox.Location = new System.Drawing.Point(619, 353);
+            this.flagBox.Multiline = true;
+            this.flagBox.Name = "flagBox";
+            this.flagBox.Size = new System.Drawing.Size(137, 49);
+            this.flagBox.TabIndex = 20;
+            this.flagBox.Text = "0000";
             // 
             // menuStrip1
             // 
@@ -244,6 +255,8 @@
             // 
             // memoryListView
             // 
+            this.memoryListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.memoryListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.addressCH,
             this.hexRepCH,
@@ -282,6 +295,8 @@
             // 
             // disassemblyListView
             // 
+            this.disassemblyListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.disassemblyListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.disassembAddrCH,
             this.instructionCH,
@@ -340,6 +355,7 @@
             // 
             // stopButton
             // 
+            this.stopButton.Enabled = false;
             this.stopButton.Location = new System.Drawing.Point(128, 47);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(46, 23);
@@ -371,6 +387,7 @@
             // 
             // stackListView
             // 
+            this.stackListView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.stackListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.stackAddressCH,
             this.stackValCH});
@@ -456,7 +473,7 @@
             this.Controls.Add(this.disassemblyListView);
             this.Controls.Add(this.addressBox);
             this.Controls.Add(this.memoryListView);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.flagBox);
             this.Controls.Add(this.flagLabel);
             this.Controls.Add(this.registerBox);
             this.Controls.Add(this.registerLabel);
@@ -466,11 +483,11 @@
             this.Controls.Add(this.disassemblyLabel);
             this.Controls.Add(this.memoryLabel);
             this.Controls.Add(this.checkSumLabel);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.checkSumLabelLabel);
             this.Controls.Add(this.memSizeLabel);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.memSizeLabelLabel);
             this.Controls.Add(this.fileNameLabel);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.elfFileLabel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
@@ -486,11 +503,11 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label elfFileLabel;
         private System.Windows.Forms.Label fileNameLabel;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label memSizeLabelLabel;
         private System.Windows.Forms.Label memSizeLabel;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label checkSumLabelLabel;
         private System.Windows.Forms.Label checkSumLabel;
         private System.Windows.Forms.Label memoryLabel;
         private System.Windows.Forms.Label disassemblyLabel;
@@ -500,7 +517,7 @@
         private System.Windows.Forms.Label registerLabel;
         private System.Windows.Forms.TextBox registerBox;
         private System.Windows.Forms.Label flagLabel;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox flagBox;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;

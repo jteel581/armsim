@@ -61,7 +61,7 @@ namespace armsim
     {
         Computer comp;
         Options ops;
-
+        public Options getOps() { return ops; }
         
         Thread runThread;
         public List<int> breakPoints = new List<int>();
@@ -156,7 +156,8 @@ namespace armsim
 
         public void fillStackPanel()
         {
-
+            var items = stackListView.Items;
+            items.Clear();
             int firstWord = comp.getRAM().ReadWord(0);
             addStackLine("0x00000000", firstWord.ToString("x8"));
             stackListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -243,7 +244,8 @@ namespace armsim
                 }
                 bool b = TestRAM.runTests();
                 b = TestConverter.runTests();
-                b = TestComputer.runTests();
+                b = TestComputer.runTests(ops);
+                b = testCPU.runTests();
                 if (b == true)
                 {
                     if (ops.log)
@@ -272,7 +274,14 @@ namespace armsim
 
             if (ops.getFileName() != "")
             {
-                comp.load(this, ops);
+                if(!comp.load(this, ops))
+                {
+                    string message = "Somthing went wrong with loading!";
+                    string caption = "Loader Error";
+                    MessageBox.Show(message, caption);
+                    handleBadLoading();
+                    //something went wrong with loading
+                }
             }
             Tracer.setRAM(comp.getRAM());
             Tracer.setRegs(comp.getRegisters());
@@ -373,26 +382,62 @@ namespace armsim
                 comp.reset(ops.getMemSize());
                 string newFileName = openFileDialog.FileName;   
                 ops.setFileName(newFileName);
-                comp.load(this, ops);
+                if (!comp.load(this, ops))
+                {
+                    string message = "Somthing went wrong with loading!";
+                    string caption = "Loader Error";
+                    MessageBox.Show(message, caption);
+                    handleBadLoading();
+                    // somthing went wrong with loading
+                }
             }
+        }
+
+        public void setFlagBox()
+        {
+            flagBox.Text = "0000";
+        }
+
+        public void handleBadLoading()
+        {
+            fileNameLabel.Text = "None";
+            var items = disassemblyListView.Items;
+            items.Clear();
+            items = memoryListView.Items;
+            items.Clear();
+            items = stackListView.Items;
+            items.Clear();
+            flagBox.Clear();
+            checkSumLabel.Text = "";
+            registerBox.Clear();
         }
 
         private void addressBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == Convert.ToInt32(Keys.Enter))
+            try
             {
-                string numStr = addressBox.Text;
-                numStr = numStr.Replace("0x", "");
-                numStr = numStr.Replace("0X", "");
-                int num = Convert.ToInt32(numStr, 16);
-                if ( num % 16 != 0)
+                if (e.KeyChar == Convert.ToInt32(Keys.Enter))
                 {
-                    num -= (num % 16);
+                    string numStr = addressBox.Text;
+                    numStr = numStr.Replace("0x", "");
+                    numStr = numStr.Replace("0X", "");
+                    int num = Convert.ToInt32(numStr, 16);
+                    if (num % 16 != 0)
+                    {
+                        num -= (num % 16);
+                    }
+                    memoryListView.TopItem = memoryListView.Items[num / 16];
+                    memoryListView.Items[num / 16].Selected = true;
+                    memoryListView.Focus();
                 }
-                memoryListView.TopItem = memoryListView.Items[num / 16];
-                memoryListView.Items[num / 16].Selected = true;
-                memoryListView.Focus();
             }
+            catch (FormatException fe)
+            {
+                string caption = "Input Error";
+                string message = "You must enter a hexacecimal address.";
+                MessageBox.Show(message, caption);
+            }
+            
         }
 
         private void addressBox_Click(object sender, EventArgs e)
@@ -400,8 +445,25 @@ namespace armsim
             addressBox.Text = "";
         }
 
+        public void enableRunButton()
+        {
+            runButton.Enabled = true;
+        }
+        public void disableStopButton()
+        {
+            stopButton.Enabled = false;
+        }
+
+        public void enableStepButton()
+        {
+            stepButton.Enabled = true;
+        }
+
         private void runButton_Click(object sender, EventArgs e)
         {
+            runButton.Enabled = false;
+            stopButton.Enabled = true;
+            stepButton.Enabled = false;
             runThread = new Thread(new ThreadStart(comp.run));
             runThread.IsBackground = true;
             runThread.Start();
@@ -427,7 +489,18 @@ namespace armsim
 
         private void resetButton_Click(object sender, EventArgs e)
         {
-            comp.load(this, ops);
+            
+            bool b = comp.load(this, ops);
+            if (b == false)
+            {
+                string message = "Somthing went wrong with loading!";
+                string caption = "Loader Error";
+                MessageBox.Show(message, caption);
+                handleBadLoading();
+                // something went wrong with loading
+            }
+            hilightApropriateRow();
+            disassemblyListView.Focus();
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)

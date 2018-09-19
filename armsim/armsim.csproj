@@ -68,6 +68,7 @@
     <Compile Include="Memory.cs" />
     <Compile Include="TestComputer.cs" />
     <Compile Include="TestConverter.cs" />
+    <Compile Include="testCPU.cs" />
     <Compile Include="TestRAM.cs" />
     <Compile Include="Tracer.cs" />
     <EmbeddedResource Include="breakPointDialogBox.resx">

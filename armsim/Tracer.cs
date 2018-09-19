@@ -35,6 +35,8 @@ namespace armsim
         }
         public static void enableTrace()
         {
+            Tracer.disableTrace();
+
             enabled = true;
             if (File.Exists(Environment.CurrentDirectory + "\\trace.log"))
             {
@@ -44,7 +46,11 @@ namespace armsim
         }
         public static void disableTrace()
         {
-            traceFile.Close();
+            if (traceFile != null)
+            {
+                traceFile.Close();
+
+            }
             enabled = false;
         }
         static string printRegsNoNewLine()
