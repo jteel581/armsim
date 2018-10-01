@@ -46,6 +46,7 @@ namespace armsim
             */
             ops.setFileName(fileName);
 
+            /*
             comp.load(f, ops);
             comp.run();
             int pc = comp.getRegisters().getReg(15);
@@ -56,7 +57,7 @@ namespace armsim
             comp.step();
             int newNum = comp.getRegisters().getReg(15);
             Debug.Assert(num == newNum - 4);
-
+            */
 
 
 

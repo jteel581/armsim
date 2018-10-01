@@ -22,6 +22,24 @@ namespace armsim
             int num = comp.getProcessor().fetch();
             Debug.Assert(num == 123);
 
+
+            Debug.Assert(comp.getRegisters().ReadWord(8) == 0);
+            var instr = comp.getProcessor().decode(0xe3a02030);
+
+            comp.getProcessor().execute(instr);
+
+            Debug.Assert(comp.getRegisters().ReadWord(8) == 48);
+
+
+            if (instr is dpInstruction)
+            {
+                dpInstruction dpi = (dpInstruction)instr;
+            }
+            else
+            {
+                lsInstruction lsI = (lsInstruction)instr;
+            }
+
             // decode and execute do nothing for now
 
 

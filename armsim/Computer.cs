@@ -238,10 +238,11 @@ namespace armsim
         {
             f.setStopButtonClicked(false);
             int programCounter = Registers.getReg(15);
-            while ((Processor.fetch() != 0 && !f.getStopButtonClicked()) && (f.breakPointsEnabled && !f.breakPoints.Contains(programCounter)))
+            uint instrVal;
+            while (((instrVal = (uint)Processor.fetch()) != 0 && !f.getStopButtonClicked()) && (f.breakPointsEnabled && !f.breakPoints.Contains(programCounter)))
             {
-                Processor.decode();
-                Processor.execute();
+                var instr = Processor.decode(instrVal);
+                Processor.execute(instr);
                 Registers.setReg(15, Registers.getReg(15) + 4);
                 programCounter = Registers.getReg(15);
                 if (f.getOps() != null && !f.getOps().getTestStatus())
@@ -296,9 +297,9 @@ namespace armsim
         /// </summary>
         public void step()
         {
-            Processor.fetch();
-            Processor.decode();
-            Processor.execute();
+            uint instrVal = (uint)Processor.fetch();
+            var instr = Processor.decode(instrVal);
+            Processor.execute(instr);
             Registers.setReg(15, Registers.getReg(15) + 4);
             ListView lv = f.getDisasseblyListView();
             if (f.getOps() != null && !f.getOps().getTestStatus())

@@ -51,18 +51,61 @@ namespace armsim
         /// <summary>
         /// This method will be implimented and used in a later phase
         /// </summary>
-        public void decode()
+        public Instruction decode(uint instrVal)
         {
-            // Do nothing for now
+            var inst = new Instruction(instrVal);
+            Memory instrArray = inst.getBits();
+            var b = instrArray.TestFlag(0, 26) ? 2 : 0;
+            switch (b)
+            {
+                case 0:
+                    return new dpInstruction(instrVal, false);
+                case 2:
+                    return new lsInstruction(instrVal);
+                
+
+            }
+            return null;
+            /* Draft design pseudocode
+             * string instructionStr = "";
+             * Instruction instr = new Instrunction();
+             * var specificInstr;
+             * switch (instr.Type)
+             * {
+             *  case 0:
+             *      specificInstr = new DataProcessingInstruction();
+             *      break;
+             *  case 2:
+             *      specificInstr = new LoadStoreInstruction();
+             *      break;
+             * }
+             * instructionStr = specificInstr.toString();
+             * return instrucitonStr;
+             * 
+             * 
+             */
         }
         /// <summary>
         /// This mehtod is used to execute an instruction, however, for this phase it is merely 
         /// used to pause for 1/4th of a second.
         /// </summary>
-        public void execute()
+        public /*possibly returns int[4] flags array */void execute(Instruction instr)
         {
+            if (instr is dpInstruction)
+            {
+                dpInstruction dpi = (dpInstruction)instr;
+                dpi.getSpecificInstr().execute(this);
+            }
             Thread.Sleep(250);
+            
+
+            /* Draft design pseudocode
+            *  
+            * 
+            * 
+            */
         }
+        
 
     }
 }
