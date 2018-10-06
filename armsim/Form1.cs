@@ -75,6 +75,7 @@ namespace armsim
             disassemblyListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             memoryListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             stackListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            
            
         }
 
@@ -266,6 +267,71 @@ namespace armsim
 
                     }
                     System.Environment.Exit(-1);
+
+                }
+            }
+            else if (ops.getExecStatus() == true)
+            {
+
+
+                if (ops.getFileName() != "")
+                {
+                    ops.setExecStatus(false);
+                }
+                else
+                {
+                    // perform unit tests
+                    if (ops.log)
+                    {
+                        Trace.WriteLine("Loader: Performing Unit Tests...");
+
+                    }
+                    bool b = TestRAM.runTests();
+                    b = TestConverter.runTests();
+                    b = TestComputer.runTests(ops);
+                    b = testCPU.runTests();
+                    if (b == true)
+                    {
+                        if (ops.log)
+                        {
+                            Trace.WriteLine("Loader: All Tests Passed!");
+
+                        }
+                    }
+                    else
+                    {
+                        if (ops.log)
+                        {
+                            Trace.WriteLine("Loader: Test Failed");
+
+                        }
+                        System.Environment.Exit(-1);
+
+                    }
+
+                    // execute from beginning
+                    fileNameLabel.Text = ops.getFileName();
+                    memSizeLabel.Text = ops.getMemSize().ToString();
+
+                    comp = new Computer(ops.getMemSize() == 0 ? 32768 : ops.getMemSize(), this);
+
+                    if (ops.getFileName() != "")
+                    {
+                        if (!comp.load(this, ops))
+                        {
+                            string message = "Somthing went wrong with loading!";
+                            string caption = "Loader Error";
+                            MessageBox.Show(message, caption);
+                            handleBadLoading();
+                            //something went wrong with loading
+                        }
+                    }
+                    Tracer.setRAM(comp.getRAM());
+                    Tracer.setRegs(comp.getRegisters());
+                    Tracer.enableTrace();
+                    runButton.PerformClick();
+
+                    
 
                 }
             }

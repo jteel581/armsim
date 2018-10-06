@@ -76,6 +76,9 @@ namespace armsim
         public bool load( Form1 f, Options ops)
         {
             Tracer.setStepNum(1);
+            Tracer.setRAM(RAM);
+            Tracer.setRegs(Registers);
+            Registers.setReg(13, 0x7000);
             if (Tracer.enabled)
             {
                 Tracer.enableTrace();
@@ -290,6 +293,10 @@ namespace armsim
                 f.Invoke(new MethodInvoker(delegate { f.enableStepButton(); }));
 
 
+            }
+            if (f.getOps().getExecStatus())
+            {
+                System.Environment.Exit(0);
             }
         }
         /// <summary>

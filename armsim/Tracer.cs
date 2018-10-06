@@ -71,7 +71,7 @@ namespace armsim
             {
                 string step_number = stepNum.ToString("000000");
                 int progCounter = Registers.getReg(15);
-                progCounter -= 4;
+                progCounter -= progCounter == 0 ? 0 : 4;
                 string program_counter = progCounter.ToString("x8");
 
                 string checksum = RAM.calculateChecksum(RAM.memory).ToString();

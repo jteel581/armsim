@@ -1,4 +1,7 @@
-﻿using System;
+﻿// shiftByValOp2.cs
+// This file holds the shiftByValOp2 class which inherits from the op2 class and contains
+// information about the op2 that is shifted by an immediate value
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

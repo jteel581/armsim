@@ -66,44 +66,31 @@ namespace armsim
 
             }
             return null;
-            /* Draft design pseudocode
-             * string instructionStr = "";
-             * Instruction instr = new Instrunction();
-             * var specificInstr;
-             * switch (instr.Type)
-             * {
-             *  case 0:
-             *      specificInstr = new DataProcessingInstruction();
-             *      break;
-             *  case 2:
-             *      specificInstr = new LoadStoreInstruction();
-             *      break;
-             * }
-             * instructionStr = specificInstr.toString();
-             * return instrucitonStr;
-             * 
-             * 
-             */
+            
         }
         /// <summary>
         /// This mehtod is used to execute an instruction, however, for this phase it is merely 
         /// used to pause for 1/4th of a second.
         /// </summary>
-        public /*possibly returns int[4] flags array */void execute(Instruction instr)
+        public void execute(Instruction instr)
         {
             if (instr is dpInstruction)
             {
                 dpInstruction dpi = (dpInstruction)instr;
-                dpi.getSpecificInstr().execute(this);
+                if (dpi.getSpecificInstr()  != null)
+                {
+                    dpi.getSpecificInstr().execute(this);
+
+                }
+                else
+
+                {
+                    // blah blah blah
+                }
             }
-            Thread.Sleep(250);
             
 
-            /* Draft design pseudocode
-            *  
-            * 
-            * 
-            */
+        
         }
         
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// testCPU.cs
+// This file holds the unit tests for the CPU class
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,25 +24,22 @@ namespace armsim
             int num = comp.getProcessor().fetch();
             Debug.Assert(num == 123);
 
-
+            // Tests to make sure register holds 0 before the mov operation
             Debug.Assert(comp.getRegisters().ReadWord(8) == 0);
-            var instr = comp.getProcessor().decode(0xe3a02030);
 
+            // decodes the instruction 0xe3a02030 from the design requirements page
+            var instr = comp.getProcessor().decode(0xe3a02030);
+            string instrStr = instr.getInstrStr();
+            string compStr = "mov r2, #48";
+            Debug.Assert(instrStr == compStr);
+            // executes the instruction
             comp.getProcessor().execute(instr);
 
+            // Tests that the new value of the register is 48
             Debug.Assert(comp.getRegisters().ReadWord(8) == 48);
 
+            
 
-            if (instr is dpInstruction)
-            {
-                dpInstruction dpi = (dpInstruction)instr;
-            }
-            else
-            {
-                lsInstruction lsI = (lsInstruction)instr;
-            }
-
-            // decode and execute do nothing for now
 
 
             return true;

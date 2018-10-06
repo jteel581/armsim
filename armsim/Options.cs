@@ -24,9 +24,15 @@ namespace armsim
         // This variable is used to tell whether or not to log output
         public bool log = false;
         // Getter and setter methods
+        public bool execStatus = false;
         public string getFileName()
         {
             return fileName;
+        }
+        public bool getExecStatus() { return execStatus; }
+        public void setExecStatus( bool newExec)
+        {
+            execStatus = newExec;
         }
         public void setFileName(String name)
         {
@@ -109,6 +115,10 @@ namespace armsim
                     else if (arg == "--log")
                     {
                         log = true;
+                    }
+                    else if (arg ==  "--exec")
+                    {
+                        execStatus = true;
                     }
                     else
                     {
