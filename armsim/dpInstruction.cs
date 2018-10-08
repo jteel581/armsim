@@ -65,6 +65,17 @@ namespace armsim
             {
                 op2 = new imOp2(op2Val);
             }
+            else
+            {
+                if (bits.TestFlag(0, 4))
+                {
+                    op2 = new shiftByValOp2(op2Val);
+                }
+                else if (!bits.TestFlag(0,4))
+                {
+                    op2 = new shiftByRegOp2(op2Val);
+                }
+            }
             if (!isSpecific)
             {
                 switch (opCodeVal)

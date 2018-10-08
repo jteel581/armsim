@@ -34,11 +34,27 @@ namespace armsim
         public override void execute(CPU processor)
         {
             // No psuedo code, but actual code:
+            // I need 3 different branches here, one for each type of operand2
+            if (base.getOp2() is imOp2)
+            {
+                byte immVal = (byte)base.getOp2().getImmediateVal();
+                int rD = base.getrD() * 4;
+                Memory regs = processor.getRegisters();
+                imOp2 operand2 = (imOp2)base.getOp2();
+                int rotVal = operand2.getAlignmentVal();
+                operand2.rotateRight(rotVal);
+                regs.WriteByte(rD, immVal);
+            }
+            else if (base.getOp2() is shiftByValOp2)
+            {
+                // ask dr schaub about differences in MOV instructions
+                shiftByValOp2 operand2 = (shiftByValOp2)base.getOp2();
+                int rD = base.getrD() * 4;
+                int rM = operand2.getRm() * 4;
+                int shiftVal = operand2.getShiftValForMOV();
 
-            byte immVal = (byte)base.getOp2().getImmediateVal();
-            int rD = base.getrD() * 4;
-            Memory regs = processor.getRegisters();
-            regs.WriteByte(rD, immVal);
+            }
+            
 
         }
         /// <summary>
@@ -48,7 +64,7 @@ namespace armsim
         public override string ToString()
         {
             // No psuedo code, but actual code:
-
+            // add different branches for the different types of op2s
             return "mov r" + base.getrD() + ", #" + base.getOp2().getImmediateVal();
         }
 

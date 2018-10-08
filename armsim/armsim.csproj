@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ADDdpInstruction.cs" />
     <Compile Include="breakPointDialogBox.cs">
       <SubType>Form</SubType>
     </Compile>

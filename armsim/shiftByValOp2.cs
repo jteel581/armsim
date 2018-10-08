@@ -14,7 +14,22 @@ namespace armsim
         int shiftVal;
         int shiftTypeVal;
         int rM;
+        int shiftValForMOV;
 
+        public int getShiftVal() { return shiftVal; }
+        public void setShiftVal(int newShft)
+        {
+            shiftVal = newShft;
+        }
+        public int getShiftTypeVal() { return shiftTypeVal; }
+        public void setShiftTypeVal(int newShiftTypeVal)
+        {
+            shiftTypeVal = newShiftTypeVal;
+        }
+        public int getRm()
+        {
+            return rM;
+        }
 
         public shiftByValOp2(short op2Val) : base(op2Val)
         {
@@ -32,6 +47,18 @@ namespace armsim
                 val += bits.TestFlag(0, i) ? (int)Math.Pow(2, i - 7) : 0;
             }
             shiftVal = val;
+        }
+
+        public int getShiftValForMOV() { return shiftValForMOV; }
+        public void setShiftValForMOV()
+        {
+            int val = 0;
+            Memory bits = base.getOp2Array();
+            for (int i = 11; i > 3; i--)
+            {
+                val += bits.TestFlag(0, i) ? (int)Math.Pow(2, i - 4) : 0;
+            }
+            shiftValForMOV = val;
         }
 
         public void setShiftTypeVal()

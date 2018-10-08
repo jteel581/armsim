@@ -16,6 +16,8 @@ namespace armsim
         int immediateVal;
         // An overrided version of the getter method for the immediateVal variable.
         public override int  getImmediateVal() { return immediateVal; }
+        public int getAlignmentVal() { return alignmentVal; }
+
         /// <summary>
         /// This is a constructor for the imOp2 class
         /// </summary>
@@ -57,6 +59,11 @@ namespace armsim
                 val += bits.TestFlag(0, i) ? (int)Math.Pow(2, i) : 0;
             }
             immediateVal = val;
+        }
+
+        public void rotateRight(int rotVal)
+        {
+            immediateVal = (immediateVal >> rotVal * 2) | (immediateVal >> (32 - rotVal * 2));
         }
     }
 }
