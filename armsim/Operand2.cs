@@ -35,5 +35,17 @@ namespace armsim
         // This is a getter for the op2Array memory object
         public Memory getOp2Array() { return op2Array; }
 
+        public int rotateRight(int rotVal, int curVal)
+        {
+            int num = (curVal >> rotVal * 2) | (curVal << (32 - rotVal * 2));
+            return num;
+        }
+
+        public override string ToString()
+        {
+
+            return base.ToString();
+        }
+
     }
 }

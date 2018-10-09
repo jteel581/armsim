@@ -82,5 +82,37 @@ namespace armsim
             }
             rM = val;
         }
+        /*
+        public int  rotateRmRight(int rotVal)
+        {
+            int num = 0;
+            num  = (rM >> rotVal * 2) | (rM >> (32 - rotVal * 2));
+            return num;
+        }
+        */
+        public override string ToString()
+        {
+            string op2Str = ", ";
+            op2Str += getRm() + ", ";
+            switch (shiftTypeVal)
+            {
+                case 0: // lsl
+                    op2Str += "lsl ";
+                    break;
+                case 1: // lsr
+                    op2Str += "lsr ";
+                    break;
+                case 2: // asr
+                    op2Str += "asr ";
+                    break;
+                case 3: // ror 
+                    op2Str += "ror ";
+                    break;
+            }
+            op2Str += "#" + shiftVal;
+
+
+            return op2Str;
+        }
     }
 }

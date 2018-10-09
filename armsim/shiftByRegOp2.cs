@@ -30,6 +30,7 @@ namespace armsim
             setShiftTypeVal();
             setrM();
         }
+        public int getShiftTypeVal() { return shiftTypeVal; }
 
         /// <summary>
         /// This is used to get the number of the Rs register and assign it to the rS variable.
@@ -45,6 +46,11 @@ namespace armsim
                 val += bits.TestFlag(0, i) ? (int)Math.Pow(2, i - 8) : 0;
             }
             rS = val;
+        }
+
+        public int getRs()
+        {
+            return rS;
         }
 
         /// <summary>
@@ -77,6 +83,32 @@ namespace armsim
                 val += bits.TestFlag(0, i) ? (int)Math.Pow(2, i) : 0;
             }
             rM = val;
+        }
+        public int  getRm() { return rM; }
+
+        public override string ToString()
+        {
+            string op2Str = ", ";
+            op2Str += getRm() + ", ";
+            switch(shiftTypeVal)
+            {
+                case 0: // lsl
+                    op2Str += "lsl ";
+                    break;
+                case 1: // lsr
+                    op2Str += "lsr ";
+                    break;
+                case 2: // asr
+                    op2Str += "asr ";
+                    break;
+                case 3: // ror 
+                    op2Str += "ror ";
+                    break;
+            }
+            op2Str += "r" + rS;
+            
+
+            return op2Str;
         }
     }
 }

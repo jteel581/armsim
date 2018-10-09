@@ -138,5 +138,44 @@ namespace armsim
             op2Val = (short)val;
         }
 
+        public void takeCareOfShift(int shift, int shiftType, int RmVal, Operand2 op2)
+        {
+            Operand2 operand2;
+            if (op2 is imOp2)
+            {
+                operand2 = (imOp2)op2;
+            }
+            else if (op2 is shiftByValOp2)
+            {
+                operand2 = (shiftByValOp2)op2;
+            }
+            else
+            {
+                operand2 = (shiftByRegOp2)op2;
+            }
+
+            uint uRmVal = (uint)RmVal;
+            if (shift != 0)
+            {
+                switch (shiftType)
+                {
+                    case 0: // lsl
+                        RmVal = (int)(uRmVal << shift);
+                        break;
+                    case 1: // lsr
+                        RmVal = (int)(uRmVal >> shift);
+                        break;
+                    case 2: // asr
+                        RmVal = RmVal >> shift;
+                        break;
+                    case 3: // ror 
+
+                        RmVal = operand2.rotateRight(shift, RmVal);
+
+                        break;
+
+                }
+            }
+        }
     }
 }

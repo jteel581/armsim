@@ -14,6 +14,7 @@ namespace armsim
         int alignmentVal;
         // The value of the immediate bits
         int immediateVal;
+        int officialImmediate;
         // An overrided version of the getter method for the immediateVal variable.
         public override int  getImmediateVal() { return immediateVal; }
         public int getAlignmentVal() { return alignmentVal; }
@@ -26,7 +27,10 @@ namespace armsim
         {
             setAlignmentVal();
             setImVal();
+            officialImmediate = rotateRight(alignmentVal, immediateVal);
         }
+
+        public int getOfficialImmediate() { return officialImmediate; }
 
         /// <summary>
         /// This method is used to get the nummeric value of the alignment bits and assign it to the 
@@ -60,10 +64,19 @@ namespace armsim
             }
             immediateVal = val;
         }
-
-        public void rotateRight(int rotVal)
+        /*
+        public int  rotateRight(int rotVal, int curVal)
         {
-            immediateVal = (immediateVal >> rotVal * 2) | (immediateVal >> (32 - rotVal * 2));
+            int num  = (curVal >> rotVal * 2) | (curVal << (32 - rotVal * 2));
+            return num;
+        }
+        */
+        public override string ToString()
+        {
+            string op2Str = ", ";
+            op2Str += "#" + getOfficialImmediate();
+
+            return op2Str;
         }
     }
 }

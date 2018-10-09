@@ -55,26 +55,71 @@ namespace armsim
         {
             var inst = new Instruction(instrVal);
             Memory instrArray = inst.getBits();
-            var b = instrArray.TestFlag(0, 26) ? 2 : 0;
-            switch (b)
+
+            // check for MULinstruction
+            bool isMulInstr = checkForMulInstr(instrArray);
+            
+            if (isMulInstr)
             {
-                case 0:
-                    return new dpInstruction(instrVal, false);
-                case 2:
-                    return new lsInstruction(instrVal);
-                
 
             }
+            else
+            {
+                var b = instrArray.TestFlag(0, 26) ? 2 : 0;
+                switch (b)
+                {
+                    case 0:
+                        return new dpInstruction(instrVal, false);
+                    case 2:
+                        return new lsInstruction(instrVal);
+
+                }
+            }
+            
             return null;
             
         }
+
+        public bool checkForMulInstr(Memory instrArray)
+        {
+            for (int i = 27; i > 20; i--)
+            {
+                if (instrArray.TestFlag(0, i))
+                {
+                    return false;
+                }
+
+            }
+            for (int i = 7; i > 3; i--)
+            {
+                if (i ==7 && !instrArray.TestFlag(0, i))
+                {
+                    return false;
+                }
+                else if (i == 4 && !instrArray.TestFlag(0, i))
+                {
+                    return false;
+                }
+                else if (instrArray.TestFlag(0, i))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         /// <summary>
         /// This mehtod is used to execute an instruction, however, for this phase it is merely 
         /// used to pause for 1/4th of a second.
         /// </summary>
         public void execute(Instruction instr)
         {
-            if (instr is dpInstruction)
+            if (instr is MULinstruction)
+            {
+                MULinstruction mi = (MULinstruction)instr;
+                mi.execute(this);
+            }
+            else if (instr is dpInstruction)
             {
                 dpInstruction dpi = (dpInstruction)instr;
                 if (dpi.getSpecificInstr()  != null)
