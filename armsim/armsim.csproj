@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ADDdpInstruction.cs" />
+    <Compile Include="ANDdpInstruction.cs" />
+    <Compile Include="BICdpInstruction.cs" />
     <Compile Include="breakPointDialogBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +60,7 @@
     <Compile Include="Converter.cs" />
     <Compile Include="CPU.cs" />
     <Compile Include="dpInstruction.cs" />
+    <Compile Include="EORdpInstruction.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,9 +72,11 @@
     <Compile Include="lsInstruction.cs" />
     <Compile Include="MOVdpInstruction.cs" />
     <Compile Include="MULinstruction.cs" />
+    <Compile Include="MVNdpInstruction.cs" />
     <Compile Include="Offset.cs" />
     <Compile Include="Operand2.cs" />
     <Compile Include="Options.cs" />
+    <Compile Include="ORRdpInstruction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Memory.cs" />

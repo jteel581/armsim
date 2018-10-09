@@ -85,8 +85,8 @@ namespace armsim
         public override string ToString()
         {
             string instrStr = "sub ";
-            string rD = base.getrD().ToString();
-            string rN = base.getrN().ToString();
+            string rD = "r" + base.getrD().ToString();
+            string rN = "r" + base.getrN().ToString();
             instrStr += rD + ", " + rN;
             Operand2 op2 = getOp2();
 

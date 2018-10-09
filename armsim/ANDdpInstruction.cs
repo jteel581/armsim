@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace armsim
 {
-
-    class ADDdpInstruction : dpInstruction
+    class ANDdpInstruction : dpInstruction
     {
         public dpInstruction specificInstr;
 
-        public ADDdpInstruction(uint instVal) : base (instVal, true)
+        public ANDdpInstruction(uint instVal) : base(instVal, true)
         {
             base.setSpecific(true);
             specificInstr = null;
@@ -22,7 +21,7 @@ namespace armsim
             // check different op2 types
             if (base.getOp2() is imOp2)
             {
-                // rd = rn + immediate rotated right by alignment val*2
+                // rd = rn AND immediate rotated right by alignment val*2
                 imOp2 operand2 = (imOp2)base.getOp2();
                 int rD = base.getrD();
                 int rN = base.getrN();
@@ -31,13 +30,13 @@ namespace armsim
                 immediate = operand2.rotateRight(rotVal, immediate);
                 Memory regs = processor.getRegisters();
                 int RnVal = regs.getReg(rN);
-                regs.setReg(rD, RnVal + immediate);
+                regs.setReg(rD, RnVal & immediate);
 
 
             }
             else if (base.getOp2() is shiftByValOp2)
             {
-                // rd = rn + rm shifted by shift num with a shift of type shiftType
+                // rd = rn AND rm shifted by shift num with a shift of type shiftType
                 shiftByValOp2 operand2 = (shiftByValOp2)base.getOp2();
                 int rD = base.getrD();
                 int rN = base.getrN();
@@ -52,44 +51,13 @@ namespace armsim
                 //uint uRmVal;
 
                 takeCareOfShift(shift, shiftType, RmVal, operand2);
-                /*
-                if (shift != 0)
-                {
-                    switch (shiftType)
-                    {
-                        case 0: // lsl
-                            uRmVal = (uint)RmVal;
-                            RmVal = (int)(uRmVal << shift);
-                            break;
-                        case 1: // lsr
-                            uRmVal = (uint)RmVal;
-                            RmVal = (int)(uRmVal >> shift);
-                            break;
-                        case 2: // asr
-                            RmVal = RmVal >> shift;
-                            break;
-                        case 3: // ror 
+               
+                regs.setReg(rD, RnVal & RmVal);
 
-                            RmVal = operand2.rotateRmRight(shift);
-
-                            break; 
-
-                    }
-                    
-                    regs.setReg(rD, RnVal + RmVal);
-
-                }
-                else
-                {
-                    
-                    regs.setReg(rD, RnVal + RmVal);
-                }
-                */
-                regs.setReg(rD, RnVal + RmVal);
-                
             }
             else if (base.getOp2() is shiftByRegOp2)
             {
+                // rd = rN AND rM shifted by rS with a shift of shiftType
                 shiftByRegOp2 operand2 = (shiftByRegOp2)base.getOp2();
                 int rD = base.getrD();
                 int rN = base.getrN();
@@ -102,7 +70,7 @@ namespace armsim
                 int shiftType = operand2.getShiftTypeVal();
                 takeCareOfShift(shiftVal, shiftType, rM, operand2);
                 int RnVal = regs.getReg(rN);
-                regs.setReg(rD, RnVal + RmVal);
+                regs.setReg(rD, RnVal & RmVal);
 
 
             }
@@ -112,10 +80,9 @@ namespace armsim
             }
         }
 
-
         public override string ToString()
         {
-            string instrStr = "add ";
+            string instrStr = "and ";
             string rD = "r" + base.getrD().ToString();
             string rN = "r" + base.getrN().ToString();
             instrStr += rD + ", " + rN;
@@ -124,5 +91,6 @@ namespace armsim
             instrStr += op2.ToString();
             return instrStr;
         }
+
     }
 }

@@ -37,22 +37,67 @@ namespace armsim
             // I need 3 different branches here, one for each type of operand2
             if (base.getOp2() is imOp2)
             {
+                // rd = rn + immediate rotated right by alignment val*2
+                imOp2 operand2 = (imOp2)base.getOp2();
+                int rD = base.getrD();
+                //int rN = base.getrN();
+                int rotVal = operand2.getAlignmentVal();
+                int immediate = operand2.getImmediateVal();
+                immediate = operand2.rotateRight(rotVal, immediate);
+                Memory regs = processor.getRegisters();
+                //int RnVal = regs.getReg(rN);
+                regs.setReg(rD, immediate);
+
+                /*
                 byte immVal = (byte)base.getOp2().getImmediateVal();
                 int rD = base.getrD() * 4;
                 Memory regs = processor.getRegisters();
                 imOp2 operand2 = (imOp2)base.getOp2();
                 int rotVal = operand2.getAlignmentVal();
-                operand2.rotateRight(rotVal);
+                operand2.rotateRight(rotVal, operand2.);
                 regs.WriteByte(rD, immVal);
+                */
             }
             else if (base.getOp2() is shiftByValOp2)
             {
-                // ask dr schaub about differences in MOV instructions
                 shiftByValOp2 operand2 = (shiftByValOp2)base.getOp2();
-                int rD = base.getrD() * 4;
-                int rM = operand2.getRm() * 4;
-                int shiftVal = operand2.getShiftValForMOV();
+                int rD = base.getrD();
+                //int rN = base.getrN();
+                int rM = operand2.getRm();
+                Memory regs = processor.getRegisters();
+                Memory bits = processor.getRAM();
+                //int RnVal = regs.getReg(rN);
+                int RmVal = regs.getReg(rM);
 
+                int shiftType = operand2.getShiftTypeVal();
+                int shift = operand2.getShiftVal();
+                //uint uRmVal;
+
+                takeCareOfShift(shift, shiftType, RmVal, operand2);
+                
+                regs.setReg(rD,  RmVal);
+
+                
+            }
+            else if (base.getOp2() is shiftByRegOp2)
+            {
+                shiftByRegOp2 operand2 = (shiftByRegOp2)base.getOp2();
+                int rD = base.getrD();
+                //int rN = base.getrN();
+                int rM = operand2.getRm();
+                int rS = operand2.getRs();
+                Memory regs = processor.getRegisters();
+                Memory bits = processor.getRAM();
+                int RmVal = regs.getReg(rM);
+                int shiftVal = regs.getReg(rS);
+                int shiftType = operand2.getShiftTypeVal();
+                takeCareOfShift(shiftVal, shiftType, rM, operand2);
+                //int RnVal = regs.getReg(rN);
+                regs.setReg(rD, RmVal);
+            }
+            else
+            {
+                // error
             }
             
 
@@ -63,9 +108,13 @@ namespace armsim
         /// <returns></returns>
         public override string ToString()
         {
-            // No psuedo code, but actual code:
-            // add different branches for the different types of op2s
-            return "mov r" + base.getrD() + ", #" + base.getOp2().getImmediateVal();
+            string instrStr = "mov ";
+            string rD = "r" + base.getrD().ToString();
+            instrStr += rD + ", ";
+            Operand2 op2 = getOp2();
+
+            instrStr += op2.ToString();
+            return instrStr;
         }
 
     }

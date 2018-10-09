@@ -80,8 +80,48 @@ namespace armsim
             {
                 switch (opCodeVal)
                 {
+                    case 0:
+                        specificInstr = new ANDdpInstruction(instVal);
+                        specificInstr.setSpecific(true);
+                        base.setInstrStr(specificInstr.ToString());
+                        break;
+                    case 1:
+                        specificInstr = new EORdpInstruction(instVal);
+                        specificInstr.setSpecific(true);
+                        base.setInstrStr(specificInstr.ToString());
+                        break;
+                    case 2:
+                        specificInstr = new SUBdpInstruction(instVal);
+                        specificInstr.setSpecific(true);
+                        base.setInstrStr(specificInstr.ToString());
+                        break;
+                    case 3:
+                        specificInstr = new RSBdpInstruction(instVal);
+                        specificInstr.setSpecific(true);
+                        base.setInstrStr(specificInstr.ToString());
+                        break;
+                    case 4:
+                        specificInstr = new ADDdpInstruction(instVal);
+                        specificInstr.setSpecific(true);
+                        base.setInstrStr(specificInstr.ToString());
+                        break;
+                    case 12:
+                        specificInstr = new ORRdpInstruction(instVal);
+                        specificInstr.setSpecific(true);
+                        base.setInstrStr(specificInstr.ToString());
+                        break;
                     case 13:
                         specificInstr = new MOVdpInstruction(instVal);
+                        specificInstr.setSpecific(true);
+                        base.setInstrStr(specificInstr.ToString());
+                        break;
+                    case 14:
+                        specificInstr = new BICdpInstruction(instVal);
+                        specificInstr.setSpecific(true);
+                        base.setInstrStr(specificInstr.ToString());
+                        break;
+                    case 15:
+                        specificInstr = new MVNdpInstruction(instVal);
                         specificInstr.setSpecific(true);
                         base.setInstrStr(specificInstr.ToString());
                         break;
