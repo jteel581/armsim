@@ -47,7 +47,7 @@ namespace armsim
         public void setReg(int regNum, int newVal)
         {
             int address = regNum * 4;
-            WriteWord(address, (uint)newVal);
+            WriteWord(address, newVal);
 
         }
 
@@ -57,10 +57,10 @@ namespace armsim
         // if the bit is 1 and false if the bit is 0.
         public bool TestFlag(int address, int bit)
         {
-            uint word = (uint)ReadWord(address);
+            int word = ReadWord(address);
             word <<= (31 - bit);
             word >>= 31;
-            return word == 1 ? true : false;
+            return (word == 1 || word == -1) ? true : false;
             
         }
 
@@ -74,8 +74,8 @@ namespace armsim
             bool flagEqual = TestFlag(address, bit) == flag ? true : false;
             if(!flagEqual)
             {
-                uint mask = 1;
-                uint word = (uint)ReadWord(address);
+                int mask = 1;
+                int word = ReadWord(address);
                 mask <<= bit;
                 word = word ^ mask;
                 WriteWord(address, word);
@@ -89,11 +89,11 @@ namespace armsim
         // from, 'startBit', which is the location of the first bit in the range to extract, and 'endBit'
         // which is the last bit in the range to be extracted. It returns the bits extracted with all other
         // bits set to 0.
-        public static uint ExtractBits(uint word, int startBit, int endBit)
+        public static int ExtractBits(int word, int startBit, int endBit)
         {
             int numOfBits = (endBit - startBit);
-            uint mask = 0xFFFFFFFF;
-            uint result;
+            int mask = -1;
+            int result;
             mask >>= 31 - numOfBits;
             mask <<= startBit;
             result = word & mask;
@@ -113,7 +113,12 @@ namespace armsim
             }
             else
             {
+                // READHALFWORD NOT GIVING CORRECT NUMBER
                 int halfWordA = ReadHalfWord(address);
+                if (halfWordA < 0)
+                {
+                    halfWordA ^= -65536;
+                }
                 int halfWordB = ReadHalfWord(address + 2);
                 halfWordB <<= 16;
                 halfWordB |= halfWordA;
@@ -126,7 +131,7 @@ namespace armsim
         // twp parameters: 'address' which is the location it writes the word at, and 
         // 'value' which is the word to write at the given address. 'adress' must be 
         // evenly divisible by 4.
-        public void WriteWord(int address, uint value)
+        public void WriteWord(int address, int value)
         {
             if (address % 4 != 0)
             {

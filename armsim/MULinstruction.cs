@@ -18,7 +18,7 @@ namespace armsim
         int rM;
 
 
-        public MULinstruction(uint instVal) : base(instVal)
+        public MULinstruction(int instVal) : base(instVal)
         {
             Memory bits = base.getBits();
             sBit = bits.TestFlag(0, 20) ? true : false;

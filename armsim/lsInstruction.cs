@@ -35,7 +35,7 @@ namespace armsim
         /// This is the constructor for the lsInstruction class
         /// </summary>
         /// <param name="instVal"></param> is used to instantiate the base instruction class
-        public lsInstruction(uint instVal) : base(instVal)
+        public lsInstruction(int instVal) : base(instVal)
         {
             // No psuedo code, but actual code:
 

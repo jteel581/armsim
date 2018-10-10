@@ -29,7 +29,7 @@ namespace armsim
         public void setProgramCounter(int newVal)
         {
             ProgramCounter = newVal;
-            Registers.WriteWord(60, (uint)newVal);
+            Registers.WriteWord(60, newVal);
         }
         public CPU(Memory ram, Memory regs)
         {
@@ -46,12 +46,16 @@ namespace armsim
         public int fetch()
         {
             int value = RAM.ReadWord(Registers.ReadWord(60));
+            if (value == 0)
+            {
+
+            }
             return value;
         }
         /// <summary>
         /// This method will be implimented and used in a later phase
         /// </summary>
-        public Instruction decode(uint instrVal)
+        public Instruction decode(int instrVal)
         {
             var inst = new Instruction(instrVal);
             Memory instrArray = inst.getBits();
