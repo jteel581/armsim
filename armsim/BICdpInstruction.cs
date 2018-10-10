@@ -10,7 +10,7 @@ namespace armsim
     {
         public dpInstruction specificInstr;
 
-        public BICdpInstruction(uint instVal) : base(instVal, true)
+        public BICdpInstruction(int instVal) : base(instVal, true)
         {
             base.setSpecific(true);
             specificInstr = null;
@@ -30,7 +30,7 @@ namespace armsim
                 immediate = operand2.rotateRight(rotVal, immediate);
                 Memory regs = processor.getRegisters();
                 int RnVal = regs.getReg(rN);
-                regs.setReg(rD, (RnVal & (~immediate));
+                regs.setReg(rD, (RnVal & (~immediate)));
 
 
             }

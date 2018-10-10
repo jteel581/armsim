@@ -10,7 +10,7 @@ namespace armsim
     {
         public dpInstruction specificInstr;
 
-        public RSBdpInstruction(uint instVal) : base(instVal, true)
+        public RSBdpInstruction(int instVal) : base(instVal, true)
         {
             base.setSpecific(true);
 

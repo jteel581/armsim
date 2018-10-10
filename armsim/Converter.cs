@@ -15,7 +15,7 @@ namespace armsim
     {
         // This method takes an unsigned int 'word' and seperates it into two short values that it stores
         // in an array 'wordarray' in little endian fashion and then returns said array.
-        public static short[] wordToShortArray(uint word)
+        public static short[] wordToShortArray(int word)
         {
             short[] wordArray = new short[2];
             short firstShort = (short)(word >> 16);

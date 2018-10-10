@@ -241,8 +241,8 @@ namespace armsim
         {
             f.setStopButtonClicked(false);
             int programCounter = Registers.getReg(15);
-            uint instrVal;
-            while (((instrVal = (uint)Processor.fetch()) != 0 && !f.getStopButtonClicked()) && (f.breakPointsEnabled && !f.breakPoints.Contains(programCounter)))
+            int instrVal;
+            while (((instrVal = Processor.fetch()) != 0 && !f.getStopButtonClicked()) && (f.breakPointsEnabled && !f.breakPoints.Contains(programCounter)))
             {
                 var instr = Processor.decode(instrVal);
                 Processor.execute(instr);
@@ -304,7 +304,7 @@ namespace armsim
         /// </summary>
         public void step()
         {
-            uint instrVal = (uint)Processor.fetch();
+            int instrVal = Processor.fetch();
             var instr = Processor.decode(instrVal);
             Processor.execute(instr);
             Registers.setReg(15, Registers.getReg(15) + 4);

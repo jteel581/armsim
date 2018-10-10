@@ -45,7 +45,7 @@ namespace armsim
         /// object.
         /// <param name="specific"></param> is used to determine whether or not this is a specific or general
         /// instance of the dpInstruction class
-        public dpInstruction(uint instVal, bool specific): base(instVal)
+        public dpInstruction(int instVal, bool specific): base(instVal)
         {
             // No psuedo code, but actual code:
             setSpecific(specific);

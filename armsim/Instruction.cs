@@ -35,7 +35,7 @@ namespace armsim
         /// This is the constructor for the instruction class
         /// </summary>
         /// <param name="instVal"></param> is used to populate the byte array with the encoded instruction
-        public Instruction(uint instVal)
+        public Instruction(int instVal)
         {
             // No psuedo code, but actual code:
 

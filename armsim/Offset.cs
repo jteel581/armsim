@@ -23,7 +23,7 @@ namespace armsim
             // No psuedo code, but actual code:
 
             offsetArray = new Memory(2);
-            offsetArray.WriteWord(0, (uint)offsetVal);
+            offsetArray.WriteWord(0, offsetVal);
         }
 
         // This is a getter for the offsetArray Variable

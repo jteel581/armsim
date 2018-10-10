@@ -10,7 +10,7 @@ namespace armsim
     {
         public dpInstruction specificInstr;
 
-        public MVNdpInstruction(uint instVal) : base(instVal, true)
+        public MVNdpInstruction(int instVal) : base(instVal, true)
         {
             base.setSpecific(true);
             specificInstr = null;

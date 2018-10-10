@@ -19,7 +19,7 @@ namespace armsim
         /// This is the constructor for the MOVdpInstruction class
         /// </summary>
         /// <param name="instVal"></param> is used to instantiate the base Instruction object
-        public MOVdpInstruction(uint instVal): base(instVal, true)
+        public MOVdpInstruction(int instVal): base(instVal, true)
         {
             // No psuedo code, but actual code:
 
