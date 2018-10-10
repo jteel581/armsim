@@ -61,7 +61,7 @@ namespace armsim
                 regString += i + "=" + Registers.getReg(i).ToString("x8") + " ";
             }
 
-
+            regString = regString.ToUpper();
             return regString;
         }
 
@@ -76,7 +76,7 @@ namespace armsim
 
                 string checksum = RAM.calculateChecksum(RAM.memory).ToString();
 
-                traceFile.WriteLine(step_number + " " + program_counter + " " + checksum + " " + flags + " " + mode + " " + printRegsNoNewLine());
+                traceFile.WriteLine(step_number + " " + program_counter.ToUpper() + " " + checksum + " " + flags + " " + mode + " " + printRegsNoNewLine());
                 stepNum++;
             }
             

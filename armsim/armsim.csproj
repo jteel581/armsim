@@ -85,6 +85,7 @@
     <Compile Include="shiftByValOp2.cs" />
     <Compile Include="shiftedRegOffset.cs" />
     <Compile Include="SUBdpInstruction.cs" />
+    <Compile Include="SWIinstruction.cs" />
     <Compile Include="TestComputer.cs" />
     <Compile Include="TestConverter.cs" />
     <Compile Include="testCPU.cs" />

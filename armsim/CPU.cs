@@ -62,10 +62,15 @@ namespace armsim
 
             // check for MULinstruction
             bool isMulInstr = checkForMulInstr(instrArray);
+            bool isSwiInstr = checkForSwiInstr(instrArray);
             
             if (isMulInstr)
             {
-
+                return new MULinstruction(instrVal);
+            }
+            else if (isSwiInstr)
+            {
+                return new SWIinstruction(instrVal);
             }
             else
             {
@@ -83,6 +88,20 @@ namespace armsim
             return null;
             
         }
+
+        public bool checkForSwiInstr(Memory instrArray)
+        {
+            for (int i = 27; i > 23; i--)
+            {
+                if (!instrArray.TestFlag(0, i))
+                {
+                    return false;
+                }
+
+            }
+            return true;
+        }
+
 
         public bool checkForMulInstr(Memory instrArray)
         {
@@ -122,6 +141,11 @@ namespace armsim
             {
                 MULinstruction mi = (MULinstruction)instr;
                 mi.execute(this);
+            }
+            else if (instr is SWIinstruction)
+            {
+                
+                // do nothing and stop running
             }
             else if (instr is dpInstruction)
             {

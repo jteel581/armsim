@@ -245,6 +245,10 @@ namespace armsim
             while (((instrVal = Processor.fetch()) != 0 && !f.getStopButtonClicked()) && (f.breakPointsEnabled && !f.breakPoints.Contains(programCounter)))
             {
                 var instr = Processor.decode(instrVal);
+                if (instr is SWIinstruction)
+                {
+                    break;
+                }
                 Processor.execute(instr);
                 Registers.setReg(15, Registers.getReg(15) + 4);
                 programCounter = Registers.getReg(15);
