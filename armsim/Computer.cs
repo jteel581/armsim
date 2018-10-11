@@ -171,6 +171,10 @@ namespace armsim
                         int address = (int)progHeaderEntry.p_vaddr;
                         foreach (byte b in data)
                         {
+                            if (address == 0x1014)
+                            {
+
+                            }
                             RAM.WriteByte(address, b);
                             address++;
                             if (address == ops.getMemSize())

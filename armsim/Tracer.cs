@@ -69,6 +69,10 @@ namespace armsim
         {
             if (enabled)
             {
+                if (stepNum == 13)
+                {
+
+                }
                 string step_number = stepNum.ToString("000000");
                 int progCounter = Registers.getReg(15);
                 progCounter -= progCounter == 0 ? 0 : 4;

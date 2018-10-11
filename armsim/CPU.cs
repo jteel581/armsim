@@ -163,7 +163,7 @@ namespace armsim
             else if (instr is lsInstruction)
             {
                 lsInstruction lsi = (lsInstruction)instr;
-                
+                lsi.execute(this);
 
             }
 

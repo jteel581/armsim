@@ -13,7 +13,7 @@ namespace armsim
     {
         // the byte array that holds the offset portion of the encoded instruction
         Memory offsetArray;
-
+        public int offset;
         /// <summary>
         /// This is the constructor for the Offset class
         /// </summary>
@@ -24,6 +24,7 @@ namespace armsim
 
             offsetArray = new Memory(2);
             offsetArray.WriteWord(0, offsetVal);
+            offset = offsetVal;
         }
 
         // This is a getter for the offsetArray Variable
@@ -33,6 +34,13 @@ namespace armsim
         {
             int num = (curVal >> rotVal) | (curVal << (32 - rotVal));
             return num;
+        }
+
+        public override string ToString()
+        {
+            string osStr = "";
+            osStr += "#" + offset + "]";
+            return osStr;
         }
     }
 }

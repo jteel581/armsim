@@ -32,11 +32,8 @@ namespace armsim
         Offset os;
 
         short offsetVal;
-        bool isSpecific = false;
-        public void setSpecific(bool b) { isSpecific = b; }
 
 
-        lsInstruction specificInstr;
         public bool getPbit() { return pBit; }
         public bool getUbit() { return uBit; }
         public bool getBbit() { return bBit; }
@@ -52,10 +49,9 @@ namespace armsim
         /// This is the constructor for the lsInstruction class
         /// </summary>
         /// <param name="instVal"></param> is used to instantiate the base instruction class
-        public lsInstruction(int instVal, bool specific) : base(instVal)
+        public lsInstruction(int instVal) : base(instVal)
         {
             // No psuedo code, but actual code:
-            setSpecific(specific);
             Memory bits = base.getBits();
             pBit = bits.TestFlag(0, 24);
             uBit = bits.TestFlag(0, 23);
@@ -68,8 +64,14 @@ namespace armsim
 
             if (bits.TestFlag(0, 25))
             {
-                os = new shiftedRegOffset(offsetVal);
+                os = new shiftedRegOffset(offsetVal, bits);
             }
+            else
+            {
+                os = new Offset(offsetVal);
+            }
+
+            setInstrStr(ToString());
 
 
         }
@@ -104,6 +106,10 @@ namespace armsim
                 val += bits.TestFlag(0, i) ? (int)Math.Pow(2, i) : 0;
             }
             offsetVal = (short)val;
+            if (!uBit)
+            {
+                offsetVal = (short)-offsetVal;
+            }
         }
 
         public override void execute(CPU processor)
@@ -137,15 +143,24 @@ namespace armsim
                             RmVal += 8;
                         }
                         RmVal = takeCareOfShift(offset.getShift(), offset.getShiftType(), RmVal, offset);
-                        RnVal = ram.ReadWord(RmVal);
-                        regs.setReg(rD, RnVal);
-                        effectiveAddress = RmVal;
+                        RnVal = regs.getReg(rN);
+                        if (!uBit)
+                        {
+                            RmVal = -RmVal;
+                        }
+                        effectiveAddress = RmVal + RnVal;
+                        int val = ram.ReadWord(effectiveAddress);
+                        regs.setReg(rD, val);
+                        string instrStr = "ldr r" + rD + ", [r" + rN + ", " + os.ToString();
+                        base.setInstrStr(instrStr);
                     }
                     else
                     {
                         RnVal = ram.ReadWord(RnVal + offsetVal);
                         regs.setReg(rD, RnVal);
                         effectiveAddress = RnVal + offsetVal;
+                        string instrStr = "ldr r" + rD + ", [r" + rN + ", " + os.ToString();
+
                     }
                 }
                 // ldr (unsigned byte)
@@ -160,9 +175,17 @@ namespace armsim
                             RmVal += 8;
                         }
                         RmVal = takeCareOfShift(offset.getShift(), offset.getShiftType(), RmVal, offset);
-                        RnVal = ram.ReadByte(RmVal);
-                        regs.setReg(rD, RnVal);
-                        effectiveAddress = RmVal;
+                        RnVal = regs.getReg(rN);
+                        if (!uBit)
+                        {
+                            RmVal = -RmVal;
+                        }
+                        effectiveAddress = RmVal + RnVal;
+                        int val = ram.ReadByte(effectiveAddress);
+                        regs.setReg(rD, val);
+                        
+                        string instrStr = "ldrb r" + rD + ", [r" + rN + ", " + os.ToString();
+                        base.setInstrStr(instrStr);
 
                     }
                     else
@@ -170,6 +193,8 @@ namespace armsim
                         RnVal = ram.ReadByte(RnVal + offsetVal);
                         regs.setReg(rD, RnVal);
                         effectiveAddress = RnVal + offsetVal;
+                        string instrStr = "ldrb r" + rD + ", [r" + rN + ", " + os.ToString();
+                        base.setInstrStr(instrStr);
                     }
                 }
             }
@@ -188,13 +213,22 @@ namespace armsim
                             RmVal += 8;
                         }
                         RmVal = takeCareOfShift(offset.getShift(), offset.getShiftType(), RmVal, offset);
-                        ram.WriteWord(RmVal, RdVal);
-                        effectiveAddress = RmVal;
+                        RnVal = regs.getReg(rN);
+                        if (!uBit)
+                        {
+                            RmVal = -RmVal;
+                        }
+                        ram.WriteWord(RmVal + RnVal, RdVal);
+                        effectiveAddress = RmVal + RnVal;
+                        string instrStr = "str r" + rD + ", [r" + rN + ", " + os.ToString();
+                        base.setInstrStr(instrStr);
                     }
                     else
                     {
                         ram.WriteWord(RnVal + offsetVal, RdVal);
                         effectiveAddress = RnVal + offsetVal;
+                        string instrStr = "str r" + rD + ", [r" + rN + ", " + os.ToString();
+                        base.setInstrStr(instrStr);
                     }
                 }
                 // str (unsigned byte)
@@ -209,13 +243,20 @@ namespace armsim
                             RmVal += 8;
                         }
                         RmVal = takeCareOfShift(offset.getShift(), offset.getShiftType(), RmVal, offset);
+                        RnVal = regs.getReg(rN);
+                        if (!uBit)
+                        {
+                            RmVal = -RmVal;
+                        }
+                        effectiveAddress = RmVal + RnVal;
                         byte bRdVal = regs.ReadByte(rD * 4);
                         if (rD == 15)
                         {
                             bRdVal += 8;
                         }
-                        ram.WriteByte(RmVal, bRdVal);
-                        effectiveAddress = RmVal;
+                        ram.WriteByte(effectiveAddress, bRdVal);
+                        string instrStr = "strb r" + rD + ", [r" + rN + ", " + os.ToString();
+                        base.setInstrStr(instrStr);
 
                     }
                     else
@@ -227,12 +268,17 @@ namespace armsim
                         }
                         ram.WriteByte(RnVal + offsetVal, bRdVal);
                         effectiveAddress = RnVal + offsetVal;
+                        string instrStr = "strb r" + rD + ", [r" + rN + ", " + os.ToString();
+                        base.setInstrStr(instrStr);
                     }
                 }
             }
             if (wBit)
             {
                 regs.setReg(rN, effectiveAddress);
+                string instrStr = base.getInstrStr();
+                instrStr += "!";
+                setInstrStr(instrStr);
             }
 
         }
@@ -264,6 +310,90 @@ namespace armsim
                 }
             }
             return RmVal;
+        }
+
+        public override string ToString()
+        {
+            string instrStr = "";
+            // ldr
+            if (lBit)
+            {
+                // ldr (word)
+                if (!bBit)
+                {
+                    if (os is shiftedRegOffset)
+                    {
+                        shiftedRegOffset offset = (shiftedRegOffset)os;
+                        
+                        instrStr = "ldr r" + rD + ", [r" + rN + ", " + os.ToString();
+                        base.setInstrStr(instrStr);
+                    }
+                    else
+                    {
+                        
+                        instrStr = "ldr r" + rD + ", [r" + rN + ", " + os.ToString();
+                        base.setInstrStr(instrStr);
+                    }
+                }
+                // ldr (unsigned byte)
+                else
+                {
+                    if (os is shiftedRegOffset)
+                    {
+                        shiftedRegOffset offset = (shiftedRegOffset)os;
+                        
+                        instrStr = "ldrb r" + rD + ", [r" + rN + ", " + os.ToString();
+                        base.setInstrStr(instrStr);
+
+                    }
+                    else
+                    {
+                        
+                        instrStr = "ldrb r" + rD + ", [r" + rN + ", " + os.ToString();
+                        base.setInstrStr(instrStr);
+                    }
+                }
+            }
+            // str
+            else
+            {
+                // str (word)
+                if (!bBit)
+                {
+                    if (os is shiftedRegOffset)
+                    {
+                        shiftedRegOffset offset = (shiftedRegOffset)os;
+                       
+                        instrStr = "str r" + rD + ", [r" + rN + ", " + os.ToString();
+                        base.setInstrStr(instrStr);
+                    }
+                    else
+                    {
+                        
+                        instrStr = "str r" + rD + ", [r" + rN + ", " + os.ToString();
+                        base.setInstrStr(instrStr);
+                    }
+                }
+                // str (unsigned byte)
+                else
+                {
+                    if (os is shiftedRegOffset)
+                    {
+                        shiftedRegOffset offset = (shiftedRegOffset)os;
+                        
+                        instrStr = "strb r" + rD + ", [r" + rN + ", " + os.ToString();
+                        base.setInstrStr(instrStr);
+
+                    }
+                    else
+                    {
+                       
+                        instrStr = "strb r" + rD + ", [r" + rN + ", " + os.ToString();
+                        base.setInstrStr(instrStr);
+                    }
+                }
+            }
+            return instrStr;
         }
     }
 }
