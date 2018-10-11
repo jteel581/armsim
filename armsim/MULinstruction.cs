@@ -31,6 +31,10 @@ namespace armsim
             Memory regs = processor.getRegisters();
             int RsVal = regs.getReg(rS);
             int RmVal = regs.getReg(rM);
+            if (rM == 15)
+            {
+                RmVal -= 8;
+            }
             int val = (RsVal * RmVal);
             regs.setReg(rD, val);
         }

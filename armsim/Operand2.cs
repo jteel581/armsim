@@ -40,6 +40,11 @@ namespace armsim
             int num = (curVal >> rotVal * 2) | (curVal << (32 - rotVal * 2));
             return num;
         }
+        public int rotateRmRight(int rotVal, int curVal)
+        {
+            int num = (curVal >> rotVal) | (curVal << (32 - rotVal));
+            return num;
+        }
 
         public override string ToString()
         {

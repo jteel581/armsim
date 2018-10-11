@@ -67,11 +67,11 @@ namespace armsim
             }
             else
             {
-                if (bits.TestFlag(0, 4))
+                if (!bits.TestFlag(0, 4))
                 {
                     op2 = new shiftByValOp2(op2Val);
                 }
-                else if (!bits.TestFlag(0,4))
+                else if (bits.TestFlag(0,4))
                 {
                     op2 = new shiftByRegOp2(op2Val);
                 }
@@ -178,7 +178,7 @@ namespace armsim
             op2Val = (short)val;
         }
 
-        public void takeCareOfShift(int shift, int shiftType, int RmVal, Operand2 op2)
+        public int takeCareOfShift(int shift, int shiftType, int RmVal, Operand2 op2)
         {
             Operand2 operand2;
             if (op2 is imOp2)
@@ -210,12 +210,13 @@ namespace armsim
                         break;
                     case 3: // ror 
 
-                        RmVal = operand2.rotateRight(shift, RmVal);
+                        RmVal = operand2.rotateRmRight(shift, RmVal);
 
                         break;
 
                 }
             }
+            return RmVal;
         }
     }
 }

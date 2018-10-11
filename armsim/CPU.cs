@@ -123,7 +123,7 @@ namespace armsim
                 {
                     return false;
                 }
-                else if (instrArray.TestFlag(0, i))
+                else if (i != 7 && i != 4 && instrArray.TestFlag(0, i))
                 {
                     return false;
                 }

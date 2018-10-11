@@ -45,12 +45,15 @@ namespace armsim
                 Memory bits = processor.getRAM();
                 int RnVal = regs.getReg(rN);
                 int RmVal = regs.getReg(rM);
-
+                if (rM == 15)
+                {
+                    RmVal += 8;
+                }
                 int shiftType = operand2.getShiftTypeVal();
                 int shift = operand2.getShiftVal();
                 //uint uRmVal;
 
-                takeCareOfShift(shift, shiftType, RmVal, operand2);
+                RmVal = takeCareOfShift(shift, shiftType, RmVal, operand2);
 
                 regs.setReg(rD, RnVal | RmVal);
 
@@ -66,9 +69,13 @@ namespace armsim
                 Memory regs = processor.getRegisters();
                 Memory bits = processor.getRAM();
                 int RmVal = regs.getReg(rM);
+                if (rM == 15)
+                {
+                    RmVal += 8;
+                }
                 int shiftVal = regs.getReg(rS);
                 int shiftType = operand2.getShiftTypeVal();
-                takeCareOfShift(shiftVal, shiftType, rM, operand2);
+                RmVal = takeCareOfShift(shiftVal, shiftType, RmVal, operand2);
                 int RnVal = regs.getReg(rN);
                 regs.setReg(rD, RnVal | RmVal);
 

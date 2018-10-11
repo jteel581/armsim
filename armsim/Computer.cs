@@ -247,6 +247,9 @@ namespace armsim
                 var instr = Processor.decode(instrVal);
                 if (instr is SWIinstruction)
                 {
+                    Registers.setReg(15, Registers.getReg(15) + 4);
+
+                    Tracer.trace();
                     break;
                 }
                 Processor.execute(instr);

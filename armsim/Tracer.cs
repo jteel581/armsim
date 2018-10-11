@@ -74,9 +74,9 @@ namespace armsim
                 progCounter -= progCounter == 0 ? 0 : 4;
                 string program_counter = progCounter.ToString("x8");
 
-                string checksum = RAM.calculateChecksum(RAM.memory).ToString();
+                string checksum = RAM.calculateChecksum(RAM.memory).ToString("x8");
 
-                traceFile.WriteLine(step_number + " " + program_counter.ToUpper() + " " + checksum + " " + flags + " " + mode + " " + printRegsNoNewLine());
+                traceFile.WriteLine(step_number + " " + program_counter.ToUpper() + " " + checksum.ToUpper() + " " + flags + " " + mode + " " + printRegsNoNewLine());
                 stepNum++;
             }
             
