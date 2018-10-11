@@ -150,20 +150,25 @@ namespace armsim
             else if (instr is dpInstruction)
             {
                 dpInstruction dpi = (dpInstruction)instr;
-                if (dpi.getSpecificInstr()  != null)
+                if (dpi.getSpecificInstr() != null)
                 {
                     dpi.getSpecificInstr().execute(this);
 
                 }
                 else
-
                 {
                     // blah blah blah
                 }
             }
-            
+            else if (instr is lsInstruction)
+            {
+                lsInstruction lsi = (lsInstruction)instr;
+                
 
-        
+            }
+
+
+
         }
         
 

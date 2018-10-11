@@ -28,5 +28,11 @@ namespace armsim
 
         // This is a getter for the offsetArray Variable
         public Memory getOffsetArray() { return offsetArray; }
+
+        public int rotateRmRight(int rotVal, int curVal)
+        {
+            int num = (curVal >> rotVal) | (curVal << (32 - rotVal));
+            return num;
+        }
     }
 }

@@ -18,6 +18,11 @@ namespace armsim
         // The number of the Rm register
         int rM;
 
+
+        public int getShift() { return shiftVal; }
+        public int getShiftType() { return shiftTypeVal; }
+        public int getRm() { return rM; }
+
         /// <summary>
         /// This is the constructor for the shiftedRegOffset class
         /// </summary>
