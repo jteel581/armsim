@@ -70,6 +70,7 @@
     <Compile Include="imOp2.cs" />
     <Compile Include="Instruction.cs" />
     <Compile Include="lsInstruction.cs" />
+    <Compile Include="lsmInstruction.cs" />
     <Compile Include="MOVdpInstruction.cs" />
     <Compile Include="MULinstruction.cs" />
     <Compile Include="MVNdpInstruction.cs" />

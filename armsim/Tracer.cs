@@ -69,7 +69,7 @@ namespace armsim
         {
             if (enabled)
             {
-                if (stepNum == 13)
+                if (stepNum == 21)
                 {
 
                 }

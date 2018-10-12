@@ -63,7 +63,8 @@ namespace armsim
             // check for MULinstruction
             bool isMulInstr = checkForMulInstr(instrArray);
             bool isSwiInstr = checkForSwiInstr(instrArray);
-            
+            bool isLSMInstr = checkForLSMInstr(instrArray);
+
             if (isMulInstr)
             {
                 return new MULinstruction(instrVal);
@@ -71,6 +72,10 @@ namespace armsim
             else if (isSwiInstr)
             {
                 return new SWIinstruction(instrVal);
+            }
+            else if (isLSMInstr)
+            {
+                return new lsmInstruction(instrVal);
             }
             else
             {
@@ -87,6 +92,27 @@ namespace armsim
             
             return null;
             
+        }
+
+        public bool checkForLSMInstr(Memory instrArray)
+        {
+            for (int i = 27; i > 24; i--)
+            {
+                if (i == 27 && !instrArray.TestFlag(0, i))
+                {
+                    return false;
+                }
+                else if (i != 27 && instrArray.TestFlag(0,i))
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+
+            }
+            return false;
         }
 
         public bool checkForSwiInstr(Memory instrArray)
@@ -165,6 +191,14 @@ namespace armsim
                 lsInstruction lsi = (lsInstruction)instr;
                 lsi.execute(this);
 
+            }
+            else if (instr is lsmInstruction)
+            {
+                lsmInstruction lsmi = (lsmInstruction)instr;
+                lsmi.execute(this);
+                int word1 = RAM.ReadWord(0x7000);
+                int word2 = RAM.ReadWord(0x6ffc);
+                int word3 = RAM.ReadWord(0x6ff8);
             }
 
 
