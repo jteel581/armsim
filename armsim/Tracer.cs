@@ -15,7 +15,9 @@ namespace armsim
         static string flags = "0000";
         static string mode = "SYS";
         public static bool enabled = true;
-        static StreamWriter traceFile; 
+        static StreamWriter traceFile;
+        public static bool okToClose = true;
+        public static StreamWriter getTraceFile() { return traceFile; }
 
         public static void setRAM(Memory newRam)
         {
@@ -36,7 +38,7 @@ namespace armsim
         public static void enableTrace()
         {
             Tracer.disableTrace();
-
+            okToClose = false;
             enabled = true;
             if (File.Exists(Environment.CurrentDirectory + "\\trace.log"))
             {
@@ -48,10 +50,12 @@ namespace armsim
         {
             if (traceFile != null)
             {
+                traceFile.Flush();
                 traceFile.Close();
 
             }
             enabled = false;
+            okToClose = true;
         }
         static string printRegsNoNewLine()
         {

@@ -218,5 +218,14 @@ namespace armsim
             }
             return RmVal;
         }
+        public override string ToString()
+        {
+            dpInstruction dpi = getSpecificInstr();
+            if (dpi == null)
+            {
+                return "<instruction not supported>";
+            }
+            return dpi.ToString();
+        }
     }
 }

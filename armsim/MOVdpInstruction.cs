@@ -117,7 +117,7 @@ namespace armsim
         {
             string instrStr = "mov ";
             string rD = "r" + base.getrD().ToString();
-            instrStr += rD + ", ";
+            instrStr += rD;
             Operand2 op2 = getOp2();
 
             instrStr += op2.ToString();

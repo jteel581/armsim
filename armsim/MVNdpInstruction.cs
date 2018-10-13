@@ -82,7 +82,7 @@ namespace armsim
         {
             string instrStr = "mvn ";
             string rD = "r" + base.getrD().ToString();
-            instrStr += rD + ", ";
+            instrStr += rD;
             Operand2 op2 = getOp2();
 
             instrStr += op2.ToString();

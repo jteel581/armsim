@@ -98,31 +98,36 @@ namespace armsim
             switch (shiftTypeVal)
             {
                 case 0:
-                    shiftType = "lsl";
+                    shiftType = "lsl ";
                     break;
                 case 1:
-                    shiftType = "lsr";
+                    shiftType = "lsr ";
                     break;
                 case 2:
-                    shiftType = "asr";
+                    shiftType = "asr ";
                     break;
                 case 3:
-                    shiftType = "ror";
+                    shiftType = "ror ";
                     break;
             }
             Memory bits = instrArray;
             if (!bits.TestFlag(0, 23))
             {
-                osStr += "-r" + rM + ", " + shiftType;
+                osStr += "-r" + rM; ;
                 
             }
             else
             {
-                osStr += "r" + rM + ", " + shiftType;
+                osStr += "r" + rM; ;
             }
             if (shiftVal != 0)
             {
+                osStr += ", " + shiftType;
                 osStr += "#" + shiftVal + "]";
+            }
+            else
+            {
+                osStr += "]";
             }
             return osStr;
         }

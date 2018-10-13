@@ -26,6 +26,8 @@ namespace armsim
 
             // Tests to make sure register holds 0 before the mov operation
             Debug.Assert(comp.getRegisters().ReadWord(8) == 0);
+
+            // tests dpInstruction decode and execute
             int  j = -476045264;
             // decodes the instruction 0xe3a02030 from the design requirements page
             var instr = comp.getProcessor().decode(j);
@@ -38,7 +40,18 @@ namespace armsim
             // Tests that the new value of the register is 48
             Debug.Assert(comp.getRegisters().ReadWord(8) == 48);
 
-            
+
+            // tests lsInstruction decode
+            j = -444256240;
+            instr = comp.getProcessor().decode(j);
+            instrStr = instr.getInstrStr();
+            compStr = "str r3, [r5, #16]";
+            Debug.Assert(instrStr == compStr);
+
+
+
+
+
 
 
 

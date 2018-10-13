@@ -59,7 +59,10 @@ namespace armsim
         {
             var inst = new Instruction(instrVal);
             Memory instrArray = inst.getBits();
+            if (instrVal == -516948194)
+            {
 
+            }
             // check for MULinstruction
             bool isMulInstr = checkForMulInstr(instrArray);
             bool isSwiInstr = checkForSwiInstr(instrArray);

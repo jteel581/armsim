@@ -105,7 +105,7 @@ namespace armsim
                     op2Str += "ror ";
                     break;
             }
-            op2Str += "r" + rS;
+            op2Str += "r" + rS + "]";
             
 
             return op2Str;

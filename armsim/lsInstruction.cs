@@ -156,9 +156,10 @@ namespace armsim
                     }
                     else
                     {
+                        effectiveAddress = RnVal + offsetVal;
+
                         RnVal = ram.ReadWord(RnVal + offsetVal);
                         regs.setReg(rD, RnVal);
-                        effectiveAddress = RnVal + offsetVal;
                         string instrStr = "ldr r" + rD + ", [r" + rN + ", " + os.ToString();
 
                     }

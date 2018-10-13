@@ -33,6 +33,11 @@ namespace armsim
         Form1 f;
 
 
+        int firstAddr;
+
+        public int getFirstAddr() { return firstAddr;  }
+        
+
 
 
         public Memory getRAM() { return RAM; }
@@ -158,6 +163,11 @@ namespace armsim
                         ELFheaderEntry progHeaderEntry = new ELFheaderEntry();
 
                         progHeaderEntry = ByteArrayToStructure<ELFheaderEntry>(data);
+                        if (i == 0)
+                        {
+                            firstAddr = (int)progHeaderEntry.p_vaddr;
+
+                        }
                         if (ops.log)
                         {
                             Trace.WriteLine("Loader: Segment " + i + " - Address = " + progHeaderEntry.p_vaddr + ", Offset = "
@@ -266,47 +276,54 @@ namespace armsim
                 }
 
             }
-            f.setRegPanelText(printRegs());
-
-            
-
-            ListView lv = f.getDisasseblyListView();
-            int i = 0; 
-
-            if (lv.InvokeRequired)
+            if (!f.getOps().getExecStatus())
             {
-                lv.Invoke(new MethodInvoker(delegate { f.hilightApropriateRow(); }));
-                lv.Invoke(new MethodInvoker(delegate { f.getDisasseblyListView().Focus(); }));
+                f.setRegPanelText(printRegs());
+
+
+
+                ListView lv = f.getDisasseblyListView();
+                int i = 0;
+
+                if (lv.InvokeRequired)
+                {
+                    lv.Invoke(new MethodInvoker(delegate { f.hilightApropriateRow(); }));
+                    lv.Invoke(new MethodInvoker(delegate { f.getDisasseblyListView().Focus(); }));
+                }
+                else
+                {
+                    if (lv.SelectedIndices.Count > 1)
+                    {
+                        i = lv.SelectedIndices[0];
+                        lv.TopItem = lv.Items[lv.Items.Count - 1];
+                        lv.Items[i].Selected = false;
+                        lv.Items[lv.Items.Count - 1].Selected = true;
+                        f.getDisasseblyListView().Focus();
+                    }
+
+                }
+
+                if (f.breakPoints.Contains(programCounter))
+                {
+                    Registers.setReg(15, Registers.getReg(15) + 4);
+
+                }
+
+                if (f.InvokeRequired)
+                {
+                    f.Invoke(new MethodInvoker(delegate { f.enableRunButton(); }));
+                    f.Invoke(new MethodInvoker(delegate { f.disableStopButton(); }));
+                    f.Invoke(new MethodInvoker(delegate { f.enableStepButton(); }));
+
+
+                }
             }
+            
             else
             {
-                if (lv.SelectedIndices.Count > 1)
-                {
-                    i = lv.SelectedIndices[0];
-                    lv.TopItem = lv.Items[lv.Items.Count - 1];
-                    lv.Items[i].Selected = false;
-                    lv.Items[lv.Items.Count - 1].Selected = true;
-                    f.getDisasseblyListView().Focus();
-                }
+                StreamWriter sw = Tracer.getTraceFile();
+                sw.Flush();
                 
-            }
-
-            if (f.breakPoints.Contains(programCounter))
-            {
-                Registers.setReg(15, Registers.getReg(15) + 4);
-
-            }
-
-            if (f.InvokeRequired)
-            {
-                f.Invoke(new MethodInvoker(delegate { f.enableRunButton();  }));
-                f.Invoke(new MethodInvoker(delegate { f.disableStopButton(); }));
-                f.Invoke(new MethodInvoker(delegate { f.enableStepButton(); }));
-
-
-            }
-            if (f.getOps().getExecStatus())
-            {
                 System.Environment.Exit(0);
             }
         }

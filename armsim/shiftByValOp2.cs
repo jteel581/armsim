@@ -92,24 +92,30 @@ namespace armsim
         */
         public override string ToString()
         {
-            string op2Str = ", ";
-            op2Str += getRm() + ", ";
-            switch (shiftTypeVal)
+            string op2Str = ", r";
+            op2Str += getRm();
+            if (shiftVal != 0)
             {
-                case 0: // lsl
-                    op2Str += "lsl ";
-                    break;
-                case 1: // lsr
-                    op2Str += "lsr ";
-                    break;
-                case 2: // asr
-                    op2Str += "asr ";
-                    break;
-                case 3: // ror 
-                    op2Str += "ror ";
-                    break;
+                op2Str += ", ";
+                switch (shiftTypeVal)
+                {
+                    case 0: // lsl
+                        op2Str += "lsl ";
+                        break;
+                    case 1: // lsr
+                        op2Str += "lsr ";
+                        break;
+                    case 2: // asr
+                        op2Str += "asr ";
+                        break;
+                    case 3: // ror 
+                        op2Str += "ror ";
+                        break;
+                }
+                op2Str += "#" + shiftVal + "]";
             }
-            op2Str += "#" + shiftVal;
+
+            
 
 
             return op2Str;

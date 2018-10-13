@@ -91,10 +91,13 @@ namespace armsim
         // bits set to 0.
         public static int ExtractBits(int word, int startBit, int endBit)
         {
-            int numOfBits = (endBit - startBit);
-            int mask = -1;
+            int numOfBits = ((endBit - startBit) + 1);
+            int mask = 1;
             int result;
-            mask >>= 31 - numOfBits;
+            for (int i = 1; i < numOfBits; i++)
+            {
+                mask = (mask * 2) + 1;
+            }
             mask <<= startBit;
             result = word & mask;
             return result;

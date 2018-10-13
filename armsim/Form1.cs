@@ -274,7 +274,7 @@ namespace armsim
             {
 
 
-                if (ops.getFileName() != "")
+                if (ops.getFileName() == "")
                 {
                     ops.setExecStatus(false);
                 }
@@ -329,32 +329,40 @@ namespace armsim
                     Tracer.setRAM(comp.getRAM());
                     Tracer.setRegs(comp.getRegisters());
                     Tracer.enableTrace();
+
+
+
+
+
                     runButton.PerformClick();
 
                     
 
                 }
             }
-
-            fileNameLabel.Text = ops.getFileName();
-            memSizeLabel.Text = ops.getMemSize().ToString();
-
-            comp = new Computer(ops.getMemSize() == 0 ? 32768 : ops.getMemSize(), this);
-
-            if (ops.getFileName() != "")
+            else
             {
-                if(!comp.load(this, ops))
+                fileNameLabel.Text = ops.getFileName();
+                memSizeLabel.Text = ops.getMemSize().ToString();
+
+                comp = new Computer(ops.getMemSize() == 0 ? 32768 : ops.getMemSize(), this);
+
+                if (ops.getFileName() != "")
                 {
-                    string message = "Somthing went wrong with loading!";
-                    string caption = "Loader Error";
-                    MessageBox.Show(message, caption);
-                    handleBadLoading();
-                    //something went wrong with loading
+                    if (!comp.load(this, ops))
+                    {
+                        string message = "Somthing went wrong with loading!";
+                        string caption = "Loader Error";
+                        MessageBox.Show(message, caption);
+                        handleBadLoading();
+                        //something went wrong with loading
+                    }
                 }
+                Tracer.setRAM(comp.getRAM());
+                Tracer.setRegs(comp.getRegisters());
+                Tracer.enableTrace();
             }
-            Tracer.setRAM(comp.getRAM());
-            Tracer.setRegs(comp.getRegisters());
-            Tracer.enableTrace();
+            
 
 
 
@@ -363,79 +371,69 @@ namespace armsim
 
         public void fillDissAssembPanel()
         {
+            disassemblyListView.Items.Clear();
             disassemblyListView.FullRowSelect = true;
-            
-            ListViewItem lvi = new ListViewItem(new string[] { "00001000", "e52db004", "push	{fp}		; (str fp, [sp, #-4]!)" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001004", "e28db000", "add	fp, sp, #0" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001008", "e24dd00c", "sub	sp, sp, #12" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "0000100c", "e50b0008", "str	r0, [fp, #-8]" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001010", "e28bd000", "add	sp, fp, #0" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001014", "e8bd0800", "ldmfd	sp!, {fp}" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001018", "e12fff1e", "bx	lr" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "0000101c", "e52db004", "push	{fp}		; (str fp, [sp, #-4]!)" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001020", "e28db000", "add	fp, sp, #0" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001024", "e24dd00c", "sub	sp, sp, #12" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001028", "e50b0008", "str	r0, [fp, #-8]" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "0000102c", "e28bd000", "sp, fp, #0" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001030", "e8bd0800", "sp!, {fp}" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001034", "e12fff1e", "bx	lr" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001038", "e92d4800", "push	{fp, lr}" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "0000103c", "e28db004", "add	fp, sp, #4" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001040", "e24dd008", "sub	sp, sp, #8" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001044", "e3a0300a", "mov	r3, #10" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001048", "e50b3008", "str	r3, [fp, #-8]" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "0000104c", "e3a03000", "mov	r3, #0" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001050", "e50b300c", "str	r3, [fp, #-12]" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001054", "e51b000c", "ldr	r0, [fp, #-12]" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001058", "ebffffe8", "bl	1000 <putc>" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "0000105c", "e59f301c", "ldr	r3, [pc, #28]	; 1080 <mystart+0x48>" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001060", "e5933000", "ldr	r3, [r3]" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001064", "e1a00003", "mov	r0, r3" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001068", "ebffffeb", "bl	101c <puts>" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "0000106c", "e51b300c", "ldr	r3, [fp, #-12]" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001070", "e1a00003", "mov	r0, r3" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001074", "e24bd004", "sub	sp, fp, #4" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001078", "e8bd4800", "pop	{fp, lr}" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "0000107c", "e12fff1e", "bx	lr" });
-            disassemblyListView.Items.Add(lvi);
-            lvi = new ListViewItem(new string[] { "00001080", "00001200", ".word	0x00001200" });
-            disassemblyListView.Items.Add(lvi);
+            CPU processor = comp.getProcessor();
+
+            int oldPc = processor.getProgramCounter();
+            processor.setProgramCounter(comp.getFirstAddr());
+            Instruction instr;
+            string addrStr;
+            string instrValStr;
+            string instrStr;
+            int curPc = processor.getProgramCounter();
+            Memory bits;
+            Memory registers = processor.getRegisters();
+            while (!((instr = processor.decode(processor.fetch())) is SWIinstruction) && processor.fetch() != 0)
+            {
+                bits = instr.getBits();
+                addrStr = curPc.ToString("x8");
+                instrValStr = bits.ReadWord(0).ToString("x8");
+                instrStr = instr.ToString();
+                ListViewItem lvi = new ListViewItem(new string[] { addrStr, instrValStr, instrStr });
+                disassemblyListView.Items.Add(lvi);
+
+                registers.setReg(15, registers.getReg(15) + 4);
+                processor.setProgramCounter(registers.getReg(15));
+                curPc = processor.getProgramCounter();
+
+            }
+            processor.setProgramCounter(oldPc);
+            registers.setReg(15, oldPc);
+
+            /*ListViewItem lvi = new ListViewItem(new string[] { "00001000", "e52db004", "push	{fp}		; (str fp, [sp, #-4]!)" });
+            disassemblyListView.Items.Add(lvi);*/
+
             disassemblyListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            // hilight the right row
+            int i = 0;
+            foreach(ListViewItem lvi in disassemblyListView.Items)
+            {
 
-            disassemblyListView.TopItem = disassemblyListView.Items[12];
+                string address = lvi.SubItems[0].Text;
+                if (address == processor.getProgramCounter().ToString("x8"))
+                {
+                    if (i > 2)
+                    {
+                        disassemblyListView.TopItem = disassemblyListView.Items[i - 2];
+                        disassemblyListView.Items[i].Selected = true;
 
-            disassemblyListView.Items[14].Selected = true;
+                    }
+                    else
+                    {
+                        disassemblyListView.TopItem = disassemblyListView.Items[i];
+                        disassemblyListView.Items[i].Selected = true;
+
+                    }
+                    break;
+
+                }
+                i++;
+            }
+            disassemblyListView.Focus();
+            //disassemblyListView.TopItem = disassemblyListView.Items[12];
+
+            //disassemblyListView.Items[14].Selected = true;
             
         }
 
