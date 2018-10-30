@@ -50,12 +50,15 @@
     <Compile Include="ADDdpInstruction.cs" />
     <Compile Include="ANDdpInstruction.cs" />
     <Compile Include="BICdpInstruction.cs" />
+    <Compile Include="bInstruction.cs" />
     <Compile Include="breakPointDialogBox.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="breakPointDialogBox.Designer.cs">
       <DependentUpon>breakPointDialogBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="bxInstruction.cs" />
+    <Compile Include="CMPdpInstruction.cs" />
     <Compile Include="Computer.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="CPU.cs" />

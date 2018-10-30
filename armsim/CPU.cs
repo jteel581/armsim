@@ -15,11 +15,12 @@ namespace armsim
     {
         Memory RAM;
         Memory Registers;
+        Memory CPSR;
         int ProgramCounter;
 
         public Memory getRAM() { return RAM; }
         public Memory getRegisters() { return Registers; }
-
+        public Memory getCPSR() { return CPSR; }
 
         /// <summary>
         /// These are getter and setter methods for the ProgramCounter variable.
@@ -31,10 +32,15 @@ namespace armsim
             ProgramCounter = newVal;
             Registers.WriteWord(60, newVal);
         }
+        public void setCPSR(byte cpsrVal)
+        {
+            CPSR.WriteByte(3, cpsrVal);
+        }
         public CPU(Memory ram, Memory regs)
         {
             RAM = ram;
             Registers = regs;
+            CPSR = new Memory(4);
             ProgramCounter = 0;
         }
         /// <summary>
