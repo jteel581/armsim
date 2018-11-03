@@ -462,7 +462,7 @@
             // runButton
             // 
             this.runButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.runButton.Image = global::armsim.Properties.Resources.icons8_play_property_64_20x20;
+            this.runButton.Image = global::armsim.Properties.Resources.runIcon;
             this.runButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.runButton.Location = new System.Drawing.Point(15, 42);
             this.runButton.Name = "runButton";
