@@ -95,6 +95,8 @@ namespace armsim
                         return new dpInstruction(instrVal, false);
                     case 2:
                         return new lsInstruction(instrVal);
+                    case 5:
+                        return new bInstruction(instrVal);
 
                 }
             }
@@ -172,46 +174,53 @@ namespace armsim
         /// </summary>
         public void execute(Instruction instr)
         {
-            if (instr is MULinstruction)
+            if (instr.checkConditions(this))
             {
-                MULinstruction mi = (MULinstruction)instr;
-                mi.execute(this);
-            }
-            else if (instr is SWIinstruction)
-            {
-                
-                // do nothing and stop running
-            }
-            else if (instr is dpInstruction)
-            {
-                dpInstruction dpi = (dpInstruction)instr;
-                if (dpi.getSpecificInstr() != null)
+                if (instr is MULinstruction)
                 {
-                    dpi.getSpecificInstr().execute(this);
+                    MULinstruction mi = (MULinstruction)instr;
+
+                    mi.execute(this);
+                }
+                else if (instr is SWIinstruction)
+                {
+
+                    // do nothing and stop running
+                }
+                else if (instr is dpInstruction)
+                {
+                    dpInstruction dpi = (dpInstruction)instr;
+                    if (dpi.getSpecificInstr() != null)
+                    {
+                        dpi.getSpecificInstr().execute(this);
+
+                    }
+                    else
+                    {
+                        // blah blah blah
+                    }
+                }
+                else if (instr is lsInstruction)
+                {
+                    lsInstruction lsi = (lsInstruction)instr;
+                    lsi.execute(this);
 
                 }
-                else
+                else if (instr is lsmInstruction)
                 {
-                    // blah blah blah
+                    lsmInstruction lsmi = (lsmInstruction)instr;
+                    lsmi.execute(this);
+                    int word1 = RAM.ReadWord(0x7000);
+                    int word2 = RAM.ReadWord(0x6ffc);
+                    int word3 = RAM.ReadWord(0x6ff8);
+                }
+                else if (instr is bInstruction)
+                {
+                    bInstruction bi = (bInstruction)instr;
+                    bi.execute(this);
                 }
             }
-            else if (instr is lsInstruction)
-            {
-                lsInstruction lsi = (lsInstruction)instr;
-                lsi.execute(this);
-
-            }
-            else if (instr is lsmInstruction)
-            {
-                lsmInstruction lsmi = (lsmInstruction)instr;
-                lsmi.execute(this);
-                int word1 = RAM.ReadWord(0x7000);
-                int word2 = RAM.ReadWord(0x6ffc);
-                int word3 = RAM.ReadWord(0x6ff8);
-            }
-
-
-
+            
         }
         
 

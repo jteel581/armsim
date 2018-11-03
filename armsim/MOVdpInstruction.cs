@@ -33,8 +33,7 @@ namespace armsim
         /// <param name="processor"></param> is used to provide easy access to RAM and Registers
         public override void execute(CPU processor)
         {
-            // No psuedo code, but actual code:
-            // I need 3 different branches here, one for each type of operand2
+            //byte cpsrVal = 0;
             if (base.getOp2() is imOp2)
             {
                 // rd = rn + immediate rotated right by alignment val*2
@@ -48,15 +47,7 @@ namespace armsim
                 //int RnVal = regs.getReg(rN);
                 regs.setReg(rD, immediate);
 
-                /*
-                byte immVal = (byte)base.getOp2().getImmediateVal();
-                int rD = base.getrD() * 4;
-                Memory regs = processor.getRegisters();
-                imOp2 operand2 = (imOp2)base.getOp2();
-                int rotVal = operand2.getAlignmentVal();
-                operand2.rotateRight(rotVal, operand2.);
-                regs.WriteByte(rD, immVal);
-                */
+                
             }
             else if (base.getOp2() is shiftByValOp2)
             {
@@ -109,6 +100,33 @@ namespace armsim
             
 
         }
+
+        public override byte calcCPSRVal(int op1, int op2)
+        {
+            byte cpsrVal = 0;
+            // sets N flag
+            if ((op1 & op2) < 0)
+            {
+                cpsrVal += 8;
+            }
+            // sets Z flag
+            if ((op1 & op2) == 0)
+            {
+                cpsrVal += 4;
+            }
+            // sets C flag
+            if ((op1 & op2) > 0xFFFF)
+            {
+                cpsrVal += 2;
+            }
+            // sets V flag
+            if ((op1 & op2) > 0x7FFF)
+            {
+                cpsrVal += 1;
+            }
+            return cpsrVal;
+        }
+
         /// <summary>
         /// This is used to convert the decoded instruction to a string representation
         /// </summary>

@@ -18,6 +18,7 @@ namespace armsim
 
         public override void execute(CPU processor)
         {
+            //byte cpsrVal = 0;
             // check different op2 types
             if (base.getOp2() is imOp2)
             {
@@ -31,7 +32,7 @@ namespace armsim
                 Memory regs = processor.getRegisters();
                 int RnVal = regs.getReg(rN);
                 regs.setReg(rD, RnVal & immediate);
-
+                //cpsrVal = calcCPSRVal(RnVal, immediate);
 
             }
             else if (base.getOp2() is shiftByValOp2)
@@ -56,6 +57,7 @@ namespace armsim
                 RmVal = takeCareOfShift(shift, shiftType, RmVal, operand2);
 
                 regs.setReg(rD, RnVal & RmVal);
+                //cpsrVal = calcCPSRVal(RnVal, RmVal);
 
             }
             else if (base.getOp2() is shiftByRegOp2)
@@ -78,6 +80,7 @@ namespace armsim
                 RmVal = takeCareOfShift(shiftVal, shiftType, RmVal, operand2);
                 int RnVal = regs.getReg(rN);
                 regs.setReg(rD, RnVal & RmVal);
+                //cpsrVal = calcCPSRVal(RnVal, RmVal);
 
 
             }
@@ -85,6 +88,34 @@ namespace armsim
             {
                 // error
             }
+            //processor.setCPSR(cpsrVal);
+        }
+
+
+        public override byte calcCPSRVal(int op1, int op2)
+        {
+            byte cpsrVal = 0;
+            // sets N flag
+            if ((op1 & op2) < 0)
+            {
+                cpsrVal += 8;
+            }
+            // sets Z flag
+            if ((op1 & op2) == 0)
+            {
+                cpsrVal += 4;
+            }
+            // sets C flag
+            if ((op1 & op2) > 0xFFFF)
+            {
+                cpsrVal += 2;
+            }
+            // sets V flag
+            if ((op1 & op2) > 0x7FFF)
+            {
+                cpsrVal += 1;
+            }
+            return cpsrVal;
         }
 
         public override string ToString()

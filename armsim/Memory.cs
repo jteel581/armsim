@@ -33,7 +33,14 @@ namespace armsim
             size = ramSize;
         }
 
+        public void getFlags(out bool nFlag, out bool zFlag, out bool cFlag, out bool vFlag)
+        {
+            nFlag = this.TestFlag(0, 31) ? true : false;
+            zFlag = this.TestFlag(0, 30) ? true : false;
+            cFlag = this.TestFlag(0, 29) ? true : false;
+            vFlag = this.TestFlag(0, 28) ? true : false;
 
+        }
 
 
         public int getReg(int regNum)

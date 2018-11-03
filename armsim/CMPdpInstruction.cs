@@ -32,7 +32,7 @@ namespace armsim
                 Memory regs = processor.getRegisters();
                 int RnVal = regs.getReg(rN);
                 //regs.setReg(rD, RnVal ^ immediate);
-                cpsrVal = setCSPRval(RnVal, immediate);
+                cpsrVal = calcCPSRVal(RnVal, immediate);
 
             }
             else if (base.getOp2() is shiftByValOp2)
@@ -55,7 +55,7 @@ namespace armsim
                 //uint uRmVal;
 
                 RmVal = takeCareOfShift(shift, shiftType, RmVal, operand2);
-                cpsrVal = setCSPRval(RnVal, RmVal);
+                cpsrVal = calcCPSRVal(RnVal, RmVal);
 
                 //regs.setReg(rD, RnVal ^ RmVal);
 
@@ -80,7 +80,7 @@ namespace armsim
                 RmVal = takeCareOfShift(shiftVal, shiftType, RmVal, operand2);
                 int RnVal = regs.getReg(rN);
                 //regs.setReg(rD, RnVal ^ RmVal);
-                cpsrVal = setCSPRval(RnVal, RmVal);
+                cpsrVal = calcCPSRVal(RnVal, RmVal);
 
 
             }
@@ -91,7 +91,7 @@ namespace armsim
             processor.setCPSR(cpsrVal);
         }
 
-        public byte setCSPRval(int op1, int op2)
+        public override byte calcCPSRVal(int op1, int op2)
         {
             byte cpsrVal = 0;
             // sets N flag
@@ -114,9 +114,9 @@ namespace armsim
             {
                 cpsrVal += 1;
             }
-            
             return cpsrVal;
         }
+
 
         public override string ToString()
         {

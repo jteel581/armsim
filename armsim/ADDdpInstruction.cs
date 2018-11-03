@@ -19,6 +19,7 @@ namespace armsim
 
         public override void execute(CPU processor)
         {
+            //byte cpsrVal = 0;
             // check different op2 types
             if (base.getOp2() is imOp2)
             {
@@ -32,7 +33,8 @@ namespace armsim
                 Memory regs = processor.getRegisters();
                 int RnVal = regs.getReg(rN);
                 regs.setReg(rD, RnVal + immediate);
-
+                //cpsrVal = calcCPSRVal(RnVal, immediate);
+                
 
             }
             else if (base.getOp2() is shiftByValOp2)
@@ -56,41 +58,10 @@ namespace armsim
                 //uint uRmVal;
 
                 RmVal = takeCareOfShift(shift, shiftType, RmVal, operand2);
-                /*
-                if (shift != 0)
-                {
-                    switch (shiftType)
-                    {
-                        case 0: // lsl
-                            uRmVal = (uint)RmVal;
-                            RmVal = (int)(uRmVal << shift);
-                            break;
-                        case 1: // lsr
-                            uRmVal = (uint)RmVal;
-                            RmVal = (int)(uRmVal >> shift);
-                            break;
-                        case 2: // asr
-                            RmVal = RmVal >> shift;
-                            break;
-                        case 3: // ror 
-
-                            RmVal = operand2.rotateRmRight(shift);
-
-                            break; 
-
-                    }
-                    
-                    regs.setReg(rD, RnVal + RmVal);
-
-                }
-                else
-                {
-                    
-                    regs.setReg(rD, RnVal + RmVal);
-                }
-                */
+               
                 regs.setReg(rD, RnVal + RmVal);
-                
+                //cpsrVal = calcCPSRVal(RnVal, RmVal);
+
             }
             else if (base.getOp2() is shiftByRegOp2)
             {
@@ -111,6 +82,7 @@ namespace armsim
                 RmVal = takeCareOfShift(shiftVal, shiftType, RmVal, operand2);
                 int RnVal = regs.getReg(rN);
                 regs.setReg(rD, RnVal + RmVal);
+                //cpsrVal = calcCPSRVal(RnVal, RmVal);
 
 
             }
@@ -118,6 +90,33 @@ namespace armsim
             {
                 // error
             }
+            //processor.setCPSR(cpsrVal);
+        }
+
+        public override byte calcCPSRVal(int op1, int op2)
+        {
+            byte cpsrVal = 0;
+            // sets N flag
+            if ((op1 + op2) < 0)
+            {
+                cpsrVal += 8;
+            }
+            // sets Z flag
+            if ((op1 + op2) == 0)
+            {
+                cpsrVal += 4;
+            }
+            // sets C flag
+            if ((op1 + op2) > 0xFFFF)
+            {
+                cpsrVal += 2;
+            }
+            // sets V flag
+            if ((op1 + op2) > 0x7FFF)
+            {
+                cpsrVal += 1;
+            }
+            return cpsrVal;
         }
 
 

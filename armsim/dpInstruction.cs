@@ -30,6 +30,8 @@ namespace armsim
         
         // An operand 2 object used to hold the different values operand 2 can hold
         Operand2 op2;
+
+
         // Getter methods
         public dpInstruction getSpecificInstr() { return specificInstr; }
         public bool getSBit() { return sBit; }
@@ -218,6 +220,15 @@ namespace armsim
             }
             return RmVal;
         }
+
+        public virtual byte calcCPSRVal(int op1, int op2)
+        {
+            // this method only exists to be overridden 
+            byte cpsrVal = 0;
+
+            return cpsrVal;
+        }
+
         public override string ToString()
         {
             dpInstruction dpi = getSpecificInstr();

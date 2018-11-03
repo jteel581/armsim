@@ -18,8 +18,14 @@ namespace armsim
         bool zFlag;
         // Status of the C flag
         bool cFlag;
-        // Status of the F flag
-        bool fFlag;
+        // Status of the V flag
+        bool vFlag;
+
+        public bool getNflag() { return nFlag; }
+        public bool getZflag() { return zFlag; }
+        public bool getCflag() { return cFlag; }
+        public bool getVflag() { return vFlag; }
+
         // A number used to determine whether the instruction is data processing, load store, or branch
         uint type;
         // the string representation of the decoded instruction
@@ -44,12 +50,23 @@ namespace armsim
             nFlag = bits.TestFlag(0, 31) ? true : false;
             zFlag = bits.TestFlag(0, 30) ? true : false;
             cFlag = bits.TestFlag(0, 29) ? true : false;
-            fFlag = bits.TestFlag(0, 28) ? true : false;
+            vFlag = bits.TestFlag(0, 28) ? true : false;
             type = bits.ReadByte(3);
             type = type << 4;
             type = type >> 5;
             instrStr = "";
         
+        }
+
+        public bool checkConditions(CPU processor)
+        {
+            bool nFlag, zFlag, cFlag, vFlag = false;
+            processor.getCPSR().getFlags(out nFlag, out zFlag, out cFlag, out vFlag);
+            if (nFlag == getNflag() && zFlag == getZflag() && cFlag == getCflag() && vFlag == getVflag())
+            {
+                return true;
+            }
+            return false;
         }
         public virtual void execute(CPU processor)
         {
