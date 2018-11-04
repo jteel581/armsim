@@ -107,6 +107,11 @@ namespace armsim
                         specificInstr.setSpecific(true);
                         base.setInstrStr(specificInstr.ToString());
                         break;
+                    case 10:
+                        specificInstr = new CMPdpInstruction(instVal);
+                        specificInstr.setSpecific(true);
+                        base.setInstrStr(specificInstr.ToString());
+                        break;
                     case 12:
                         specificInstr = new ORRdpInstruction(instVal);
                         specificInstr.setSpecific(true);

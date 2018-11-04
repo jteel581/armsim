@@ -93,6 +93,8 @@ namespace armsim
 
         public override byte calcCPSRVal(int op1, int op2)
         {
+            uint uOp1 = (uint)op1;
+            uint uOp2 = (uint)op2;
             byte cpsrVal = 0;
             // sets N flag
             if ((op1 - op2) < 0)
@@ -105,12 +107,12 @@ namespace armsim
                 cpsrVal += 4;
             }
             // sets C flag
-            if ((op1 - op2) > 0xFFFF)
+            if (uOp1 >= uOp2)
             {
                 cpsrVal += 2;
             }
             // sets V flag
-            if ((op1 - op2) > 0x7FFF)
+            if (((op1 >=0 && op2 < 0) && ((op1 - op2) < 0)) || ((op1 < 0) && (op2 >= 0) && (op1 - op2) >= 0))
             {
                 cpsrVal += 1;
             }

@@ -41,6 +41,17 @@ namespace armsim
             vFlag = this.TestFlag(0, 28) ? true : false;
 
         }
+        public string getFlagsStr()
+        {
+            string flags = "";
+            bool n, z, c, v = false;
+            getFlags(out n, out z, out c, out v);
+            flags += n ? "1" : "0";
+            flags += z ? "1" : "0";
+            flags += c ? "1" : "0";
+            flags += v ? "1" : "0";
+            return flags;
+        }
 
 
         public int getReg(int regNum)

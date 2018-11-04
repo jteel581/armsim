@@ -34,13 +34,14 @@ namespace armsim
         }
         public void setCPSR(byte cpsrVal)
         {
+            cpsrVal *= 16;
             CPSR.WriteByte(3, cpsrVal);
         }
-        public CPU(Memory ram, Memory regs)
+        public CPU(Memory ram, Memory regs, Memory cpsr)
         {
             RAM = ram;
             Registers = regs;
-            CPSR = new Memory(4);
+            CPSR = cpsr;
             ProgramCounter = 0;
         }
         /// <summary>
@@ -88,12 +89,20 @@ namespace armsim
             }
             else
             {
-                var b = instrArray.TestFlag(0, 26) ? 2 : 0;
+                if (instrArray.TestFlag(0,27) && instrArray.TestFlag(0,25))
+                {
+
+                }
+                var b = Memory.ExtractBits(instrArray.ReadWord(0), 25, 27);
+                b = b >> 25;
+                //var b = instrArray.TestFlag(0, 26) ? 2 : 0;
                 switch (b)
                 {
                     case 0:
+                    case 1:
                         return new dpInstruction(instrVal, false);
                     case 2:
+                    case 3:
                         return new lsInstruction(instrVal);
                     case 5:
                         return new bInstruction(instrVal);

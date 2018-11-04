@@ -29,6 +29,7 @@ namespace armsim
 
         Memory RAM;
         Memory Registers;
+        Memory CPSR;
         CPU Processor;
         Form1 f;
 
@@ -42,6 +43,7 @@ namespace armsim
 
         public Memory getRAM() { return RAM; }
         public Memory getRegisters() { return Registers; }
+        public Memory getCPSR() { return CPSR; }
         public CPU getProcessor() { return Processor; }
         /// <summary>
         /// This is a constructor for the Computer Class.
@@ -52,7 +54,8 @@ namespace armsim
         {
             RAM = new Memory(ramSize);
             Registers = new Memory(64);
-            Processor = new CPU(RAM, Registers);
+            CPSR = new Memory(4);
+            Processor = new CPU(RAM, Registers, CPSR);
             f = form;
         }
 
@@ -74,7 +77,8 @@ namespace armsim
         {
             RAM = new Memory(ramSize);
             Registers = new Memory(64);
-            Processor = new CPU(RAM, Registers);
+            CPSR = new Memory(4);
+            Processor = new CPU(RAM, Registers, CPSR);
         }
 
 
@@ -83,6 +87,7 @@ namespace armsim
             Tracer.setStepNum(1);
             Tracer.setRAM(RAM);
             Tracer.setRegs(Registers);
+            Tracer.setCPSR(CPSR);
             Registers.setReg(13, 0x7000);
             if (Tracer.enabled)
             {

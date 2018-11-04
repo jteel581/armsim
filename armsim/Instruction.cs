@@ -62,7 +62,7 @@ namespace armsim
         {
             bool nFlag, zFlag, cFlag, vFlag = false;
             processor.getCPSR().getFlags(out nFlag, out zFlag, out cFlag, out vFlag);
-            if (nFlag == getNflag() && zFlag == getZflag() && cFlag == getCflag() && vFlag == getVflag())
+            if ((getNflag() && getZflag() && getCflag() && !getVflag()) || (nFlag == getNflag() && zFlag == getZflag() && cFlag == getCflag() && vFlag == getVflag()))
             {
                 return true;
             }

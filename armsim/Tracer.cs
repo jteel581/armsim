@@ -12,7 +12,8 @@ namespace armsim
         static int stepNum = 1;
         static Memory RAM;
         static Memory Registers;
-        static string flags = "0000";
+        static Memory CPSR;
+        static string flags = "";
         static string mode = "SYS";
         public static bool enabled = true;
         static StreamWriter traceFile;
@@ -26,6 +27,10 @@ namespace armsim
         public static void setRegs(Memory newRegs)
         {
             Registers = newRegs;
+        }
+        public static void setCPSR(Memory newCPSR)
+        {
+            CPSR = newCPSR;
         }
         public static void incrementStepNum()
         {
@@ -83,6 +88,8 @@ namespace armsim
                 string program_counter = progCounter.ToString("x8");
 
                 string checksum = RAM.calculateChecksum(RAM.memory).ToString("x8");
+
+                flags = CPSR.getFlagsStr();
 
                 traceFile.WriteLine(step_number + " " + program_counter.ToUpper() + " " + checksum.ToUpper() + " " + flags + " " + mode + " " + printRegsNoNewLine());
                 stepNum++;
