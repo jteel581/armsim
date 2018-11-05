@@ -52,6 +52,7 @@ namespace armsim
         /// stored in the program counter register.</returns>
         public int fetch()
         {
+            int addr = Registers.ReadWord(60);
             int value = RAM.ReadWord(Registers.ReadWord(60));
             if (value == 0)
             {
@@ -74,6 +75,7 @@ namespace armsim
             bool isMulInstr = checkForMulInstr(instrArray);
             bool isSwiInstr = checkForSwiInstr(instrArray);
             bool isLSMInstr = checkForLSMInstr(instrArray);
+            bool isBXInstr = checkForBxInstr(instrArray);
 
             if (isMulInstr)
             {
@@ -86,6 +88,10 @@ namespace armsim
             else if (isLSMInstr)
             {
                 return new lsmInstruction(instrVal);
+            }
+            else if (isBXInstr)
+            {
+                return new bxInstruction(instrVal);
             }
             else
             {
@@ -126,13 +132,45 @@ namespace armsim
                 {
                     return false;
                 }
-                else
+                else if (i == 25)
                 {
                     return true;
                 }
 
             }
             return false;
+        }
+
+        public bool checkForBxInstr(Memory instrArray)
+        {
+            int num = 0;
+            for (int i = 27; i > 19; i--)
+            {
+                num +=  instrArray.TestFlag(0, i) ? (int)Math.Pow(2, i - 20) : 0;
+
+            }
+            if (num != 18)
+            {
+                return false;
+
+            }
+            else
+            {
+                num = 0;
+                for (int i = 7; i > 3; i--)
+                {
+                    num += instrArray.TestFlag(0, i) ? (int)Math.Pow(2, i - 4) : 0;
+
+                }
+                if (num == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         public bool checkForSwiInstr(Memory instrArray)
@@ -227,6 +265,11 @@ namespace armsim
                 {
                     bInstruction bi = (bInstruction)instr;
                     bi.execute(this);
+                }
+                else if (instr is bxInstruction)
+                {
+                    bxInstruction bxi = (bxInstruction)instr;
+                    bxi.execute(this);
                 }
             }
             

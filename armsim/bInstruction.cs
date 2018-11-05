@@ -20,7 +20,7 @@ namespace armsim
             {
                 givenImmediate += bits.TestFlag(0, i) ? (int)Math.Pow(2, i) : 0;
             }
-            bool signBit = bits.TestFlag(0, 31);
+            bool signBit = bits.TestFlag(0, 23);
             if (signBit)
             {
                 for (int i = 24; i < 31; i++)
@@ -35,15 +35,19 @@ namespace armsim
         public override void execute(CPU processor)
         {
             int pcVal = processor.getProgramCounter();
+            int oldPC = pcVal;
+            pcVal += 8;
             effectiveAddress = pcVal + givenImmediate;
 
             // bl instruction
             if (lBit)
             {
-                processor.getRAM().setReg(14, pcVal - 4);
+                processor.getRegisters().setReg(14, oldPC + 4);
             }
             // subtract four to account for incrementing of PC during fetch decode execute 
-            processor.getRAM().setReg(15, effectiveAddress - 4);
+            processor.getRegisters().setReg(15, effectiveAddress - 4);
+            Tracer.bPc = (oldPC).ToString("x8").ToUpper();
+            Tracer.branchInstr = true;
         }
 
         public override string ToString()

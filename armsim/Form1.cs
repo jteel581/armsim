@@ -384,8 +384,9 @@ namespace armsim
             int curPc = processor.getProgramCounter();
             Memory bits;
             Memory registers = processor.getRegisters();
-            while (!((instr = processor.decode(processor.fetch())) is SWIinstruction) && processor.fetch() != 0)
+            while (processor.fetch() != 0)
             {
+                instr = processor.decode(processor.fetch());
                 bits = instr.getBits();
                 addrStr = curPc.ToString("x8");
                 instrValStr = bits.ReadWord(0).ToString("x8");

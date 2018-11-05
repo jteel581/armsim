@@ -19,6 +19,8 @@ namespace armsim
         static StreamWriter traceFile;
         public static bool okToClose = true;
         public static StreamWriter getTraceFile() { return traceFile; }
+        public static string bPc = "";
+        public static bool branchInstr = false;
 
         public static void setRAM(Memory newRam)
         {
@@ -90,8 +92,17 @@ namespace armsim
                 string checksum = RAM.calculateChecksum(RAM.memory).ToString("x8");
 
                 flags = CPSR.getFlagsStr();
+                if (!branchInstr)
+                {
+                    traceFile.WriteLine(step_number + " " + program_counter.ToUpper() + " " + checksum.ToUpper() + " " + flags + " " + mode + " " + printRegsNoNewLine());
 
-                traceFile.WriteLine(step_number + " " + program_counter.ToUpper() + " " + checksum.ToUpper() + " " + flags + " " + mode + " " + printRegsNoNewLine());
+                }
+                else
+                {
+                    traceFile.WriteLine(step_number + " " + bPc + " " + checksum.ToUpper() + " " + flags + " " + mode + " " + printRegsNoNewLine());
+                    bPc = "";
+                    branchInstr = false;
+                }
                 stepNum++;
             }
             

@@ -266,13 +266,17 @@ namespace armsim
                 var instr = Processor.decode(instrVal);
                 if (instr is SWIinstruction)
                 {
-                    Registers.setReg(15, Registers.getReg(15) + 4);
+                    int npc = Registers.getReg(15) + 4;
+                    Processor.setProgramCounter(npc);
+                    Registers.setReg(15, npc);
 
                     Tracer.trace();
                     break;
                 }
                 Processor.execute(instr);
-                Registers.setReg(15, Registers.getReg(15) + 4);
+                int newPC = Registers.getReg(15) + 4;
+                Processor.setProgramCounter(newPC);
+                Registers.setReg(15, newPC);
                 programCounter = Registers.getReg(15);
                 if (f.getOps() != null && !f.getOps().getTestStatus())
                 {
@@ -340,7 +344,10 @@ namespace armsim
             int instrVal = Processor.fetch();
             var instr = Processor.decode(instrVal);
             Processor.execute(instr);
-            Registers.setReg(15, Registers.getReg(15) + 4);
+            int newPC = Registers.getReg(15) + 4;
+            Processor.setProgramCounter(newPC);
+            Registers.setReg(15, newPC);
+            int test = Registers.getReg(15);
             ListView lv = f.getDisasseblyListView();
             if (f.getOps() != null && !f.getOps().getTestStatus())
             {

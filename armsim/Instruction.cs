@@ -60,11 +60,47 @@ namespace armsim
 
         public bool checkConditions(CPU processor)
         {
+
             bool nFlag, zFlag, cFlag, vFlag = false;
             processor.getCPSR().getFlags(out nFlag, out zFlag, out cFlag, out vFlag);
-            if ((getNflag() && getZflag() && getCflag() && !getVflag()) || (nFlag == getNflag() && zFlag == getZflag() && cFlag == getCflag() && vFlag == getVflag()))
+            int code = 0;
+            code += getNflag() ? 8 : 0;
+            code += getZflag() ? 4 : 0;
+            code += getCflag() ? 2 : 0;
+            code += getVflag() ? 1 : 0;
+
+            switch (code)
             {
-                return true;
+                case 0:
+                    return zFlag ? true : false;
+                case 1:
+                    return !zFlag ? true : false;
+                case 2:
+                    return cFlag ? true : false;
+                case 3:
+                    return !cFlag ? true : false;
+                case 4:
+                    return nFlag ? true : false;
+                case 5:
+                    return !nFlag ? true : false;
+                case 6:
+                    return vFlag ? true : false;
+                case 7:
+                    return !vFlag ? true : false;
+                case 8:
+                    return (cFlag && !zFlag) ? true : false;
+                case 9:
+                    return (!cFlag || zFlag) ? true : false;
+                case 10:
+                    return (nFlag == vFlag) ? true : false;
+                case 11:
+                    return (nFlag != vFlag) ? true : false;
+                case 12:
+                    return (!zFlag && (nFlag == vFlag)) ? true : false;
+                case 13:
+                    return (zFlag || (nFlag != vFlag)) ? true : false;
+                case 14:
+                    return true;
             }
             return false;
         }

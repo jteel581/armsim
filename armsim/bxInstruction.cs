@@ -21,10 +21,13 @@ namespace armsim
 
         public override void execute(CPU processor)
         {
-            rmVal = processor.getRAM().getReg(rM);
+            int oldPC = processor.getRegisters().getReg(15);
+            rmVal = processor.getRegisters().getReg(rM);
             thumbMode = (rmVal % 2 == 0) ? false : true;
             // subtract four to account for incrementing of PC during fetch decode execute 
-            processor.getRAM().setReg(15, rmVal - 4);
+            processor.getRegisters().setReg(15, rmVal - 4);
+            Tracer.bPc = (oldPC).ToString("x8").ToUpper();
+            Tracer.branchInstr = true;
         }
 
         public override string ToString()
