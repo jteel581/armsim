@@ -17,10 +17,12 @@ namespace armsim
         Memory Registers;
         Memory CPSR;
         int ProgramCounter;
+        Computer computer;
 
         public Memory getRAM() { return RAM; }
         public Memory getRegisters() { return Registers; }
         public Memory getCPSR() { return CPSR; }
+        public Computer GetComputer() { return computer; }
 
         /// <summary>
         /// These are getter and setter methods for the ProgramCounter variable.
@@ -37,11 +39,13 @@ namespace armsim
             cpsrVal *= 16;
             CPSR.WriteByte(3, cpsrVal);
         }
-        public CPU(Memory ram, Memory regs, Memory cpsr)
+        public CPU(Computer comp)
         {
-            RAM = ram;
-            Registers = regs;
-            CPSR = cpsr;
+
+            RAM = comp.getRAM();
+            Registers = comp.getRegisters();
+            CPSR = comp.getCPSR();
+            computer = comp;
             ProgramCounter = 0;
         }
         /// <summary>
@@ -67,10 +71,7 @@ namespace armsim
         {
             var inst = new Instruction(instrVal);
             Memory instrArray = inst.getBits();
-            if (instrVal == -516948194)
-            {
-
-            }
+           
             // check for MULinstruction
             bool isMulInstr = checkForMulInstr(instrArray);
             bool isSwiInstr = checkForSwiInstr(instrArray);
@@ -111,7 +112,7 @@ namespace armsim
                     case 3:
                         return new lsInstruction(instrVal);
                     case 5:
-                        return new bInstruction(instrVal);
+                        return new bInstruction(instrVal, getProgramCounter());
 
                 }
             }

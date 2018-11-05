@@ -21,6 +21,18 @@ namespace armsim
         // Status of the V flag
         bool vFlag;
 
+        string suffix = "";
+
+        public string getSuffix()
+        {
+            return suffix;
+        }
+        public void setSuffix(string suff)
+        {
+
+            suffix = suff;
+        }
+
         public bool getNflag() { return nFlag; }
         public bool getZflag() { return zFlag; }
         public bool getCflag() { return cFlag; }
@@ -72,34 +84,49 @@ namespace armsim
             switch (code)
             {
                 case 0:
+                    this.setSuffix("eq");
                     return zFlag ? true : false;
                 case 1:
+                    this.setSuffix("ne");
                     return !zFlag ? true : false;
                 case 2:
+                    this.setSuffix("cs/hs");
                     return cFlag ? true : false;
                 case 3:
+                    this.setSuffix("cc/lo");
                     return !cFlag ? true : false;
                 case 4:
+                    this.setSuffix("mi");
                     return nFlag ? true : false;
                 case 5:
+                    this.setSuffix("pl");
                     return !nFlag ? true : false;
                 case 6:
+                    this.setSuffix("vs");
                     return vFlag ? true : false;
                 case 7:
+                    this.setSuffix("vc");
                     return !vFlag ? true : false;
                 case 8:
+                    this.setSuffix("hi");
                     return (cFlag && !zFlag) ? true : false;
                 case 9:
+                    this.setSuffix("ls");
                     return (!cFlag || zFlag) ? true : false;
                 case 10:
+                    this.setSuffix("ge");
                     return (nFlag == vFlag) ? true : false;
                 case 11:
+                    this.setSuffix("lt");
                     return (nFlag != vFlag) ? true : false;
                 case 12:
+                    this.setSuffix("gt");
                     return (!zFlag && (nFlag == vFlag)) ? true : false;
                 case 13:
+                    this.setSuffix("le");
                     return (zFlag || (nFlag != vFlag)) ? true : false;
                 case 14:
+                    this.setSuffix("al");
                     return true;
             }
             return false;
@@ -115,6 +142,18 @@ namespace armsim
         public string getInstrStr()
         {
             return instrStr;
+        }
+        public string insertSuffix()
+        {
+            string curStr = this.getInstrStr();
+            int index = curStr.IndexOf(' ');
+            if (index == -1)
+            {
+                return curStr;
+            }
+            curStr = curStr.Insert(index, suffix);
+            return curStr;
+
         }
     }
 }

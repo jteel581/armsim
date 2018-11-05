@@ -12,7 +12,7 @@ namespace armsim
         int givenImmediate;
         int effectiveAddress;
 
-        public bInstruction(int instVal) : base(instVal)
+        public bInstruction(int instVal, int pcVal) : base(instVal)
         {
             Memory bits = base.getBits();
             lBit = bits.TestFlag(0, 24) ? true : false;
@@ -29,7 +29,8 @@ namespace armsim
                 }
             }
             givenImmediate = givenImmediate << 2;
-            effectiveAddress = 0;
+            effectiveAddress = pcVal + 8 + givenImmediate;
+            base.setInstrStr(this.ToString());
         }
 
         public override void execute(CPU processor)
@@ -58,7 +59,7 @@ namespace armsim
                 instrStr += "l";
 
             }
-            instrStr += " " + effectiveAddress;
+            instrStr += " " + effectiveAddress.ToString("x4");
             return instrStr;
 
         }

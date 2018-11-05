@@ -45,6 +45,7 @@ namespace armsim
         public Memory getRegisters() { return Registers; }
         public Memory getCPSR() { return CPSR; }
         public CPU getProcessor() { return Processor; }
+        public Form1 getForm1() { return f; }
         /// <summary>
         /// This is a constructor for the Computer Class.
         /// </summary>
@@ -55,8 +56,9 @@ namespace armsim
             RAM = new Memory(ramSize);
             Registers = new Memory(64);
             CPSR = new Memory(4);
-            Processor = new CPU(RAM, Registers, CPSR);
             f = form;
+
+            Processor = new CPU(this);
         }
 
         public string printRegs()
@@ -78,7 +80,7 @@ namespace armsim
             RAM = new Memory(ramSize);
             Registers = new Memory(64);
             CPSR = new Memory(4);
-            Processor = new CPU(RAM, Registers, CPSR);
+            Processor = new CPU(this);
         }
 
 
@@ -264,6 +266,9 @@ namespace armsim
             while (((instrVal = Processor.fetch()) != 0 && !f.getStopButtonClicked()) && (f.breakPointsEnabled && !f.breakPoints.Contains(programCounter)))
             {
                 var instr = Processor.decode(instrVal);
+                instr.checkConditions(this.getProcessor());
+
+                instr.setInstrStr(instr.insertSuffix());
                 if (instr is SWIinstruction)
                 {
                     int npc = Registers.getReg(15) + 4;
@@ -343,6 +348,8 @@ namespace armsim
         {
             int instrVal = Processor.fetch();
             var instr = Processor.decode(instrVal);
+            instr.checkConditions(this.getProcessor());
+            instr.setInstrStr(instr.insertSuffix());
             Processor.execute(instr);
             int newPC = Registers.getReg(15) + 4;
             Processor.setProgramCounter(newPC);

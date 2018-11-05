@@ -214,6 +214,15 @@ namespace armsim
 
         }
 
+        public void writeCharToConsole(char c)
+        {
+            terminalTextBox.Text += c;
+        }
+
+        public void clickStopButton()
+        {
+            stopButton.PerformClick();
+        }
         public void configureMemPanel()
         {
             ListView.ColumnHeaderCollection columns = memoryListView.Columns;
@@ -387,10 +396,13 @@ namespace armsim
             while (processor.fetch() != 0)
             {
                 instr = processor.decode(processor.fetch());
+                instr.checkConditions(comp.getProcessor());
+
+                instrStr = instr.insertSuffix();
                 bits = instr.getBits();
                 addrStr = curPc.ToString("x8");
                 instrValStr = bits.ReadWord(0).ToString("x8");
-                instrStr = instr.ToString();
+                //instrStr = instr.ToString();
                 ListViewItem lvi = new ListViewItem(new string[] { addrStr, instrValStr, instrStr });
                 disassemblyListView.Items.Add(lvi);
 

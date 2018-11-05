@@ -31,6 +31,9 @@ namespace armsim
             int  j = -476045264;
             // decodes the instruction 0xe3a02030 from the design requirements page
             var instr = comp.getProcessor().decode(j);
+            instr.checkConditions(comp.getProcessor());
+
+            instr.insertSuffix();
             string instrStr = instr.getInstrStr();
             string compStr = "mov r2, #48";
             Debug.Assert(instrStr == compStr);

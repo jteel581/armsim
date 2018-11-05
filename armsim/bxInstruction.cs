@@ -17,6 +17,7 @@ namespace armsim
             rM = Memory.ExtractBits(instVal, 0, 3);
             rmVal = 0;
             thumbMode = false;
+            base.setInstrStr(ToString());
         }
 
         public override void execute(CPU processor)
