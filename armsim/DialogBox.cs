@@ -31,6 +31,8 @@ namespace armsim
             if (e.KeyChar == Convert.ToInt32(Keys.Enter))
             {
                 enterPressed = true;
+                text = textBox1.Text;
+                this.Close();
             }
         }
     }
