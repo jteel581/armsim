@@ -34,7 +34,7 @@ namespace armsim
             rN += bits.TestFlag(0, 16) ? 1 : 0;
 
             fillRegList();
-
+            base.setInstrStr(ToString());
 
         }
 

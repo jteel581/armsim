@@ -174,7 +174,6 @@ namespace armsim
         /// </summary>
         public void setOp2Val()
         {
-            // No psuedo code, but actual code:
 
             int val = 0;
             Memory bits = base.getBits();

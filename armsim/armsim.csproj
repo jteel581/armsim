@@ -62,6 +62,12 @@
     <Compile Include="Computer.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="CPU.cs" />
+    <Compile Include="DialogBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogBox.Designer.cs">
+      <DependentUpon>DialogBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="dpInstruction.cs" />
     <Compile Include="EORdpInstruction.cs" />
     <Compile Include="Form1.cs">
@@ -102,6 +108,9 @@
     <Compile Include="Tracer.cs" />
     <EmbeddedResource Include="breakPointDialogBox.resx">
       <DependentUpon>breakPointDialogBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogBox.resx">
+      <DependentUpon>DialogBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

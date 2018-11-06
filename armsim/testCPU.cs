@@ -51,10 +51,27 @@ namespace armsim
             compStr = "str r3, [r5, #16]";
             Debug.Assert(instrStr == compStr);
 
+            // mov r1, r13
+            int swiTestInstr = -509603827;
+            instr = comp.getProcessor().decode(swiTestInstr);
+            instr.checkConditions(comp.getProcessor());
+            instr.insertSuffix();
+            comp.getProcessor().execute(instr);
 
+            // mov r2, #50
+            swiTestInstr = -476045262;
+            instr = comp.getProcessor().decode(swiTestInstr);
+            instr.checkConditions(comp.getProcessor());
+            instr.insertSuffix();
+            comp.getProcessor().execute(instr);
+            // swi 0x6a
+            swiTestInstr = -285212566;
+            instr = comp.getProcessor().decode(swiTestInstr);
+            instr.checkConditions(comp.getProcessor());
+            instr.insertSuffix();
+            comp.getProcessor().execute(instr);
 
-
-
+            // test if text was written appropriately
 
 
 

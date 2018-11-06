@@ -62,7 +62,8 @@ namespace armsim
         Computer comp;
         Options ops;
         public Options getOps() { return ops; }
-        
+        DialogBox db = new DialogBox();
+
         Thread runThread;
         public List<int> breakPoints = new List<int>();
         public bool breakPointsEnabled = true;
@@ -137,6 +138,7 @@ namespace armsim
 
 
         public ListView getDisasseblyListView() { return disassemblyListView; }
+        public ListView getStackListView() { return stackListView; }
         public bool getStopButtonClicked()
         {
             return stopButtonClicked;
@@ -158,12 +160,21 @@ namespace armsim
             stackListView.Items.Add(stackLine);
         }
 
+
         public void fillStackPanel()
         {
             var items = stackListView.Items;
             items.Clear();
-            int firstWord = comp.getRAM().ReadWord(0);
-            addStackLine("0x00000000", firstWord.ToString("x8"));
+            int sP = comp.getRegisters().getReg(13);
+            int firstWord = comp.getRAM().ReadWord(sP);
+            int word = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                word = comp.getRAM().ReadWord(sP);
+                addStackLine(sP.ToString("x8"), word.ToString("x8"));
+                sP += 4;
+
+            }
             stackListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 
 
@@ -214,6 +225,12 @@ namespace armsim
 
         }
 
+        public void showDialogBox()
+        {
+            db.ShowDialog();
+            //return db;
+        }
+        public DialogBox GetDialogBox() { return db; }
         public void writeCharToConsole(char c)
         {
             terminalTextBox.Text += c;
@@ -450,7 +467,12 @@ namespace armsim
             
         }
 
+        public TextBox getFlagsBox() { return flagBox; }
 
+        public void updateFlagsBox(string flagsStr)
+        {
+            flagBox.Text = flagsStr;
+        }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {

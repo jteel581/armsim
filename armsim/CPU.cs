@@ -232,7 +232,8 @@ namespace armsim
                 }
                 else if (instr is SWIinstruction)
                 {
-
+                    SWIinstruction swi = (SWIinstruction)instr;
+                    swi.execute(this);
                     // do nothing and stop running
                 }
                 else if (instr is dpInstruction)

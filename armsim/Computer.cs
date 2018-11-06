@@ -279,6 +279,7 @@ namespace armsim
                     break;
                 }
                 Processor.execute(instr);
+
                 int newPC = Registers.getReg(15) + 4;
                 Processor.setProgramCounter(newPC);
                 Registers.setReg(15, newPC);
@@ -294,7 +295,8 @@ namespace armsim
             {
                 f.setRegPanelText(printRegs());
 
-
+                //f.updateFlagsBox(CPSR.getFlagsStr());
+                //f.fillStackPanel();
 
                 ListView lv = f.getDisasseblyListView();
                 int i = 0;
@@ -316,6 +318,18 @@ namespace armsim
                     }
 
                 }
+                lv = f.getStackListView();
+                if (lv.InvokeRequired)
+                {
+                    lv.Invoke(new MethodInvoker(delegate { f.fillStackPanel(); }));
+                }
+
+                TextBox flags = f.getFlagsBox();
+                if (flags.InvokeRequired)
+                {
+                    flags.Invoke(new MethodInvoker(delegate { f.updateFlagsBox(CPSR.getFlagsStr()); }));
+                }
+
 
                 if (f.breakPoints.Contains(programCounter))
                 {
@@ -351,6 +365,8 @@ namespace armsim
             instr.checkConditions(this.getProcessor());
             instr.setInstrStr(instr.insertSuffix());
             Processor.execute(instr);
+            f.fillStackPanel();
+            f.updateFlagsBox(CPSR.getFlagsStr());
             int newPC = Registers.getReg(15) + 4;
             Processor.setProgramCounter(newPC);
             Registers.setReg(15, newPC);

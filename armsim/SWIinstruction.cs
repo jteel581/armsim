@@ -38,7 +38,27 @@ namespace armsim
                     break;
                 case 106:
                     // readline
+                    DialogBox db = new DialogBox();
+                    db.Show();
+                    while (!db.getEnterPressed())
+                    {
 
+                    }
+                    string text = db.getText();
+                    int r1Val = processor.getRegisters().getReg(1);
+                    int r2Val = processor.getRegisters().getReg(2);
+                    if (text.Length >= r2Val)
+                    {
+                        text = text.Substring(0, r2Val - 1);
+                        text += '\0';
+                    }
+                    for (int i = 0; i < r2Val; i++)
+                    {
+                        processor.getRAM().WriteByte(r2Val, (byte)text[i]);
+                    }
+
+                    break;
+                default:
                     break;
             }
         }

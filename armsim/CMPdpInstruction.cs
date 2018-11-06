@@ -123,10 +123,10 @@ namespace armsim
         public override string ToString()
         {
             string instrStr = "cmp ";
-            string rD = "r" + base.getrD().ToString();
             string rN = "r" + base.getrN().ToString();
-            instrStr += rD + ", " + rN;
+            instrStr += rN;
             Operand2 op2 = getOp2();
+            
 
             instrStr += op2.ToString();
             return instrStr;
