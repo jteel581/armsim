@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace armsim
 {
@@ -219,15 +220,61 @@ namespace armsim
                         {
                             RmVal = -RmVal;
                         }
-                        ram.WriteWord(RmVal + RnVal, RdVal);
                         effectiveAddress = RmVal + RnVal;
+                        if (effectiveAddress != 0x100000)
+                        {
+                            ram.WriteWord(RmVal + RnVal, RdVal);
+
+                        }
+                        else
+                        {
+                            string wordStr = Converter.wordToString(RdVal);
+                            // append word to console
+                            // append word to console
+                            TextBox tb = processor.GetComputer().getForm1().getConsole();
+
+                            if (tb.InvokeRequired)
+                            {
+                                Form1 f = processor.GetComputer().getForm1();
+                                tb.Invoke(new MethodInvoker(delegate { f.writeStringToConsole(wordStr); }));
+
+                            }
+                            else
+                            {
+                                processor.GetComputer().getForm1().writeStringToConsole(wordStr);
+
+                            }
+                        }
                         string instrStr = "str r" + rD + ", [r" + rN + ", " + os.ToString();
                         base.setInstrStr(instrStr);
                     }
                     else
                     {
-                        ram.WriteWord(RnVal + offsetVal, RdVal);
                         effectiveAddress = RnVal + offsetVal;
+                        if (effectiveAddress != 0x100000)
+                        {
+                            ram.WriteWord(RnVal + offsetVal, RdVal);
+
+                        }
+                        else
+                        {
+                            // append word to console
+                            string wordStr = Converter.wordToString(RdVal);
+                            TextBox tb = processor.GetComputer().getForm1().getConsole();
+
+                            if (tb.InvokeRequired)
+                            {
+                                Form1 f = processor.GetComputer().getForm1();
+                                tb.Invoke(new MethodInvoker(delegate { f.writeStringToConsole(wordStr); }));
+
+                            }
+                            else
+                            {
+                                processor.GetComputer().getForm1().writeStringToConsole(wordStr);
+
+                            }
+
+                        }
                         string instrStr = "str r" + rD + ", [r" + rN + ", " + os.ToString();
                         base.setInstrStr(instrStr);
                     }
@@ -255,7 +302,29 @@ namespace armsim
                         {
                             bRdVal += 8;
                         }
-                        ram.WriteByte(effectiveAddress, bRdVal);
+                        if (effectiveAddress != 0x100000)
+                        {
+                            ram.WriteByte(effectiveAddress, bRdVal);
+
+                        }
+                        else
+                        {
+                            // append byte to console
+                            char bt = Convert.ToChar(bRdVal);
+                            TextBox tb = processor.GetComputer().getForm1().getConsole();
+
+                            if (tb.InvokeRequired)
+                            {
+                                Form1 f = processor.GetComputer().getForm1();
+                                tb.Invoke(new MethodInvoker(delegate { f.writeCharToConsole(bt); }));
+
+                            }
+                            else
+                            {
+                                processor.GetComputer().getForm1().writeCharToConsole(bt);
+
+                            }
+                        }
                         string instrStr = "strb r" + rD + ", [r" + rN + ", " + os.ToString();
                         base.setInstrStr(instrStr);
 
@@ -267,8 +336,30 @@ namespace armsim
                         {
                             bRdVal += 8;
                         }
-                        ram.WriteByte(RnVal + offsetVal, bRdVal);
                         effectiveAddress = RnVal + offsetVal;
+                        if (effectiveAddress != 0x100000)
+                        {
+                            ram.WriteByte(RnVal + offsetVal, bRdVal);
+
+                        }
+                        else
+                        {
+                            // append byte to console
+                            char bt = Convert.ToChar(bRdVal);
+                            TextBox tb = processor.GetComputer().getForm1().getConsole();
+
+                            if (tb.InvokeRequired)
+                            {
+                                Form1 f = processor.GetComputer().getForm1();
+                                tb.Invoke(new MethodInvoker(delegate { f.writeCharToConsole(bt); }));
+
+                            }
+                            else
+                            {
+                                processor.GetComputer().getForm1().writeCharToConsole(bt);
+
+                            }
+                        }
                         string instrStr = "strb r" + rD + ", [r" + rN + ", " + os.ToString();
                         base.setInstrStr(instrStr);
                     }
@@ -312,6 +403,7 @@ namespace armsim
             }
             return RmVal;
         }
+
 
         public override string ToString()
         {

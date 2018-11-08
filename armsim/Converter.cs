@@ -39,5 +39,21 @@ namespace armsim
             return halfWordArray;
 
         }
+
+
+        public static string wordToString(int word)
+        {
+            string wordStr = "";
+            short[] wordAsShortArray = wordToShortArray(word);
+            byte[] wordAsByteArray1 = halfToByteArray(wordAsShortArray[0]);
+            byte[] wordAsByteArray2 = halfToByteArray(wordAsShortArray[1]);
+            wordStr += Convert.ToChar(wordAsByteArray1[0]);
+            wordStr += Convert.ToChar(wordAsByteArray1[1]);
+            wordStr += Convert.ToChar(wordAsByteArray2[0]);
+            wordStr += Convert.ToChar(wordAsByteArray2[1]);
+            return wordStr;
+
+        }
+
     }
 }

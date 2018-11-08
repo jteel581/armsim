@@ -134,7 +134,6 @@ namespace armsim
             }
             else
             {
-                // READHALFWORD NOT GIVING CORRECT NUMBER
                 int halfWordA = ReadHalfWord(address);
                 if (halfWordA < 0)
                 {
@@ -222,12 +221,13 @@ namespace armsim
             return b;
         }
 
-        // This method is used to wrtie one byte to memory at a given location.
+        // This method is used to write one byte to memory at a given location.
         // It takes two parameters: 'address', which is used to denote the location
         // in memory to write the given byte, and 'value' which is the byte to write
         // to memory at the said location.
         public void WriteByte(int address, byte value)
         {
+
             memory[address] = value;
         }
 

@@ -126,7 +126,11 @@ namespace armsim
                 if (lvi.Text == addrStr)
                 {
                     lvi.Selected = true;
-                    disassemblyListView.TopItem = items[lvi.Index - 2];
+                    if (lvi.Index > 2)
+                    {
+                        disassemblyListView.TopItem = items[lvi.Index - 2];
+
+                    }
                     return;
                 }
             }
@@ -233,13 +237,23 @@ namespace armsim
         public DialogBox GetDialogBox() { return db; }
         public void writeCharToConsole(char c)
         {
-            terminalTextBox.Text += c;
+            terminalTextBox.Text += c ;
         }
+
+        public void writeStringToConsole(string s)
+        {
+            terminalTextBox.Text += s;
+        }
+
+        public TextBox getConsole() { return terminalTextBox; }
 
         public void clickStopButton()
         {
             stopButton.PerformClick();
         }
+
+        public Button getStopButton() { return stopButton; }
+
         public void configureMemPanel()
         {
             ListView.ColumnHeaderCollection columns = memoryListView.Columns;
@@ -395,6 +409,27 @@ namespace armsim
 
         }
 
+        public bool moreInstructionsExist()
+        {
+            CPU processor = comp.getProcessor();
+            int memSize = comp.getRAM().getSize();
+            int oldPc = processor.getProgramCounter();
+            int pc = processor.getProgramCounter();
+            while(pc < memSize - 4)
+            {
+                if (processor.fetch() != 0)
+                {
+                    return true;
+                }
+          
+                pc += 4;
+                processor.setProgramCounter(pc);
+            }
+            processor.setProgramCounter(oldPc);
+            return false;
+        }
+
+
         public void fillDissAssembPanel()
         {
             disassemblyListView.Items.Clear();
@@ -410,18 +445,22 @@ namespace armsim
             int curPc = processor.getProgramCounter();
             Memory bits;
             Memory registers = processor.getRegisters();
-            while (processor.fetch() != 0)
+            while (moreInstructionsExist())
             {
                 instr = processor.decode(processor.fetch());
-                instr.checkConditions(comp.getProcessor());
+                if (instr != null)
+                {
+                    instr.checkConditions(comp.getProcessor());
 
-                instrStr = instr.insertSuffix();
-                bits = instr.getBits();
-                addrStr = curPc.ToString("x8");
-                instrValStr = bits.ReadWord(0).ToString("x8");
-                //instrStr = instr.ToString();
-                ListViewItem lvi = new ListViewItem(new string[] { addrStr, instrValStr, instrStr });
-                disassemblyListView.Items.Add(lvi);
+                    instrStr = instr.insertSuffix();
+                    bits = instr.getBits();
+                    addrStr = curPc.ToString("x8");
+                    instrValStr = bits.ReadWord(0).ToString("x8");
+                    //instrStr = instr.ToString();
+                    ListViewItem lvi = new ListViewItem(new string[] { addrStr, instrValStr, instrStr });
+                    disassemblyListView.Items.Add(lvi);
+                }
+                
 
                 registers.setReg(15, registers.getReg(15) + 4);
                 processor.setProgramCounter(registers.getReg(15));

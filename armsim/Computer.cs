@@ -159,6 +159,12 @@ namespace armsim
 
                     Processor.setProgramCounter((int)elfHeader.e_entry);
                     f.setRegPanelText(printRegs());
+                    f.fillStackPanel();
+                    f.getConsole().Clear();
+                    f.setStopButtonClicked(false);
+                    f.disableStopButton();
+                    f.enableRunButton();
+                    f.enableStepButton();
                     // read each program header 
                     strm.Seek(elfHeader.e_phoff, SeekOrigin.Begin);
 
@@ -188,13 +194,7 @@ namespace armsim
                         int address = (int)progHeaderEntry.p_vaddr;
                         foreach (byte b in data)
                         {
-                            if (address == 0x1014)
-                            {
-
-                            }
-                            RAM.WriteByte(address, b);
-                            address++;
-                            if (address == ops.getMemSize())
+                            if (address >= ops.getMemSize())
                             {
                                 String message = "Could not load entire program into memory.";
                                 if (ops.log)
@@ -211,6 +211,10 @@ namespace armsim
                                 }
                                 return false;
                             }
+
+                            RAM.WriteByte(address, b);
+                            address++;
+                            
                         }
 
                     }
@@ -263,12 +267,18 @@ namespace armsim
             f.setStopButtonClicked(false);
             int programCounter = Registers.getReg(15);
             int instrVal;
-            while (((instrVal = Processor.fetch()) != 0 && !f.getStopButtonClicked()) && (f.breakPointsEnabled && !f.breakPoints.Contains(programCounter)))
+            while ((!f.getStopButtonClicked()) && (f.breakPointsEnabled && !f.breakPoints.Contains(programCounter)))
             {
+                instrVal = Processor.fetch();
+                if (instrVal == 0)
+                {
+                    break;
+                }
                 var instr = Processor.decode(instrVal);
                 instr.checkConditions(this.getProcessor());
 
                 instr.setInstrStr(instr.insertSuffix());
+                /*
                 if (instr is SWIinstruction)
                 {
                     int npc = Registers.getReg(15) + 4;
@@ -278,6 +288,7 @@ namespace armsim
                     Tracer.trace();
                     break;
                 }
+                */
                 Processor.execute(instr);
 
                 int newPC = Registers.getReg(15) + 4;
@@ -310,10 +321,11 @@ namespace armsim
                 {
                     if (lv.SelectedIndices.Count > 1)
                     {
-                        i = lv.SelectedIndices[0];
-                        lv.TopItem = lv.Items[lv.Items.Count - 1];
-                        lv.Items[i].Selected = false;
-                        lv.Items[lv.Items.Count - 1].Selected = true;
+                        //i = lv.SelectedIndices[0];
+                        //lv.TopItem = lv.Items[lv.Items.Count - 1];
+                        //lv.Items[i].Selected = false;
+                        //lv.Items[lv.Items.Count - 1].Selected = true;
+                        f.hilightApropriateRow();
                         f.getDisasseblyListView().Focus();
                     }
 
@@ -377,9 +389,10 @@ namespace armsim
                 int i = lv.SelectedIndices[0];
                 if (i < lv.Items.Count - 1)
                 {
-                    lv.TopItem = lv.Items[lv.TopItem.Index + 1];
-                    lv.Items[i].Selected = false;
-                    lv.Items[i + 1].Selected = true;
+                    f.hilightApropriateRow();
+                    //lv.TopItem = lv.Items[lv.TopItem.Index + 1];
+                    //lv.Items[i].Selected = false;
+                    //lv.Items[i + 1].Selected = true;
                     f.setRegPanelText(printRegs());
                     if (!f.getOps().getTestStatus())
                     {
